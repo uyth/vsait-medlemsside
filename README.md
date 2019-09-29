@@ -24,3 +24,20 @@ To setup a virtual environment, run the commands
 To install the required modules, run the command
 
     pip install -r requirements.txt
+
+
+## Setting up a redirect from the host to Heroku
+
+Run the command 
+ 
+    heroku domains:add medlemmer.vsait.org
+
+You will then get instructions and an address of the
+form xxx-xxx-xxx.herokudns.com.
+
+Add this in the DNS provider as CNAME. When this is done
+run the command
+
+    heroku domains:wait 'medlemmer.vsait.org'
+
+
