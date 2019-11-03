@@ -10,3 +10,4 @@ class Event(models.Model):
     register_attendance_required = models.BooleanField(default=True)
     published = models.DateTimeField(auto_now_add=True, editable=False)
     modified = models.DateTimeField(auto_now=True, editable=False)
+
