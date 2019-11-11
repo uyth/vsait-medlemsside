@@ -87,3 +87,15 @@ local_settings.py
 
 .env
 db.sqlite3
+
+### PyCharm ###
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
