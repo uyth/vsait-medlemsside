@@ -1,0 +1,60 @@
+﻿<h2>{{ title }}</h2>﻿
+<form action="/user-page/" method="post">
+	{% csrf_token %}
+
+	<div>
+		<label>E-post*</label>
+		{{ form.email }}
+	</div>
+
+	<div>
+		<label>Passord*</label>
+		{{ form.password1 }}
+	</div>
+
+	<div>
+		<label>Gjenta passord*</label>
+		{{ form.password2 }}
+	</div>
+
+	<div>
+		<label>Navn*</label>
+		{{ form.name }}
+	</div>
+
+	<div>
+		<label>Fødselsdato*</label>
+		{{ form.date_of_birth }}
+	</div>
+
+    <div>
+        <label>Student?*</label>
+        {% for radio in form.user_type %}
+        <div class="user_type">
+            {{ radio }}
+        </div>
+        {% endfor %}
+    </div>
+
+	<div class="food_needs">
+		<label>Matallergier / preferanser</label>
+        {% for checkbox in form.food_needs %}
+        <div class="allergens">
+            {{ checkbox }}
+        </div>
+        {% endfor %}
+        <label>Andre: </label>
+        {{ form.food_needs_other }}
+	</div>
+
+	<div>
+		<label>Har vietnamesisk bakgrunn?*</label>
+        {% for radio in form.has_vietnamese_background %}
+        <div class="has_vietnamese_background">
+            {{ radio }}
+        </div>
+        {% endfor %}
+	</div>
+
+	<input type="submit" value="Registrer">
+</form>
