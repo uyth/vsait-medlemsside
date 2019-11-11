@@ -11,3 +11,6 @@ class Event(models.Model):
     published = models.DateTimeField(auto_now_add=True, editable=False)
     modified = models.DateTimeField(auto_now=True, editable=False)
 
+    def __str__(self):
+        return self.name
+
