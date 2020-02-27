@@ -1,23 +1,21 @@
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from .managers import UserManager
 from django.db import models
-from enum import Enum
 
-class UserType(Enum):
-    STUDENT = 1
-    NON_STUDENT = 2
+class CustomUser(AbstractBaseUser):
+    email = models.EmailField(max_length = 254, unique=True, blank=False)
+    name = models.CharField(max_length = 254, blank=False)
+    date_of_birth = models.DateField(blank=False)
+    food_needs = models.TextField(blank=True)
+    is_student = models.BooleanField(blank=False)
+    has_vietnamese_background = models.BooleanField(blank=False)
 
-class CustomUser(AbstractUser):
-    id = models.IntegerField()
-    email = models.EmailField(max_length = 254)
-    password = models.CharField(max_length=256)
-    name = models.CharField(max_length = 50)
-    date_of_birth = models.DateField()
-    food_needs = models.ArrayField(models.CharField(max_length = 50))
-    type = models.CharField(
-        max_length = 2,
-        choices=[(tag, tag.value) for tag in UserType])
-    has_vietnamese_background = models.BooleanField()
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'date_of_birth', 'is_student', 'has_vietnamese_background']
 
     def __str__(self):
         return self.username
