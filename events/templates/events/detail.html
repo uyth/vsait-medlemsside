@@ -1,1 +1,9 @@
 <h1>{{ event.name }}</h1>
+<p>{{ event.description }}</p>
+<table>
+    <tr><td>Start:</td><td>{{ event.start_time }}</td></tr>
+    {% if event.slutt_time %}
+        <tr><td>Start:</td><td>{{ event.end_time }}</td></tr>
+    {% endif %}
+    <tr><td>Sted:</td><td>{{ event.place }}</td></tr>
+</table>
