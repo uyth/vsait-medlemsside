@@ -1,0 +1,170 @@
+html {
+	scroll-behavior: smooth;
+}
+html, body, div, header, main, footer {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat', sans-serif;
+}
+a, button, nav img {
+	cursor: pointer;
+	text-decoration: none;
+}
+div.wrapper {
+	position: relative;
+}
+header {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+header > nav {
+	height: 90px;
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+nav div a {
+	color: black;
+	padding: 10px;
+	background-color: rgba(255,255,255,0.4);
+}
+header nav div img {
+	width: 40px;
+	transform: translateY(8px);
+}
+header img {
+	width: 150px;
+}
+.splash {
+	text-align: center;
+	min-height: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(255,100,50,0.3);
+	background-color: rgba(255, 69, 50, 0.85);
+}
+.splash h1 {
+	color: #fff;
+	font-size: 2.2em;
+}
+.logginn {
+	display: flex;
+	flex-direction: column;
+	max-width: 60%;
+	background-color: white;
+	border-radius: 6px;
+	height: 250px;
+}
+input[type="text"], input[type="password"], input[type="email"] {
+	width: 70%;
+	padding: 10px;
+}
+button.active, input[type="submit"].active, a.btn.active,
+button.inverse, input[type="submit"].inverse, a.btn.inverse {
+	text-decoration: none;
+	background: #fff;
+	color: #d5564d;
+	border: 2px solid #d5564d;
+}
+button.inverse:hover, input[type="submit"].inverse:hover, a.btn.inverse:hover {
+	background: #d5564d;
+	color: #fff;
+	border: 2px solid transparent;
+}
+button:hover, input[type="submit"]:hover, a.btn:hover {
+	text-decoration: none;
+	background: #fff;
+	color: #d5564d;
+	border: 2px solid #d5564d;
+}
+button, input[type="submit"], a.btn {
+	box-sizing: border-box;
+	position: relative;
+	display: block;
+	color: #fff;
+	cursor: pointer;
+	width: 80%;
+	margin: 10px auto;
+	font-size: 0.8rem;
+	font-family: Helvetica;
+	font-weight: bolder;
+	background: linear-gradient(60deg, #ffd0c1 0%, #f19282 100%);
+	background: #d5564d;
+	transition: all 0.2s ease 0s;
+	padding: 10px;
+	border: 2px solid transparent;
+	border-radius: 5px;
+}
+main {
+	width: 100%;
+	margin: 0 auto;
+	min-height: calc(100vh - 220px);
+}
+.innhold {
+	padding: 20px;
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	position: relative;
+	background-color: white;
+	border-radius: 6px;
+	box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+	transform: translateY(-80px);
+	z-index: 3;
+}
+.section {
+	display: flex;
+	margin: 40px 0;
+}
+.section > div {
+	background-color: lightgray;
+	padding: 20px;
+}
+.sectionSplit {
+	height: 40px;
+}
+.events {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+.events div.event {
+	margin: 40px auto;
+	height: 400px;
+	width: 95%;
+	background-color: #ff5c4b;
+	color: #fff;
+	display: grid;
+	grid-template-rows: 90% 10%;
+}
+.events div.event .info {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: coral;
+}
+.events div.event .bilde h2 {
+	text-align: left;
+	padding-left: 20px;
+}
+footer {
+	margin-top: 30px;
+	display: flex;
+	height: 140px;
+	color: white;
+	background-color: rgb(70,70,70);
+	justify-content: space-around;
+	align-items: center;
+}
+footer img {
+	width: 30px;
+}
