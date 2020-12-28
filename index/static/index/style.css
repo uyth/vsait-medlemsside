@@ -63,6 +63,8 @@ header img {
 	background-color: white;
 	border-radius: 6px;
 	height: 250px;
+	min-width: 300px;
+	width: 100%;
 }
 input[type="text"], input[type="password"], input[type="email"] {
 	width: 70%;

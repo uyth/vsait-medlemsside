@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
 # Create your models here.
+#from events.models import Event
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = None
@@ -14,7 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email'), max_length=240,unique=True)
     date_of_birth = models.DateTimeField(default=timezone.now)
     password = models.CharField(_('password'),max_length=240)
-    
+
     student = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)

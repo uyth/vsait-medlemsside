@@ -1,22 +1,10 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, ReadOnlyPasswordHashField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from .models import CustomUser
-
-"""
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = CustomUser
-        fields = ('firstname','lastname','email','date_of_birth','password')
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = ('firstname','lastname','email','date_of_birth','password')
-"""
 
 class CustomUserRegistrationForm(forms.ModelForm):
     firstname = forms.CharField(max_length=20, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Firstname*'}))
@@ -45,6 +33,10 @@ class CustomUserRegistrationForm(forms.ModelForm):
             raise ValidationError('Passwords do not match.')
         return password2
 
+    def save_m2m(self):
+        # Quickfix for admin add forms
+        return None
+
     def save(self, commit=True):
         context = {
             'firstname':self.cleaned_data['firstname'],
@@ -67,33 +59,35 @@ class CustomUserChangeForm(UserChangeForm):
     lastname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
     email = forms.EmailField(max_length=120, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
-    #old_password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Current Password*'}))
-    new_password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'New Password*'}))
-    new_password2 = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm New Password*'}))
+    new_password = ReadOnlyPasswordHashField(label=("Password"),help_text=("Raw passwords are not stored, so there is no way to see "
+                    "this user's password, but you can change the password "
+                    "using <a href=\"../password/\">this form</a>."))
+    
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        email = str(self).split("value")[1].split("\"")[1]
+        email_list = CustomUser.objects.filter(email=email)
+        date = str(email_list.get().date_of_birth).split()[0]
+        kwargs.update(initial={'date_of_birth': date}) # Updates the datetime
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        f = self.fields.get('user_permissions', None)
+        if f is not None:
+            f.queryset = f.queryset.select_related('content_type')
 
     class Meta:
         model = CustomUser
-        fields = ('firstname','lastname','email','date_of_birth','password')
-        #exclude = ['company',]
-    def clean_new_password(self):
-        print(111,self.cleaned_data)
-        new_password = self.cleaned_data.get('new_password', None)
-        new_password2 = self.cleaned_data.get('new_password2',None)
-        if (new_password and new_password2) and (new_password != new_password2):
-            raise ValidationError('Passwords do not match.')
-        #if not (new_password and new_password2):
-        #    raise ValidationError('Please enter new password twice.')
-
-        return new_password
+        fields = ('firstname','lastname','email','date_of_birth','new_password')
+        #fields = '__all__'
+        exclude = ['date_of_birth']
 
     def clean_email(self):
         email = self.cleaned_data['email']
         email_list = CustomUser.objects.filter(email=email)
-        same = CustomUser.objects.get(email=email).id == email_list.get().id
-        if email_list.count() and not same:
+        sameUser = CustomUser.objects.get(email=email).id == email_list.get().id
+        if email_list.count() and not sameUser:
             raise ValidationError('There is already an account associated with that email.')
-
         return email
+
 class LoginForm(AuthenticationForm):
     # Username here is hidden/gets skipped
     username = forms.CharField(max_length=5, widget=forms.widgets.TextInput(attrs={'class': 'this_does_nothing','value':'VSAIT','hidden':True}))

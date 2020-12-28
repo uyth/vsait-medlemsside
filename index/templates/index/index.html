@@ -9,21 +9,9 @@
 	</head>
 	<body>
 		<div class="wrapper">
-			<header>
-				<nav>
-					<a href="">
-						<!-- <img src="https://abakus.no/185f9aa436cf7f5da598fd7e07700efd.png" alt="logo"> -->
-					</a>
-					<div>
-						<a class="nav" href="">Hjem</a>
-						<a class="nav" href="">Arrangementer</a>
-						<a class="nav" href="">For bedrifter</a>
-						<a href="">
-							<img src="https://vsait.org/wp-content/uploads/2020/10/VSAiT-Fokus-3-1536x1207.png" alt="profile">
-						</a>
-					</div>
-				</nav>
-			</header>
+			{% block header %}
+				{% include 'index/header.html' %} 
+			{% endblock header %}
 			<main>
 				<div class="splash">
 					<div>
@@ -52,69 +40,31 @@
 				<div class="innhold">
 					<h1>Kommende arrangementer</h1>
 					<div class="events">
-						<div class="event">
-							<div class="bilde">
-								<h2>Origami-dagen 2020</h2>
+					{% if events %}
+						{% for event in events %}
+						<a href="events/{{event.pk}}">
+							<div class="event">
+								<div class="bilde">
+									<h2>{{ event.event_name }}</h2>
+								</div>
+								<div class="info">
+									Antall påmeldte: {{ event.number_of_registrations }}/{{event.event_max_people}} (1 på venteliste)
+								</div>
 							</div>
-							<div class="info">
-								Antall påmeldte: 30/30 (1 på venteliste)
-							</div>
-						</div>
-						<div class="event">
-							<div class="bilde">
-								<h2>Origami-dagen 2020</h2>
-							</div>
-							<div class="info">
-								Antall påmeldte: 30/30 (1 på venteliste)
-							</div>
-						</div>
-						<div class="event">
-							<div class="bilde">
-								<h2>Origami-dagen 2020</h2>
-							</div>
-							<div class="info">
-								Antall påmeldte: 30/30 (1 på venteliste)
-							</div>
-						</div>
+						</a>
+						{% endfor %}
+					{% else %}
+						<p>No events are available right now.</p>
+					{% endif %}
 					</div>
-					<a class="btn" href="">Flere arrangementer...</a>
+					<a class="btn" href="/events">Flere arrangementer...</a>
 				</div>
 			</main>
-			<footer>
-				<div class="social_media">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Facebook_F_icon.svg/512px-Facebook_F_icon.svg.png">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png">
-				</div>
-				<div><h2>VSAiT</h2></div>
-				<div>
-					<p><b>Kontakt</b></p>
-					<p>YuyuhJonny</p>
-				</div>
-			</footer>
+			{% block footer %}
+				{% include 'index/footer.html' %} 
+			{% endblock footer %}
 		</div>
 		<script>
-		 /*
-  Live.js - One script closer to Designing in the Browser
-  Written for Handcraft.com by Martin Kool (@mrtnkl).
-
-  Version 4.
-  Recent change: Made stylesheet and mimetype checks case insensitive.
-
-  http://livejs.com
-  http://livejs.com/license (MIT)  
-  @livejs
-
-  Include live.js#css to monitor css changes only.
-  Include live.js#js to monitor js changes only.
-  Include live.js#html to monitor html changes only.
-  Mix and match to monitor a preferred combination such as live.js#html,css  
-
-  By default, just include live.js to monitor all css, js and html changes.
-  
-  Live.js can also be loaded as a bookmarklet. It is best to only use it for CSS then,
-  as a page reload due to a change in html or css would not re-include the bookmarklet.
-  To monitor CSS and be notified that it has loaded, include it as: live.js#css,notify
-*/
 (function () {
 
   var headers = { "Etag": 1, "Last-Modified": 1, "Content-Length": 1, "Content-Type": 1 },

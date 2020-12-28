@@ -5,12 +5,10 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
 
 from . import views
-
 app_name = 'index'
 urlpatterns = [
     path('', views.index, name='index'),
     path('signup/',views.sign_up, name="signup"),
-    path('login/', auth_views.LoginView.as_view(template_name = 'index/login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(next_page = '/'), name="logout"),
     path("robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),

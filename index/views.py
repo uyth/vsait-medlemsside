@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .forms import LoginForm, CustomUserRegistrationForm
+from events.models import Event
 
 # @login_required
 def index(request):
@@ -15,9 +17,13 @@ def index(request):
     if request.method == "POST":
         if form.is_valid():
             user = form.get_user()
-            login(request,user)
-        return render(request, 'index/index.html',context)
+            if (user):
+                login(request,user)
+        #return render(request, 'index/index.html',context)
+        return redirect('/')
     context['form'] = form
+    #context["events"] = Event.objects.all()
+    context["events"] = Event.objects.filter(event_startTime__gte=timezone.now())
     return render(request, 'index/index.html',context)
 
 def sign_up(request):
@@ -27,6 +33,6 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request,user)
-            return render(request, 'index/index.html')
+            return redirect('/')
     context['form'] = form
     return render(request,'index/signup.html',context)

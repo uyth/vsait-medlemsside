@@ -31,10 +31,9 @@ ALLOWED_HOSTS = ['localhost','d45cce0d6633.ngrok.io']
 # Application definition
 
 INSTALLED_APPS = [
-    'index',
+    #'index',
     'events.apps.EventsConfig',
-    'polls.apps.PollsConfig',
-    #'index.apps.IndexConfig',
+    'index.apps.IndexConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

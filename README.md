@@ -1,16 +1,10 @@
 # [vsaIT] - Welcome to Jonny's reign
 
-## Technology stack
-
-- Heroku - Deployment
-- Django - Framework
-- Sqlite3 - Serverless - database
-
 ### Plan
 ```
 /
 /events/id
-/<signup>
+/auth/<login,register>
 /profile/
 ```
 
