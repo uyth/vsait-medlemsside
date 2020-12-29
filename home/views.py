@@ -7,6 +7,7 @@ from django.views import generic
 
 from .forms import LoginForm, VsaitUserRegistrationForm
 from events.models import Event
+from home.models import VsaitUser
 
 # @login_required
 def index(request):
@@ -32,3 +33,10 @@ def sign_up(request):
             return redirect('/')
     context['form'] = form
     return render(request,'home/signup.html',context)
+
+@login_required()
+def profile(request):
+    context = {}
+    context['user'] = request.user
+    print(VsaitUser.objects.all().values())
+    return render(request,'home/profile.html',context)

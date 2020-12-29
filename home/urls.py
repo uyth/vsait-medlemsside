@@ -9,6 +9,7 @@ app_name = 'home'
 urlpatterns = [
     path('', views.index, name='index'),
     path('signup/',views.sign_up, name="signup"),
+    path('profile/',views.profile, name="profile"),
     path('logout/', auth_views.LogoutView.as_view(next_page = '/'), name="logout"),
     path("robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),

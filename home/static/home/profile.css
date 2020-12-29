@@ -1,0 +1,30 @@
+.profile_image img {
+	width: 100%;
+}
+.profile_image {
+	border-radius: 50%;
+	overflow: hidden;
+	width: 200px;
+	height: 200px;
+	margin: auto;
+}
+.divbox {
+	text-align: left;
+	border: 1px solid rgba(0,0,0,.1);
+	padding: 20px;
+	max-width: 800px;
+	margin: 30px auto;
+}
+.divbox p.label {
+	color: gray;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+.divbox p.label + p {
+	margin-top: 5px;
+}
+.divbox h2 {
+	text-align: center;
+	color: gray;
+	font-size: 0.9rem;
+}
