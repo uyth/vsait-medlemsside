@@ -8,10 +8,13 @@ from .models import Event
 class IndexView(generic.ListView):
     template_name = 'events/index.html'
     context_object_name = 'events'
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
-        return Event.objects.order_by('-startTime')
+        now = timezone.now()
+        upcoming_events = Event.objects.filter(startTime__gte=now).order_by('-startTime')[::-1]
+        events = list(Event.objects.filter(startTime__lt=now).order_by('-startTime'))
+        return upcoming_events + events
    
 class DetailView(generic.DetailView):
     model = Event
@@ -20,19 +23,17 @@ class DetailView(generic.DetailView):
         data = super().get_context_data(**kwargs)
         event = get_object_or_404(Event, id=self.kwargs['pk'])
         registered = False
-        can_register = False
-        if event.is_upcoming:
-            can_register = True
         if event.registrations.filter(id=self.request.user.id).exists():
             registered = True
         data["is_registered"] = registered
-        data["can_register"] = can_register
+        data["can_register"] = event.is_upcoming()
         return data
 
 def EventRegistration(request, pk):
     event = get_object_or_404(Event, id=request.POST.get('event_id'))
-    if event.registrations.filter(id=request.user.id).exists():
-        event.registrations.remove(request.user)
-    else:
-        event.registrations.add(request.user)
+    if event.is_upcoming():
+        if event.registrations.filter(id=request.user.id).exists():
+            event.registrations.remove(request.user)
+        else:
+            event.registrations.add(request.user)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))

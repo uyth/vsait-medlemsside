@@ -42,7 +42,7 @@
 								{% if user.is_authenticated %}
 								<form action="/events/register/{{event.pk}}" method="POST">
 									{% csrf_token %}
-									{% if event_is_registered %}
+									{% if is_registered %}
 									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
 									{% else %}
 									<button type="submit" name="event_id" value="{{object.id}}" class="btn">Click to register!</button>

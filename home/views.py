@@ -19,7 +19,7 @@ def index(request):
                 login(request,user)
         return redirect('/')
     context['form'] = form
-    context["events"] = Event.objects.filter(startTime__gte=timezone.now())
+    context["events"] = Event.objects.filter(startTime__gte=timezone.now()).order_by('-startTime')[::-1]
     return render(request, 'home/index.html',context)
 
 def sign_up(request):
