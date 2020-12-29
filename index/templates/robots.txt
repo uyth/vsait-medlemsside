@@ -1,5 +1,0 @@
-User-Agent: *
-Disallow: /admin/
-Disallow: /auth/
-
-I'm a robot yes.
