@@ -1,0 +1,7 @@
+div.event.old {
+	background-color: gray;
+}
+a.old {
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+}

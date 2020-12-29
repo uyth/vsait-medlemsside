@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VSAIT</title>
+		<title>VSAIT - arrangementer</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
@@ -17,33 +18,14 @@
 					<div>
 						<h1>Vietnamese Student Association</h1>
 					</div>
-					<div class="logginn">
-						<h3>Logg inn:</h3>
-						{% if user.is_authenticated %}
-							<div>
-								Welcome back "{{ user.firstname }}"
-								<a class="btn" href="/logout">Logout</a>
-							</div>
-						{% else %}
-							<form method="POST">
-								{% csrf_token %}
-								{{ form.username }}
-								{{ form.email }}
-								{{ form.password }}
-								<input type="submit" value="Logg inn">
-								<a class="btn inverse" href="/signup">Register</a>
-							</form>
-						{% endif %}
-					</div>
 				</div>
-				<div class="sectionSplit"></div>
 				<div class="innhold">
-					<h1>Kommende arrangementer</h1>
+					<h1>Kommende Arrangementer</h1>
 					<div class="events">
 					{% if events %}
 						{% for event in events %}
-						<a href="events/{{event.pk}}">
-							<div class="event">
+						<a href="{% url 'events:detail' event.pk %}" class="{{ event.is_upcoming | yesno:"upcoming,old" }}">
+							<div class="event {{ event.is_upcoming | yesno:"upcoming,old" }}">
 								<div class="bilde">
 									<h2>{{ event.title }}</h2>
 								</div>
@@ -54,10 +36,25 @@
 						</a>
 						{% endfor %}
 					{% else %}
-						<p>No events are available right now.</p>
+					<p>No events are available.</p>
 					{% endif %}
+					<div class="pagination">
+						<span class="step-links">
+							{% if page_obj.has_previous %}
+								<a href="?page=1">&laquo; first</a>
+								<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+							{% endif %}
+
+							<span class="current">
+								Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+							</span>
+
+							{% if page_obj.has_next %}
+								<a href="?page={{ page_obj.next_page_number }}">next</a>
+								<a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+							{% endif %}
+						</span>
 					</div>
-					<a class="btn" href="/events">Flere arrangementer...</a>
 				</div>
 			</main>
 			{% block footer %}

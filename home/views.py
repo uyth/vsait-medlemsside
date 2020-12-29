@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views import generic
 
 from .forms import LoginForm, VsaitUserRegistrationForm
+from events.models import Event
 
 # @login_required
 def index(request):
@@ -18,6 +19,7 @@ def index(request):
                 login(request,user)
         return redirect('/')
     context['form'] = form
+    context["events"] = Event.objects.filter(startTime__gte=timezone.now())
     return render(request, 'home/index.html',context)
 
 def sign_up(request):

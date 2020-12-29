@@ -17,12 +17,12 @@ class Event(models.Model):
 
     pub_date = models.DateTimeField('date published')
     def __str__(self):
-        return self.event_name
+        return self.title
     def number_of_registrations(self):
         return self.registrations.count()
     def is_upcoming(self):
         now = timezone.now()
-        return self.event_startTime >= now
+        return self.startTime >= now
     is_upcoming.admin_order_field = 'upcoming'
     is_upcoming.boolean = True
     is_upcoming.short_description = 'Upcoming events'

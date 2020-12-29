@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VSAIT</title>
+		<title>{{ event.event_name }}</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
@@ -17,47 +17,46 @@
 					<div>
 						<h1>Vietnamese Student Association</h1>
 					</div>
-					<div class="logginn">
-						<h3>Logg inn:</h3>
-						{% if user.is_authenticated %}
-							<div>
-								Welcome back "{{ user.firstname }}"
-								<a class="btn" href="/logout">Logout</a>
-							</div>
-						{% else %}
-							<form method="POST">
-								{% csrf_token %}
-								{{ form.username }}
-								{{ form.email }}
-								{{ form.password }}
-								<input type="submit" value="Logg inn">
-								<a class="btn inverse" href="/signup">Register</a>
-							</form>
-						{% endif %}
-					</div>
 				</div>
-				<div class="sectionSplit"></div>
 				<div class="innhold">
-					<h1>Kommende arrangementer</h1>
-					<div class="events">
-					{% if events %}
-						{% for event in events %}
-						<a href="events/{{event.pk}}">
-							<div class="event">
-								<div class="bilde">
-									<h2>{{ event.title }}</h2>
-								</div>
-								<div class="info">
-									Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} (1 på venteliste)
-								</div>
+					<div class="gridView">
+						<div class="box1">
+							<div class="bilde">
+								<img href="{{ event.image_link}}" alt="event image"></img>
 							</div>
-						</a>
-						{% endfor %}
-					{% else %}
-						<p>No events are available right now.</p>
-					{% endif %}
+							<div class="oppmote">
+								<p>{{ event.startTime }}</p>
+								<p>{{ event.endTime }}</p>
+								<p>{{ event.location }}</p>
+							</div>
+						</div>
+						<div class="box2">
+							<h1>{{ event.title }}</h1>
+							<div class="info">
+								{{ event.description}}
+							</div>
+						</div>
+						<div class="påmelding">
+							<p>{{ event.number_of_registrations }}/{{ event.max_people }}</p>
+							{% if can_register %}
+								{% if user.is_authenticated %}
+								<form action="/events/register/{{event.pk}}" method="POST">
+									{% csrf_token %}
+									{% if event_is_registered %}
+									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
+									{% else %}
+									<button type="submit" name="event_id" value="{{object.id}}" class="btn">Click to register!</button>
+									{% endif %}
+								  </form>
+								{% else %}
+								  <a class="btn" href="{% url 'home:index' %}">Log in to register this event!</a><br>
+								{% endif %}
+							{% else %}
+								<strong>No longer open for registration!</strong>
+							{% endif %}
+						</div>
 					</div>
-					<a class="btn" href="/events">Flere arrangementer...</a>
+					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 				</div>
 			</main>
 			{% block footer %}
