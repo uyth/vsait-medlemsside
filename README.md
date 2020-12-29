@@ -1,11 +1,12 @@
 # [vsaIT] - Welcome to Jonny's reign
 
 ### Plan
+
 ```
 /
-/events/id
-/auth/<login,register>
-/profile/
+/events/<id>
+/signup
+/profile
 ```
 
 ### Setup
@@ -24,8 +25,8 @@ python manage.py shell
 
 ```
 python manage.py migrate
-python manage.py makemigrations polls
-python manage.py sqlmigrate polls 0001
+python manage.py makemigrations
+python manage.py sqlmigrate
 ```
 
 ### Get Django path
