@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views import generic
 
-from .forms import LoginForm
+from .forms import LoginForm, VsaitUserRegistrationForm
 
 # @login_required
 def index(request):
@@ -19,3 +19,14 @@ def index(request):
         return redirect('/')
     context['form'] = form
     return render(request, 'home/index.html',context)
+
+def sign_up(request):
+    context = {}
+    form = VsaitUserRegistrationForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect('/')
+    context['form'] = form
+    return render(request,'home/signup.html',context)

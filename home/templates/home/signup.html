@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VSAIT - registration</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="wrapper">
+			{% block header %}
+				{% include 'home/header.html' %} 
+			{% endblock header %}
+			<main>
+				<div class="splash">
+					<div>
+						<h1>Vietnamese Student Association</h1>
+					</div>
+				</div>
+				<div class="innhold">
+					<form method="POST">
+						{% csrf_token %}
+						{{form.as_p}}
+						<input type="submit" value="Sign up"/>
+					</form>
+				</div>
+			</main>
+			{% block footer %}
+				{% include 'home/footer.html' %} 
+			{% endblock footer %}
+		</div>
+	</body>
+</html>
