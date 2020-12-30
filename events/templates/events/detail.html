@@ -5,6 +5,7 @@
 		<title>{{ event.event_name }}</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
@@ -19,42 +20,56 @@
 					</div>
 				</div>
 				<div class="innhold">
-					<div class="gridView">
+					<div class="bilde">
+						<img src="{{ event.image_link}}" alt="event image"></img>
+					</div>
+					<div class="flexbox">
 						<div class="box1">
-							<div class="bilde">
-								<img href="{{ event.image_link}}" alt="event image"></img>
-							</div>
-							<div class="oppmote">
-								<p>{{ event.startTime }}</p>
-								<p>{{ event.endTime }}</p>
-								<p>{{ event.location }}</p>
-							</div>
-						</div>
-						<div class="box2">
 							<h1>{{ event.title }}</h1>
 							<div class="info">
 								{{ event.description}}
 							</div>
 						</div>
-						<div class="påmelding">
-							<p>{{ event.number_of_registrations }}/{{ event.max_people }}</p>
-							{% if can_register %}
-								{% if user.is_authenticated %}
-								<form action="/events/register/{{event.pk}}" method="POST">
-									{% csrf_token %}
-									{% if is_registered %}
-									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
-									{% else %}
-									<button type="submit" name="event_id" value="{{object.id}}" class="btn">Click to register!</button>
-									{% endif %}
-								  </form>
-								{% else %}
-								  <a class="btn" href="{% url 'home:index' %}">Log in to register this event!</a><br>
-								{% endif %}
-							{% else %}
-								<strong>No longer open for registration!</strong>
-							{% endif %}
+						<div class="box2">
+							<div class="oppmote">
+								<p class="label">Starttime</p>
+								<p>{{ event.startTime }}</p>
+								<p class="label">Endtime</p>
+								<p>{{ event.endTime }}</p>
+								<p class="label">Location</p>
+								<p>{{ event.location }}</p>
+							</div>
 						</div>
+					</div>
+					<div class="paamelding">
+						<div class="box3">
+							<div>
+								<p class="label">Registered</p>
+								<p>{{ event.number_of_registrations }}/{{ event.max_people }}</p>
+							</div>
+							<div>
+								<p class="label">Waiting list</p>
+								<p>{{ event.number_of_waiting_users }}</p>
+							</div>
+						</div>
+						{% if can_register %}
+							{% if user.is_authenticated %}
+							<form action="/events/register/{{event.pk}}" method="POST">
+								{% csrf_token %}
+								{% if is_registered %}
+									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
+								{% elif is_waiting %}
+									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">In waiting list, click again to cancel.</button>
+								{% else %}
+									<button type="submit" name="event_id" value="{{object.id}}" class="btn">Click to register!</button>
+								{% endif %}
+							  </form>
+							{% else %}
+								<a class="btn" href="{% url 'home:index' %}">Log in to register this event!</a><br>
+							{% endif %}
+						{% else %}
+							<strong>No longer open for registration!</strong>
+						{% endif %}
 					</div>
 					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 				</div>

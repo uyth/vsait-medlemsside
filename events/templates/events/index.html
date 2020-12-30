@@ -30,7 +30,7 @@
 									<h2>{{ event.title }}</h2>
 								</div>
 								<div class="info">
-									Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} (1 på venteliste)
+									Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
 								</div>
 							</div>
 						</a>
