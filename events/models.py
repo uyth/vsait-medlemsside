@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone
+from tinymce.models import HTMLField
 
 from home.models import VsaitUser
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    # description = models.CharField(max_length=200)
+    description = HTMLField()
     image_link = models.CharField(max_length=200)
     #image = models.ImageField()
 

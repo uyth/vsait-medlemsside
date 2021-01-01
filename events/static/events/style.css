@@ -33,6 +33,10 @@ div.flexbox > div.box2 {
 	width: 30%;
 	margin: 10px 0 10px 10px;
 }
+div.flexbox div.info {
+	text-align: left;
+	padding: 0 20px;
+}
 /* OPPMØTE */
 div.oppmote {
 }
