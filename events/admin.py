@@ -8,11 +8,11 @@ class EventAdmin(admin.ModelAdmin):
     """
     fieldsets = [
         (None,               {'fields': ['title']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Date information', {'fields': ['last_edited'], 'classes': ['collapse']}),
     ]
     """
-    list_display = ('title', 'startTime', 'endTime', 'pub_date', 'is_upcoming','is_draft')
-    list_filter = ['pub_date','startTime','is_draft']
+    list_display = ('title', 'startTime', 'endTime', 'last_edited', 'is_upcoming','is_draft')
+    list_filter = ['last_edited','startTime','is_draft']
     search_fields = ('title',)
     ordering = ('startTime',)
     filter_horizontal = ()
@@ -31,6 +31,7 @@ class EventAdmin(admin.ModelAdmin):
             print(obj.__dict__)
             self.exclude.append('draft_publish_time')
         """
+        self.exclude.append('last_edited')
         return super(EventAdmin, self).get_form(request, obj, **kwargs)
 
 admin.site.register(Event, EventAdmin)

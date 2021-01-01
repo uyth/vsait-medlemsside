@@ -23,7 +23,7 @@ class VsaitUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'new_password')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth')}),
         ('Membership Information', {'fields': ('membership',)}),
-        #('Account information', {'fields': ['description'], 'classes': ['collapse']}),
+        ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'password', 'password2')}),

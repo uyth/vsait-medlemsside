@@ -1,0 +1,27 @@
+.contactWrapper {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(100px,1fr));
+	grid-gap: 20px;
+}
+.contactWrapper > .card {
+	background-color: #d5564d;
+	border-radius: 5px;
+	color: white;
+}
+.contactWrapper > .card > .navn {
+	font-size: 1.1em;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+.contactWrapper > .card > .stilling {
+	margin: 0;
+}
+.contactWrapper > .card > .mail {
+	display: block;
+	margin: 10px;
+	color: white;
+	text-decoration: underline;
+}
+.mail:visited {
+	color: pink;
+}

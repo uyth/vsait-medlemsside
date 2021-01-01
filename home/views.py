@@ -50,3 +50,10 @@ def profile(request):
     context['user'] = request.user
     print(VsaitUser.objects.all().values())
     return render(request,'home/profile.html',context)
+
+
+def kontakt(request):
+    context = {}
+    #context['user'] = request.user
+    #print(VsaitUser.objects.all().values())
+    return render(request,'home/contact.html',context)

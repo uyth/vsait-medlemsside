@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VSAIT - registration</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'home/contact.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="wrapper">
+			{% block header %}
+				{% include 'home/header.html' %} 
+			{% endblock header %}
+			<main>
+				<div class="splash">
+					<div>
+						<h1>Vietnamese Student Association</h1>
+					</div>
+				</div>
+				<div class="innhold">
+					<div class="contactWrapper">
+						<div class="card">
+							<p class="navn">Martin Nguyen</p>
+							<p class="stilling">Styreleder</p>
+							<a class="mail" href="mailto:martin@vsait.org">martin@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Kelvin Gia Huy Ma</p>
+							<p class="stilling">Nestleder</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">kelvin@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Camilla Tran</p>
+							<p class="stilling">Økonomiansvarlig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">camilla@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Eline Sjølie Wasa</p>
+							<p class="stilling">Sekretær</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">eline@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Jimmy Ngo Luong</p>
+							<p class="stilling">Sportsanvarslig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">jimmy@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Jonny Ngo Luong</p>
+							<p class="stilling">IT-ansvarlig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">jonny@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Ivan Vu</p>
+							<p class="stilling">PR- og informasjonsansvarlig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">ivan@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Synne Schjelderup</p>
+							<p class="stilling">Planleggingsansvarlig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">synne@vsait.org</a>
+						</div>
+						<div class="card">
+							<p class="navn">Khuong Huynh</p>
+							<p class="stilling">Matansvarlig</p>
+							<a class="mail" href="mailto:kelvin@vsait.org">khuong@vsait.org</a>
+						</div>
+					</div>
+				</div>
+			</main>
+			{% block footer %}
+				{% include 'home/footer.html' %} 
+			{% endblock footer %}
+		</div>
+	</body>
+</html>

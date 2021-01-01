@@ -25,7 +25,7 @@ SECRET_KEY = '_g#g&e9c)2r+a7w6#a*1!@(30iv!qv-*vh1lc_mx&^4atoy$)w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','aaf670e9274d.ngrok.io']
 
 
 # Application definition
@@ -123,3 +123,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/'
+
+# TinyMCE settings
+TINYMCE_DEFAULT_CONFIG = {
+    "height": "320px",
+    "width": "960px",
+    "menubar": "file edit insert format help",
+    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code "
+    "fullscreen insertdatetime media table paste code help wordcount spellchecker",
+    "toolbar": "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | forecolor "
+    "backcolor removeformat | numlist bullist checklist | alignleft aligncenter alignright alignjustify |"
+    "fullscreen  preview save | insertfile image media pageembed template link |",
+    "custom_undo_redo_levels": 10,
+}
+#TINYMCE_COMPRESSOR = True
