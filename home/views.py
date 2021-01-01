@@ -21,6 +21,16 @@ def index(request):
         return redirect('/')
     context['form'] = form
     context["events"] = Event.objects.filter(startTime__gte=timezone.now()).order_by('-startTime')[::-1]
+    # Filters out draft event, updates draft event if it's time for publish date
+    for event in context["events"]:
+        if event.is_draft:
+            if event.draft_publish_time <= timezone.now():
+                print("AAA")
+                event.is_draft = False;
+                event.save()
+            else:
+                print(event.draft_publish_time, timezone.now())
+                context["events"].remove(event)
     return render(request, 'home/index.html',context)
 
 def sign_up(request):

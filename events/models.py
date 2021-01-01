@@ -18,6 +18,8 @@ class Event(models.Model):
     waiting_list = models.ManyToManyField(VsaitUser, related_name="waiting_list", blank=True)
 
     pub_date = models.DateTimeField('date published')
+    is_draft = models.BooleanField(default=False)
+    draft_publish_time = models.DateTimeField('draft_publish_time',default=timezone.now, blank=True)
     def __str__(self):
         return self.title
     def number_of_registrations(self):
