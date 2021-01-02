@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	console.log('The page has fully loaded');
+	console.log('draft.js loaded');
 
 	// Draft show/hide draft_publish_time
 	const is_draft = $("#id_is_draft");

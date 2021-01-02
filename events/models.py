@@ -8,8 +8,9 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     # description = models.CharField(max_length=200)
     description = HTMLField()
-    image_link = models.CharField(max_length=200)
-    #image = models.ImageField()
+    # image_link = models.CharField(max_length=200)
+    # image = models.ImageField()
+    image = models.ImageField(upload_to='event_uploads', default='default_event_image.jpg')
 
     startTime = models.DateTimeField('startTime')
     endTime = models.DateTimeField('endTime')

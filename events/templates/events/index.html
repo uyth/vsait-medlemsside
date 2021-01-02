@@ -28,6 +28,7 @@
 							<div class="event {{ event.is_upcoming | yesno:"upcoming,old" }}">
 								<div class="bilde">
 									<h2>{{ event.title }}</h2>
+									<img src="{{ event.image.url }}"/>
 								</div>
 								<div class="info">
 									Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
