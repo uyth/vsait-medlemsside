@@ -18,13 +18,16 @@
 						<h1>Vietnamese Student Association</h1>
 					</div>
 					<div class="logginn">
-						<h3>Logg inn:</h3>
 						{% if user.is_authenticated %}
+							<h3>Welcome back "{{ user.firstname }}"!</h3>
 							<div>
-								Welcome back "{{ user.firstname }}"
 								<a class="btn" href="/logout">Logout</a>
+								<div>
+									<p>Nothing interesting here...</p>
+								</div>
 							</div>
 						{% else %}
+							<h3>Logg inn:</h3>
 							<form method="POST">
 								{% csrf_token %}
 								{{ form.username }}

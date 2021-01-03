@@ -8,6 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'home/profile.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -20,29 +22,60 @@
 						<h1>Vietnamese Student Association</h1>
 					</div>
 				</div>
-				<div class="innhold">
+				<div class="innhold profile">
 					<div class="profile_image">
 						<img src="https://www.gravatar.com/avatar/07ec6c3719b7bf2c1640a1506e3c5d78?d=https%3A%2F%2Fonline.ntnu.no%2Fstatic%2Fimg%2Fprofile_default_male.png&amp;s=240" />
 					</div>
 					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
-					<div class="divbox kontaktinformasjon">
-						<h2>Kontakt</h2>
-						<p class="label">Telefon</p>
-						<p>Ikke tilgjengelig</p>
-						<p class="label">Email</p>
-						<p>{{ user.email }}</p>
-						<p class="label">Date of birth</p>
-						<p>{{ user.date_of_birth}}</p>
+					<div class="divbox nav">
+						<a>My profile</a>
+						<a>Settings</a>
 					</div>
-					
-					<div class="divbox brukerinformasjon">
-						<h2>Brukerinformasjon</h2>
-						<p class="label">Date joined</p>
-						<p>{{ user.date_joined}}</p>
-						<p class="label">Is a student</p>
-						<p>{{ user.student}}</p>
-						<p class="label">Has membership</p>
-						<p>{{ user.membership}}</p>
+					<div id="profile" class="profile_display">
+						<div class="divbox kontaktinformasjon">
+							<h2>Contact information</h2>
+							<p class="label">Telefon</p>
+							<p>Ikke tilgjengelig</p>
+							<p class="label">Email</p>
+							<p>{{ user.email }}</p>
+						</div>
+						<div class="divbox brukerinformasjon">
+							<h2>User information</h2>
+							<p class="label">Date of birth</p>
+							<p>{{ user.date_of_birth | date:'d.m.Y'}}</p>
+							<p class="label">Date joined</p>
+							<p>{{ user.date_joined | date:'d.m.Y - H:i'}}</p>
+							<p class="label">Is a student</p>
+							<p>{{ user.student}}</p>
+							<p class="label">Has membership</p>
+							<p>{{ user.membership}}</p>
+						</div>
+						<div class="divbox statistikk">
+							<h2>Statistics</h2>
+							<p>You have joined {{ events_count }} events so far!</p>
+							{% for event in events %}
+							<a href="events/{{event.pk}}">
+								<div class="event">
+									<h2>{{ event.title }}</h2>
+									{{ event.startTime | date:'d.m.Y [H:i]' }} - {{ event.endTime | date:'d.m.Y [H:i]' }}
+								</div>
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+					<div id="settings" class="profile_display">
+						<div class="divbox password">
+							<h2>Password-settings</h2>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_password.as_p }}
+								<input type="submit" value="Edit password">
+							</form>
+						</div>
+						<div class="divbox membership">
+							<h2>Membership-settings</h2>
+							<p class="label">Membership</p>
+						</div>
 					</div>
 				</div>
 			</main>

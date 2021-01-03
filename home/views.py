@@ -5,7 +5,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views import generic
 
-from .forms import LoginForm, VsaitUserRegistrationForm
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
+from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm
 from events.models import Event
 from home.models import VsaitUser
 
@@ -47,8 +51,28 @@ def sign_up(request):
 @login_required()
 def profile(request):
     context = {}
+    # form = VsaitUserProfileChangeForm(request.POST or None)
     context['user'] = request.user
-    print(VsaitUser.objects.all().values())
+    events = []
+    for event in list(Event.objects.all()):
+        if (event.registrations.filter(id=request.user.id).exists()):
+            events.append(event)
+    context['events_count'] = len(events)
+    context['events'] = events[::-1]
+
+    # Formchange password
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    context['form_password'] = form
     return render(request,'home/profile.html',context)
 
 

@@ -91,6 +91,29 @@ class VsaitUserChangeForm(UserChangeForm):
             raise ValidationError('There is already an account associated with that email.')
         return email
 
+# Profile
+class VsaitUserProfileChangeForm(UserChangeForm):
+    firstname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
+    lastname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
+    email = forms.EmailField(max_length=120, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
+    date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
+    # Might be changing this under
+    password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    
+    class Meta:
+        model = VsaitUser
+        fields = ('firstname','lastname','email','date_of_birth','password','password_confirmation')
+        exclude = ['date_of_birth']
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        email_list = VsaitUser.objects.filter(email=email)
+        sameUser = VsaitUser.objects.get(email=email).id == email_list.get().id
+        if email_list.count() and not sameUser:
+            raise ValidationError('There is already an account associated with that email.')
+        return email
+
 # The login form shown on the homepage/index
 class LoginForm(AuthenticationForm):
     # Quickfix: Since the parameter username has to be sent, username here is hidden
