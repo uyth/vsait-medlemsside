@@ -6,6 +6,7 @@
 		<title>VSAIT - registration</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'home/signup.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
@@ -19,10 +20,10 @@
 						<h1>Vietnamese Student Association</h1>
 					</div>
 				</div>
-				<div class="innhold">
+				<div class="innhold signup_div">
 					<form method="POST">
 						{% csrf_token %}
-						{{form.as_p}}
+						{{ form.as_p }}
 						<input type="submit" value="Sign up"/>
 					</form>
 				</div>

@@ -13,7 +13,7 @@ class VsaitUserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(max_length=20, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
     password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
-    password2 = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
 
     class Meta:
         model = VsaitUser
@@ -26,9 +26,9 @@ class VsaitUserRegistrationForm(forms.ModelForm):
             raise ValidationError('There is already an account associated with that email.')
         return email
 
-    def clean_password2(self):
+    def clean_password_confirmation(self):
         password1 = self.cleaned_data['password']
-        password2 = self.cleaned_data['password2']
+        password2 = self.cleaned_data['password_confirmation']
 
         if (password1 and password2) and (password1 != password2):
             raise ValidationError('Passwords do not match.')
