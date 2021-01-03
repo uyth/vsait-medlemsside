@@ -168,6 +168,12 @@ main {
 	background-color: rgba(33, 4, 4, 0.48);
 	padding: 5px;
 }
+.events div.event .bilde h2.type {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	font-size: 1rem;
+}
 .events div.event .bilde img {
 	position: absolute;
 	top: 0;

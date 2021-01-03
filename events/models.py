@@ -4,6 +4,10 @@ from tinymce.models import HTMLField
 
 from home.models import VsaitUser
 
+TYPE_CHOICES = [
+    ("medlem","Membership required"),
+    ("alle","Open for all"),
+]
 class Event(models.Model):
     title = models.CharField(max_length=200)
     # description = models.CharField(max_length=200)
@@ -15,6 +19,7 @@ class Event(models.Model):
     startTime = models.DateTimeField('startTime')
     endTime = models.DateTimeField('endTime')
     location = models.CharField(max_length=200)
+    event_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default="medlem")
 
     max_people = models.IntegerField()
     registrations = models.ManyToManyField(VsaitUser, related_name='registrations', blank=True)

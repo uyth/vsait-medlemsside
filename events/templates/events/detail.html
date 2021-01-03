@@ -72,6 +72,11 @@
 							<strong>No longer open for registration!</strong>
 						{% endif %}
 					</div>
+					{% if messages %}
+						{% for message in messages %}
+						  <p class="{{ message.tags }}" style="color: red;">{{ message }}</p>
+						{% endfor %}
+					{% endif %}
 					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 				</div>
 			</main>

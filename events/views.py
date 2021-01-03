@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib import messages
 from .models import Event
 
 class IndexView(generic.ListView):
@@ -31,19 +32,22 @@ def EventRegistration(request, pk):
     event = get_object_or_404(Event, id=request.POST.get('event_id'))
     # Does nothing if event startTime has passed
     if event.is_upcoming():
-        if event.registrations.filter(id=request.user.id).exists():
+        # Event type is member and user is not member, then skip, else go through as normal
+        if event.event_type == "medlem" and not request.user.membership:
+            messages.error(request, 'Membership is required to register this event!')
+            pass
+        elif event.registrations.filter(id=request.user.id).exists():
             # Check if user is registered, remove if true
             event.registrations.remove(request.user)
         elif not event.is_full():
             # Check for fullness, if not full adds user to registrations
             event.registrations.add(request.user)
-        else:
+        elif event.waiting_list.filter(id=request.user.id).exists():
             # If user already in waiting list, remove
-            if event.waiting_list.filter(id=request.user.id).exists():
-                event.waiting_list.remove(request.user)
-            else:
-                # If user is not in waiting list nor in registration, add to waiting list
-                event.waiting_list.add(request.user)
+            event.waiting_list.remove(request.user)
+        else:
+            # If user is not in waiting list nor in registration, add to waiting list
+            event.waiting_list.add(request.user)
         update_waiting_list(event)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))
 
