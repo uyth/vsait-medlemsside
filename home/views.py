@@ -22,7 +22,8 @@ def index(request):
             user = form.get_user()
             if (user):
                 login(request,user)
-        return redirect('/')
+        referer_link = request.POST.get('next', '/')
+        return redirect(referer_link)
     context['form'] = form
     context["events"] = Event.objects.filter(startTime__gte=timezone.now()).order_by('-startTime')[::-1]
     # Filters out draft event, updates draft event if it's time for publish date

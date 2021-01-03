@@ -33,6 +33,7 @@
 								{{ form.username }}
 								{{ form.email }}
 								{{ form.password }}
+								<input type="hidden" name="next" value="{{ request.GET.next }}">
 								<input type="submit" value="Logg inn">
 								<a class="btn inverse" href="/signup">Register</a>
 							</form>

@@ -66,7 +66,7 @@
 								{% endif %}
 							  </form>
 							{% else %}
-								<a class="btn" href="{% url 'home:index' %}">Log in to register this event!</a><br>
+								<a class="btn" href="{% url 'home:index' %}?next={{ request.path|urlencode }}">Log in to register this event!</a><br>
 							{% endif %}
 						{% else %}
 							<strong>No longer open for registration!</strong>
