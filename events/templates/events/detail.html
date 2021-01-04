@@ -37,6 +37,10 @@
 								<p>{{ event.startTime | date:'d.m.Y - H:i'}}</p>
 								<p class="label">Endtime</p>
 								<p>{{ event.endTime | date:'d.m.Y - H:i'}}</p>
+								<p class="label">Registration deadline</p>
+								<p>{{ event.registrationDeadline | date:'d.m.Y - H:i'}}</p>
+								<p class="label">Cancellation deadline</p>
+								<p>{{ event.cancellationDeadline | date:'d.m.Y - H:i'}}</p>
 								<p class="label">Location</p>
 								<p>{{ event.location }}</p>
 							</div>
@@ -58,7 +62,11 @@
 							<form action="/events/register/{{event.pk}}" method="POST">
 								{% csrf_token %}
 								{% if is_registered %}
-									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
+									{% if can_cancel %}
+										<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
+									{% else %}
+										<strong>No longer open for cancellation!</strong>
+									{% endif %}
 								{% elif is_waiting %}
 									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">In waiting list, click again to cancel.</button>
 								{% else %}

@@ -1,29 +1,54 @@
 $(document).ready(() => {
 	console.log('datetime_field.js loaded');
 
+	const startTime_date = $("#id_startTime_0")
 	const startTime_time = $("#id_startTime_1");
 	const endTime_time = $("#id_endTime_1");
+	const registrationDeadline_time = $("#id_registrationDeadline_1");
+	const cancellationDeadline_time = $("#id_cancellationDeadline_1");
 	// Add event for inputs
 	startTime_time.keyup(() => serialize(startTime_time));
 	startTime_time.change(() => serialize(startTime_time));
 	endTime_time.keyup(() => serialize(endTime_time));
 	endTime_time.change(() => serialize(endTime_time));
+	registrationDeadline_time.keyup(() => serialize(registrationDeadline_time));
+	registrationDeadline_time.change(() => serialize(registrationDeadline_time));
+	cancellationDeadline_time.keyup(() => serialize(cancellationDeadline_time));
+	cancellationDeadline_time.change(() => serialize(cancellationDeadline_time));
 
 	// Init serializer
 	serialize(startTime_time);
 	serialize(endTime_time);
+	serialize(registrationDeadline_time);
+	serialize(cancellationDeadline_time);
 
+	const times = [startTime_time, endTime_time, registrationDeadline_time, cancellationDeadline_time];
 	// Add events for "now" and "time chooser"
 	setTimeout(() => {
-		const clockbox0 = $("#clockbox0");
-		const clockbox0_children = [...clockbox0.get(0).children[1].children, clockbox0.get(0).children[2], $("#id_startTime_1 + .datetimeshortcuts").get(0).children[0]];
-		for (const child of clockbox0_children) {
-			child.addEventListener("click", () => serialize(startTime_time));
-		}
-		const clockbox1 = $("#clockbox1");
-		const clockbox1_children = [...clockbox1.get(0).children[1].children, clockbox1.get(0).children[2], $("#id_endTime_1 + .datetimeshortcuts").get(0).children[0]];
-		for (const child of clockbox1_children) {
-			child.addEventListener("click", () => serialize(endTime_time));
+		for (let i = 0; i < times.length; i++) {
+			const now_btn = $("#"+ times[i].attr("id") + " + span > a");
+			now_btn.get(0).addEventListener("click", () => serialize(times[i]));
+			$("#clocklink"+i).hide();
+			if (i < 2) {
+				$("#clocklink"+i).parent().get(0).style="color: transparent;";
+			} else {
+				const extra_label = $("#clocklink"+i).parent().get(0);
+				const a = document.createElement("a");
+				a.innerText = "1 day before startTime";
+				a.href = "javascript:void(0)";
+				a.addEventListener("click", () => {
+					const date = new Date(startTime_date.get(0).value);
+					date.setDate(date.getDate() - 1);
+					const month = ""+date.getMonth()+1;
+					const day = ""+date.getDate();
+					const new_date = date.getFullYear()+"-"+((month.length === 2) ? month : "0"+month)+"-"+((day.length === 2) ? day : "0"+day);
+					$("#"+times[i].attr("id").replace("1","0")).get(0).value = new_date;
+					
+					const time = startTime_time.get(0).value;
+					times[i].get(0).value = time;
+				});
+				extra_label.appendChild(a);
+			}
 		}
 	},1000);
 });

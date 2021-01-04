@@ -25,7 +25,9 @@ def index(request):
         referer_link = request.POST.get('next', '/')
         return redirect(referer_link)
     context['form'] = form
-    context["events"] = Event.objects.filter(startTime__gte=timezone.now()).order_by('-startTime')[::-1]
+    context["events"] = Event.objects.filter(endTime__gte=timezone.now()).order_by('-startTime')[::-1]
+    context["pending_events"] = []
+    context["attending_events"] = []
     # Filters out draft event, updates draft event if it's time for publish date
     for event in context["events"]:
         if event.is_draft:
@@ -36,6 +38,11 @@ def index(request):
             else:
                 print(event.draft_publish_time, timezone.now())
                 context["events"].remove(event)
+        else:
+            if event.waiting_list.filter(id=request.user.id).exists():
+                context["pending_events"].append(event);
+            elif event.registrations.filter(id=request.user.id).exists():
+                context["attending_events"].append(event);
     return render(request, 'home/index.html',context)
 
 def sign_up(request):

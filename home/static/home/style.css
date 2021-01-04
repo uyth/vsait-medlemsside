@@ -31,9 +31,34 @@ header > nav {
 	align-items: center;
 }
 nav div a {
-	color: black;
+	color: white;
 	padding: 10px;
-	background-color: rgba(255,255,255,0.4);
+	position: relative;
+	/* background-color: rgba(255,255,255,0.4); */
+}
+nav div a.nav:after {    
+  content: "";
+  background: none repeat scroll 0 0 transparent;
+  bottom: 4px;
+  display: block;
+  height: 2px;
+  width: 0;
+  left: 50%;
+  position: absolute;
+  background: #fff;
+  transform: translateX(-50%);
+  transition: width 0.5s ease 0s, left 0.5s ease 0s;
+}
+nav div a.nav:hover:after { 
+  width: 90%; 
+  left: 50%;
+}
+nav div a:last-child {
+	background: rgba( 255, 255, 255, 0.65 );
+	box-shadow: 0 8px 32px 0 rgba( 100, 38, 0, 0.05 );
+	backdrop-filter: blur( 13.5px );
+	-webkit-backdrop-filter: blur( 13.5px );
+	border-radius: 5px;
 }
 header nav div img {
 	width: 40px;
@@ -106,10 +131,31 @@ button, input[type="submit"], a.btn {
 	border: 2px solid transparent;
 	border-radius: 5px;
 }
+div.your_events {
+	height: 120px;
+	overflow-y: auto;
+	margin: 0 auto;
+	width: 90%;
+	background-color: rgba(200,200,200,.3);
+	border-radius: 5px;
+}
+div.your_events > h3 {
+	font-size: 0.7rem;
+}
+div.your_events > a{
+	display: block;
+	font-size: 12px;
+	text-align: left;
+	margin-bottom: 5px;
+}
+div.your_events > a > p {
+	margin: 0;
+}
 main {
 	width: 100%;
 	margin: 0 auto;
 	min-height: calc(100vh - 220px);
+	z-index: 1;
 }
 .innhold {
 	padding: 20px;
@@ -193,4 +239,69 @@ footer {
 }
 footer img {
 	width: 30px;
+}
+
+/* HEADER */
+input.mbAnchor {
+	display: none;
+}
+/* TABLET */
+@media screen and (max-width: 970px) {
+	label.burger {
+		position: absolute;
+		z-index: 420;
+	}
+	div.burger {
+		top: 20px;
+		right: 20px;
+		width: 50px;
+		height: 50px;
+		cursor: pointer;
+		position: fixed;
+		z-index: 420;
+		text-decoration: none;
+		background-color: #fff;
+		color: black;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	div.bar1, div.bar2, div.bar3 {
+		width: 22px;
+		height: 3px;
+		background-color: #333;
+		margin: 3px auto;
+		transition: 0.4s;
+	}
+	input#burger:checked + label div.bar1 { transform: rotate(-45deg) translate(-5px, 5px); }
+	input#burger:checked + label div.bar2 { opacity: 0; }
+	input#burger:checked + label div.bar3 { transform: rotate(45deg) translate(-3px, -4px); }
+	input#burger:checked ~ nav {
+		opacity: 1;
+		pointer-events: all;
+		transform: translateX(0);
+	}
+	input#burger:checked ~ div {
+		opacity: 1;
+		pointer-events: all;
+		transform: translateX(0);
+	}
+	nav > div {
+		display: flex;
+		position: fixed;
+		flex-direction: column;
+		background-color: rgba(255,255,255,1);
+		border-radius: 8px 30px 8px 8px;
+		top: 20px;
+		right: 20px;
+		transform: translateX(110%);
+		opacity: 0;
+		transition: all .6s ease;
+		pointer-events: none;
+		box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.1), 0 6px 30px 5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.1);
+	}
+	nav > div > a {
+		color: red;
+	}
 }

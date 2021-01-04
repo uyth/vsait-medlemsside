@@ -18,6 +18,8 @@ class Event(models.Model):
 
     startTime = models.DateTimeField('startTime')
     endTime = models.DateTimeField('endTime')
+    registrationDeadline = models.DateTimeField('Registration deadline')
+    cancellationDeadline = models.DateTimeField('Cancellation deadline')
     location = models.CharField(max_length=200)
     event_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default="medlem")
 
@@ -34,9 +36,15 @@ class Event(models.Model):
         return self.registrations.count()
     def number_of_waiting_users(self):
         return self.waiting_list.count()
+    # Time related
     def is_upcoming(self):
-        now = timezone.now()
-        return self.startTime >= now
+        return self.startTime >= timezone.now()
+    def is_ongoing(self):
+        return self.endTime >= timezone.now()
+    def ontime_for_registration_deadline(self):
+        return self.registrationDeadline >= timezone.now()
+    def ontime_for_cancellation_deadline(self):
+        return self.cancellationDeadline >= timezone.now()
     def is_full(self):
         return self.registrations.count() >= self.max_people
     def has_waiting_users(self):

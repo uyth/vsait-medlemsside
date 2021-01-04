@@ -13,9 +13,12 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         now = timezone.now()
-        upcoming_events = Event.objects.filter(startTime__gte=now).order_by('-startTime')[::-1]
+        #upcoming_events = Event.objects.filter(startTime__gte=now).order_by('-startTime')[::-1]
+        
+        ongoing_events = Event.objects.filter(endTime__gte=now).order_by('-startTime')[::-1]
         events = list(Event.objects.filter(startTime__lt=now).order_by('-startTime'))
-        return upcoming_events + events
+        #return upcoming_events + events
+        return ongoing_events + events
    
 class DetailView(generic.DetailView):
     model = Event
@@ -25,7 +28,8 @@ class DetailView(generic.DetailView):
         event = get_object_or_404(Event, id=self.kwargs['pk'])
         data["is_registered"] = event.registrations.filter(id=self.request.user.id).exists()
         data["is_waiting"] = event.waiting_list.filter(id=self.request.user.id).exists()
-        data["can_register"] = event.is_upcoming()
+        data["can_register"] = event.ontime_for_registration_deadline()
+        data["can_cancel"] = event.ontime_for_cancellation_deadline()
         return data
 
 def EventRegistration(request, pk):
@@ -34,20 +38,17 @@ def EventRegistration(request, pk):
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
         if event.event_type == "medlem" and not request.user.membership:
+            print(request.user,request.user.membership)
             messages.error(request, 'Membership is required to register this event!')
             pass
-        elif event.registrations.filter(id=request.user.id).exists():
-            # Check if user is registered, remove if true
-            event.registrations.remove(request.user)
-        elif not event.is_full():
-            # Check for fullness, if not full adds user to registrations
-            event.registrations.add(request.user)
+        elif event.registrations.filter(id=request.user.id).exists() and event.ontime_for_cancellation_deadline(): 
+            event.registrations.remove(request.user) # Check if user is registered, remove if true
+        elif not event.is_full() and event.ontime_for_registration_deadline():
+            event.registrations.add(request.user) # Check for fullness, if not full adds user to registrations
         elif event.waiting_list.filter(id=request.user.id).exists():
-            # If user already in waiting list, remove
-            event.waiting_list.remove(request.user)
+            event.waiting_list.remove(request.user) # If user already in waiting list, remove
         else:
-            # If user is not in waiting list nor in registration, add to waiting list
-            event.waiting_list.add(request.user)
+            event.waiting_list.add(request.user) # If user is not in waiting list nor in registration, add to waiting list
         update_waiting_list(event)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))
 

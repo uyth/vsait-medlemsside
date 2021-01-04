@@ -14,6 +14,9 @@ $(document).ready(() => {
 	// Helptext
 	div_registrations_parent.innerHTML += "<div class='help' style='margin: 0 0 5px 0'>Select/deselect registrations by clicking on the users respectively</div>";
 	div_waiting_list_parent.innerHTML += "<div class='help' style='margin: 0 0 5px 0'>Select/deselect waiting_list by clicking on the users respectively</div>";
+	// HELPTEXT for PEOPLE
+	const people_div = $(".field-max_people").children().get(0);
+	people_div.innerHTML += "<div class='help'>Setting max people to 0 means unlimited people</div>"
 
 	// Table values
 	const name = [];
