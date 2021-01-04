@@ -27,7 +27,7 @@ class Event(models.Model):
     registrations = models.ManyToManyField(VsaitUser, related_name='registrations', blank=True)
     waiting_list = models.ManyToManyField(VsaitUser, related_name="waiting_list", blank=True)
 
-    last_edited = models.DateTimeField('date last edited', default=timezone.now, blank=True)
+    last_edited = models.DateTimeField('date last edited', auto_now=True)
     is_draft = models.BooleanField(default=False)
     draft_publish_time = models.DateTimeField('draft_publish_time',default=timezone.now, blank=True)
     def __str__(self):

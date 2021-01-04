@@ -48,9 +48,11 @@ class EventChangeForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+    """
     def __init__(self, *args, **kwargs):
-        """ Quickfix for initialization of last edited on change"""
+        # Quickfix for initialization of last edited on change
         super(EventChangeForm, self).__init__(*args, **kwargs) # Init and loads all fields
         date = timezone.now();
         list(kwargs.values())[0].last_edited = date; # Updates the last edited
         super(EventChangeForm, self).__init__(*args, **kwargs) # Updates all fields
+    """

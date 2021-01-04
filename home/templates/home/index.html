@@ -68,25 +68,27 @@
 					<div class="events">
 					{% if events %}
 						{% for event in events %}
-						<a href="events/{{event.pk}}">
-							<div class="event">
-								<div class="bilde">
-									<h2>{{ event.title }}</h2>
-									<h2 class="type" style="bottom: 35px">StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</h2>
-									<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
-									<img src="{{ event.image.url }}"/>
+						<div class="event_wrapper">
+							<a href="events/{{event.pk}}">
+								<div class="event">
+									<div class="bilde">
+										<h2>{{ event.title }}</h2>
+										<h2 class="type" style="bottom: 35px">StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</h2>
+										<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
+										<img src="{{ event.image.url }}"/>
+									</div>
+									<div class="info">
+										Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
+									</div>
 								</div>
-								<div class="info">
-									Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
-								</div>
-							</div>
-						</a>
+							</a>
+						</div>
 						{% endfor %}
 					{% else %}
 						<p>No events are available right now.</p>
 					{% endif %}
 					</div>
-					<a class="btn" href="/events">Flere arrangementer...</a>
+					<a class="btn" href="/events">Se alle arrangementer...</a>
 				</div>
 			</main>
 			{% block footer %}

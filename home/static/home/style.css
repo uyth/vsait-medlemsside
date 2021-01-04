@@ -185,10 +185,14 @@ main {
 	justify-content: center;
 	flex-direction: column;
 }
-.events div.event {
+.events div.event_wrapper {
 	margin: 40px auto;
-	height: 400px;
 	width: 95%;
+}
+.events div.event {
+	/* margin: 40px auto; */
+	height: 400px;
+	width: 100%;
 	background-color: #ff5c4b;
 	color: #fff;
 	display: grid;
