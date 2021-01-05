@@ -67,7 +67,7 @@ class VsaitUserAdmin(UserAdmin):
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (
-        (None, {'fields': ('email', 'password', 'password2')}),
+        (None, {'fields': ('email', 'password', 'password_confirmation')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
         ('Membership Information', {'fields': ('memberships',)}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),

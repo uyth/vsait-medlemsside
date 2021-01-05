@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VSAIT - registration</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="wrapper">
+			{% block header %}
+				{% include 'home/header.html' %} 
+			{% endblock header %}
+			<main>
+				<div class="splash">
+					<div>
+						<h1>Vietnamese Student Association</h1>
+					</div>
+				</div>
+				<div class="innhold profile">
+					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+					<div class="divbox nav">
+						<a href="/profile/">My profile</a>
+						<a href="/profile/settings/">Settings</a>
+					</div>
+					<div id="settings" class="profile_display">
+						<div class="divbox personal">
+							<h2>Personal-settings</h2>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_food_needs.as_p }}
+								<input type="submit" value="Edit food needs">
+							</form>
+						</div>
+						<div class="divbox password">
+							<h2>Password-settings</h2>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_password.as_p }}
+								<input type="submit" value="Edit password">
+							</form>
+						</div>
+						<div class="divbox membership">
+							<h2>Membership-settings</h2>
+							<p class="label">Membership</p>
+							{% if user.has_membership %}
+								<p>Membership confirmed for {{ get_year }}</p>
+							{% elif user.pending_membership %}
+								<p>You currently have registered your membership, and thus added to the pending_membership group.</p>
+								<p>With a pending_membership you can register for event just as like a normal membership</p>
+								<p>Was this a mistake?</p>
+								<form action="/profile/pending_membership/" method="POST">
+									{% csrf_token %}
+									<input type="submit" value="Cancel your registration for pending_membership">
+								</form>
+							{% else %}
+								<p>You currently have not confirmed your membership for this year {{ get_year }}</p>
+								<p>Have payed but not received membership yet?</p>
+								<form action="/profile/pending_membership/" method="POST">
+									{% csrf_token %}
+									<input type="submit" value="Register for pending_membership here!">
+								</form>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</main>
+			{% block footer %}
+				{% include 'home/footer.html' %} 
+			{% endblock footer %}
+		</div>
+	</body>
+</html>

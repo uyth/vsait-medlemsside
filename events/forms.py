@@ -21,6 +21,7 @@ class EventForm(forms.ModelForm):
         }
         js = ('admin/js/vendor/jquery/jquery.min.js',
                 'admin/js/jquery.init.js',
+                'admin/js/events.js',
                 'admin/js/draft.js',
                 'admin/js/image_upload.js',
                 'admin/js/event_registrations.js',
@@ -33,6 +34,7 @@ class EventChangeForm(forms.ModelForm):
         }
         js = ('admin/js/vendor/jquery/jquery.min.js',
                 'admin/js/jquery.init.js',
+                'admin/js/events.js',
                 'admin/js/draft.js',
                 'admin/js/image_upload.js',
                 'admin/js/event_registrations.js',

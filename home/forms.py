@@ -121,17 +121,14 @@ class VsaitUserProfileChangeForm(UserChangeForm):
 # Profile food_needs form change
 class VsaitUserFoodNeedsChangeForm(forms.Form):
     food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Food needs*'}))
-
     class Meta:
         model = VsaitUser
         fields = ('food_needs',)
-
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
         kwargs.update(initial={'food_needs': self.user.food_needs}) # Updates the food_needs
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
-
 
 # The login form shown on the homepage/index
 class LoginForm(AuthenticationForm):

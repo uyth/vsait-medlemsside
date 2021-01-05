@@ -39,6 +39,8 @@ class Event(models.Model):
         return self.waiting_list.count()
     def display_max_people(self):
         return self.max_people if self.max_people > 0 else "∞"
+    def max_people_unlimited(self):
+        return self.max_people == 0
     # Time related
     def is_upcoming(self):
         return self.startTime >= timezone.now()

@@ -9,7 +9,6 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="{% static 'home/profile.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -25,8 +24,8 @@
 				<div class="innhold profile">
 					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
 					<div class="divbox nav">
-						<a>My profile</a>
-						<a>Settings</a>
+						<a href="/profile/">My profile</a>
+						<a href="/profile/settings/">Settings</a>
 					</div>
 					<div id="profile" class="profile_display">
 						<div class="divbox kontaktinformasjon">
@@ -45,7 +44,7 @@
 							<p class="label">Is a student</p>
 							<p>{{ user.student}}</p>
 							<p class="label">Has membership</p>
-							<p>{{ user.membership}}</p>
+							<p>{{ user.has_membership}}</p>
 						</div>
 						<div class="divbox statistikk">
 							<h2>Statistics</h2>
@@ -58,28 +57,6 @@
 								</div>
 							</a>
 							{% endfor %}
-						</div>
-					</div>
-					<div id="settings" class="profile_display">
-						<div class="divbox personal">
-							<h2>Personal-settings</h2>
-							<form method="POST">
-								{% csrf_token %}
-								{{ form_food_needs.as_p }}
-								<input type="submit" value="Edit food needs">
-							</form>
-						</div>
-						<div class="divbox password">
-							<h2>Password-settings</h2>
-							<form method="POST">
-								{% csrf_token %}
-								{{ form_password.as_p }}
-								<input type="submit" value="Edit password">
-							</form>
-						</div>
-						<div class="divbox membership">
-							<h2>Membership-settings</h2>
-							<p class="label">Membership</p>
 						</div>
 					</div>
 				</div>

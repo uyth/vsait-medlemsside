@@ -52,10 +52,12 @@
 								<p class="label">Registered</p>
 								<p>{{ event.number_of_registrations }}/{{ event.display_max_people }}</p>
 							</div>
+							{% if not event.max_people_unlimited %}
 							<div>
 								<p class="label">Waiting list</p>
 								<p>{{ event.number_of_waiting_users }}</p>
 							</div>
+							{% endif %}
 						</div>
 						{% if can_register %}
 							{% if user.is_authenticated %}

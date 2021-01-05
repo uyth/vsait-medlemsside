@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views import generic
 
+from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -65,6 +66,7 @@ def profile(request):
             events.append(event)
     context['events_count'] = len(events)
     context['events'] = events[::-1]
+    context['get_year'] = timezone.now().year
 
     # Formchange password
     if request.method == 'POST':
@@ -89,6 +91,46 @@ def profile(request):
     context['form_food_needs'] = form_food_needs
     return render(request,'home/profile.html',context)
 
+@login_required()
+def settings(request):
+    context = {}
+    # form = VsaitUserProfileChangeForm(request.POST or None)
+    context['user'] = request.user
+    events = []
+    for event in list(Event.objects.all()):
+        if (event.registrations.filter(id=request.user.id).order_by('-startTime').exists()):
+            events.append(event)
+    context['events_count'] = len(events)
+    context['events'] = events[::-1]
+    context['get_year'] = timezone.now().year
+
+    # Formchange password
+    if request.method == 'POST':
+        if ("food_needs" in list(request.POST.keys())):
+            form_food_needs = VsaitUserFoodNeedsChangeForm(request.POST, user=request.user)
+            food_needs = form_food_needs.data.get("food_needs")
+            request.user.food_needs = food_needs
+            request.user.save()
+            # print(request.user.food_needs)
+        else:
+            form_password = PasswordChangeForm(request.user, request.POST)
+            if form_password.is_valid():
+                user = form_password.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('change_password')
+            else:
+                messages.error(request, 'Please correct the error below.')
+    form_password = PasswordChangeForm(request.user)
+    form_food_needs = VsaitUserFoodNeedsChangeForm(user=request.user)
+    context['form_password'] = form_password
+    context['form_food_needs'] = form_food_needs
+    return render(request,'home/settings.html',context)
+
+def pendingMembership(request):
+    request.user.pending_membership = not request.user.pending_membership
+    request.user.save()
+    return HttpResponseRedirect(reverse('home:settings'))
 
 def kontakt(request):
     context = {}

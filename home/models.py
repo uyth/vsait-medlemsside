@@ -45,6 +45,7 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     
     # New membership
     memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True)
+    pending_membership = models.BooleanField(default=False) # Used to temporary assign own memberships
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['firstname','lastname','date_of_birth','password']

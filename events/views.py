@@ -37,7 +37,8 @@ def EventRegistration(request, pk):
     # Does nothing if event startTime has passed
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
-        if event.event_type == "medlem" and not request.user.has_membership:
+        print(event.event_type, request.user.has_membership())
+        if event.event_type == "medlem" and not request.user.has_membership() and not request.user.pending_membership:
             messages.error(request, 'Membership is required to register this event!')
             pass
         elif event.registrations.filter(id=request.user.id).exists() and event.ontime_for_cancellation_deadline(): 
