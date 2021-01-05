@@ -21,14 +21,15 @@ class VsaitUserAdmin(UserAdmin):
     # Fieldset for the user forms
     fieldsets = (
         (None, {'fields': ('email', 'new_password')}),
-        ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth')}),
+        ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','food_needs')}),
         ('Membership Information', {'fields': ('membership',)}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'password', 'password2')}),
-        ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth')}),
+        ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','food_needs')}),
         ('Membership Information', {'fields': ('membership',)}),
+        ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
 
 admin.site.register(VsaitUser, VsaitUserAdmin)

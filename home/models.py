@@ -15,7 +15,9 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateTimeField(default=timezone.now)
     password = models.CharField(_('password'),max_length=240)
 
+    food_needs = models.CharField(_('food_needs'), max_length=240, blank=True) # Allergies and such
     student = models.BooleanField(default=False)
+
     # The tags below will be hidden on user registration
     is_staff = models.BooleanField(default=False) # Marks the user to be a normal user
     date_joined = models.DateTimeField(default=timezone.now)

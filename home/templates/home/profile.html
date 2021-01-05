@@ -64,6 +64,14 @@
 						</div>
 					</div>
 					<div id="settings" class="profile_display">
+						<div class="divbox personal">
+							<h2>Personal-settings</h2>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_food_needs.as_p }}
+								<input type="submit" value="Edit food needs">
+							</form>
+						</div>
 						<div class="divbox password">
 							<h2>Password-settings</h2>
 							<form method="POST">

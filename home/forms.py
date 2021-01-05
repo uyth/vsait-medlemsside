@@ -14,10 +14,11 @@ class VsaitUserRegistrationForm(forms.ModelForm):
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
     password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
     password_confirmation = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'If any allergies, write them down here.'}), required=False)
 
     class Meta:
         model = VsaitUser
-        fields = ('firstname','lastname','email','date_of_birth','password')
+        fields = ('firstname','lastname','email','date_of_birth','password','password_confirmation','food_needs')
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
@@ -45,13 +46,15 @@ class VsaitUserRegistrationForm(forms.ModelForm):
             'email':self.cleaned_data['email'],
             'date_of_birth':self.cleaned_data['date_of_birth'],
             'password':self.cleaned_data['password'],
+            'food_needs':self.cleaned_data['food_needs'],
         }
         vsait_user = VsaitUser.objects.create_user(
             context['email'],
             context['firstname'],
             context['lastname'],
             context['date_of_birth'],
-            context['password']
+            context['password'],
+            context['food_needs'],
         )
         return vsait_user
 
@@ -69,10 +72,11 @@ class VsaitUserChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         """ Quickfix for initialization of visible information shown on admin panel"""
         super(UserChangeForm, self).__init__(*args, **kwargs)
-        email = str(self).split("value")[1].split("\"")[1]
-        email_list = VsaitUser.objects.filter(email=email)
-        date = str(email_list.get().date_of_birth).split()[0]
+        email = str(self).split("value")[1].split("\"")[1] # Get email string
+        user = VsaitUser.objects.filter(email=email).get() # Get user from email string
+        date = str(user.date_of_birth).split()[0] # Parse date
         kwargs.update(initial={'date_of_birth': date}) # Updates the datetime
+        # kwargs.update(initial={'food_needs': user.food_needs}) # Updates the food_needs
         super(UserChangeForm, self).__init__(*args, **kwargs)
         f = self.fields.get('user_permissions', None)
         if f is not None:
@@ -113,6 +117,21 @@ class VsaitUserProfileChangeForm(UserChangeForm):
         if email_list.count() and not sameUser:
             raise ValidationError('There is already an account associated with that email.')
         return email
+
+# Profile food_needs form change
+class VsaitUserFoodNeedsChangeForm(forms.Form):
+    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Food needs*'}))
+
+    class Meta:
+        model = VsaitUser
+        fields = ('food_needs',)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
+        kwargs.update(initial={'food_needs': self.user.food_needs}) # Updates the food_needs
+        super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
+
 
 # The login form shown on the homepage/index
 class LoginForm(AuthenticationForm):

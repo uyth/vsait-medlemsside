@@ -78,7 +78,7 @@
 										<img src="{{ event.image.url }}"/>
 									</div>
 									<div class="info">
-										Antall påmeldte: {{ event.number_of_registrations }}/{{event.max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
+										Antall påmeldte: {{ event.number_of_registrations }}/{{event.display_max_people}} {% if event.has_waiting_users %} ({{event.number_of_waiting_users}} på venteliste) {% endif %}
 									</div>
 								</div>
 							</a>

@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
-from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm
+from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm
 from events.models import Event
 from home.models import VsaitUser
 
@@ -70,17 +70,26 @@ def profile(request):
 
     # Formchange password
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+        print(request.POST,list(request.POST.keys()))
+        if ("food_needs" in list(request.POST.keys())):
+            form_food_needs = VsaitUserFoodNeedsChangeForm(request.POST, user=request.user)
+            food_needs = form_food_needs.data.get("food_needs")
+            request.user.food_needs = food_needs
+            request.user.save()
+            print(request.user.food_needs)
         else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    context['form_password'] = form
+            form_password = PasswordChangeForm(request.user, request.POST)
+            if form_password.is_valid():
+                user = form_password.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('change_password')
+            else:
+                messages.error(request, 'Please correct the error below.')
+    form_password = PasswordChangeForm(request.user)
+    form_food_needs = VsaitUserFoodNeedsChangeForm(user=request.user)
+    context['form_password'] = form_password
+    context['form_food_needs'] = form_food_needs
     return render(request,'home/profile.html',context)
 
 
