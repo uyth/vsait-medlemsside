@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from tinymce.models import HTMLField
+import uuid
 
 from home.models import VsaitUser
 
@@ -23,9 +24,14 @@ class Event(models.Model):
     location = models.CharField(max_length=200)
     event_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default="medlem")
 
+    # registration
     max_people = models.IntegerField()
     registrations = models.ManyToManyField(VsaitUser, related_name='registrations', blank=True)
     waiting_list = models.ManyToManyField(VsaitUser, related_name="waiting_list", blank=True)
+
+    # checkin/attendance
+    secret_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
+    attendance = models.ManyToManyField(VsaitUser, related_name="attendance", blank=True)
 
     last_edited = models.DateTimeField('date last edited', auto_now=True)
     is_draft = models.BooleanField(default=False)

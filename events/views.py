@@ -4,7 +4,9 @@ from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib import messages
+
 from .models import Event
+from home.models import VsaitUser
 
 class IndexView(generic.ListView):
     template_name = 'events/index.html'
@@ -52,6 +54,28 @@ def EventRegistration(request, pk):
             event.waiting_list.add(request.user) # If user is not in waiting list nor in registration, add to waiting list
         update_waiting_list(event)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))
+
+def CheckIn(request, pk, secret_url):
+    context = {}
+    event = get_object_or_404(Event, id=pk)
+    print(request.path,pk,secret_url)
+    if len(list(request.POST)) > 0:
+        email = request.POST.get("email")
+        user = VsaitUser.objects.filter(email=email).get()
+        # If user is registered, register attendance
+        if event.registrations.filter(id=user.id).exists():
+            print(user)
+            if event.attendance.filter(id=user.id).exists():
+                messages.error(request, "Email received has already registered attendance!")
+            else:
+                event.attendance.add(user)
+                messages.success(request, 'The user has successfully registered their attendance!')
+        else:
+            messages.error(request, "Email received wasn't found in registrations")
+    if event.secret_url != secret_url:
+        raise Http404("No url matches the given query.")
+    context['event'] = event
+    return render(request,'events/checkin.html',context)
 
 # Waiting list update function
 def update_waiting_list(event):
