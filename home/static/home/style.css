@@ -146,7 +146,7 @@ div.your_events > a{
 	display: block;
 	font-size: 12px;
 	text-align: left;
-	margin-bottom: 5px;
+	margin: 0 10px 5px 10px;
 }
 div.your_events > a > p {
 	margin: 0;

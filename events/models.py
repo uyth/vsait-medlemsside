@@ -30,12 +30,15 @@ class Event(models.Model):
     last_edited = models.DateTimeField('date last edited', auto_now=True)
     is_draft = models.BooleanField(default=False)
     draft_publish_time = models.DateTimeField('draft_publish_time',default=timezone.now, blank=True)
+    # Displays
     def __str__(self):
         return self.title
     def number_of_registrations(self):
         return self.registrations.count()
     def number_of_waiting_users(self):
         return self.waiting_list.count()
+    def display_max_people(self):
+        return self.max_people if self.max_people > 0 else "∞"
     # Time related
     def is_upcoming(self):
         return self.startTime >= timezone.now()
@@ -46,7 +49,7 @@ class Event(models.Model):
     def ontime_for_cancellation_deadline(self):
         return self.cancellationDeadline >= timezone.now()
     def is_full(self):
-        return self.registrations.count() >= self.max_people
+        return self.max_people > 0 and self.registrations.count() >= self.max_people
     def has_waiting_users(self):
         return self.waiting_list.count() > 0
     is_upcoming.admin_order_field = 'upcoming'

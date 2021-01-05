@@ -6,6 +6,27 @@ import datetime
 
 from .managers import VsaitUserManager
 
+YEAR_CHOICES = [
+    ("2019","2019"),
+    ("2020","2020"),
+    ("2021","2021"),
+    ("2022","2022"),
+    ("2023","2023"),
+    ("2024","2024"),
+    ("2025","2025"),
+    ("2026","2026"),
+    ("2027","2027"),
+    ("2028","2028"),
+    ("2029","2029"),
+    ("2030","2030"),
+]
+# Membership class
+class Membership(models.Model):
+    year = models.CharField(max_length=5, choices=YEAR_CHOICES, default=str(timezone.now().year))
+    
+    def __str__(self):
+        return self.year
+
 # User class which implements AbstractBaseUser
 class VsaitUser(AbstractBaseUser, PermissionsMixin):
     username = None # Django by default needs this parameter for auth, will be hidden
@@ -21,7 +42,9 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     # The tags below will be hidden on user registration
     is_staff = models.BooleanField(default=False) # Marks the user to be a normal user
     date_joined = models.DateTimeField(default=timezone.now)
-    membership = models.BooleanField(default=False)
+    
+    # New membership
+    memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['firstname','lastname','date_of_birth','password']
@@ -30,3 +53,14 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    # Membership display
+    def has_membership(self):
+        return str(timezone.now().year) in [x.year for x in self.memberships.all()]
+    # Dates
+    def date_of_birth_display(self):
+        return self.date_of_birth.strftime("%d.%b %Y")
+    def date_joined_display(self):
+        return self.date_joined.strftime("%d.%b %Y")
+    date_of_birth_display.admin_order_field = 'date_of_birth'
+    date_joined_display.admin_order_field = 'date_joined'
+    has_membership.boolean = True

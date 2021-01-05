@@ -9,10 +9,10 @@ $(document).ready(() => {
 	for (let i = 1; i < displays.length; i++) {
 		$(displays[i]).hide();
 	}
-
 	// temp
 	// $(displays[0]).hide();
 	// $(displays[1]).show();
+	setTimeout(() => window.scrollTo({ top: 0 }),100);
 });
 
 const navigate = (i,displays) => {

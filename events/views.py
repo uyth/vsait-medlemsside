@@ -37,8 +37,7 @@ def EventRegistration(request, pk):
     # Does nothing if event startTime has passed
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
-        if event.event_type == "medlem" and not request.user.membership:
-            print(request.user,request.user.membership)
+        if event.event_type == "medlem" and not request.user.has_membership:
             messages.error(request, 'Membership is required to register this event!')
             pass
         elif event.registrations.filter(id=request.user.id).exists() and event.ontime_for_cancellation_deadline(): 
@@ -48,6 +47,7 @@ def EventRegistration(request, pk):
         elif event.waiting_list.filter(id=request.user.id).exists():
             event.waiting_list.remove(request.user) # If user already in waiting list, remove
         else:
+            print(event.is_full(), event.ontime_for_registration_deadline())
             event.waiting_list.add(request.user) # If user is not in waiting list nor in registration, add to waiting list
         update_waiting_list(event)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))

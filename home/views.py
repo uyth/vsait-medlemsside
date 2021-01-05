@@ -32,11 +32,9 @@ def index(request):
     for event in context["events"]:
         if event.is_draft:
             if event.draft_publish_time <= timezone.now():
-                print("AAA")
                 event.is_draft = False;
                 event.save()
             else:
-                print(event.draft_publish_time, timezone.now())
                 context["events"].remove(event)
         else:
             if event.waiting_list.filter(id=request.user.id).exists():
@@ -63,20 +61,19 @@ def profile(request):
     context['user'] = request.user
     events = []
     for event in list(Event.objects.all()):
-        if (event.registrations.filter(id=request.user.id).exists()):
+        if (event.registrations.filter(id=request.user.id).order_by('-startTime').exists()):
             events.append(event)
     context['events_count'] = len(events)
     context['events'] = events[::-1]
 
     # Formchange password
     if request.method == 'POST':
-        print(request.POST,list(request.POST.keys()))
         if ("food_needs" in list(request.POST.keys())):
             form_food_needs = VsaitUserFoodNeedsChangeForm(request.POST, user=request.user)
             food_needs = form_food_needs.data.get("food_needs")
             request.user.food_needs = food_needs
             request.user.save()
-            print(request.user.food_needs)
+            # print(request.user.food_needs)
         else:
             form_password = PasswordChangeForm(request.user, request.POST)
             if form_password.is_valid():
