@@ -26,7 +26,7 @@
 					<div class="flexbox">
 						<div class="box1">
 							<h1>{{ event.title }}</h1>
-							<p><span class="label">Last edited:</span> {{ event.last_edited | date:'d.m.Y - H:i'}}</p>
+							<p><span class="label">Last edited:</span> {{ event.last_edited | date:'d.m.Y, H:i'}}</p>
 							<div class="info">
 								{{ event.description | safe }}
 							</div>
@@ -34,28 +34,34 @@
 						<div class="box2">
 							<div class="oppmote">
 								<p class="label">Starttime</p>
-								<p>{{ event.startTime | date:'d.m.Y - H:i'}}</p>
+								<p>{{ event.startTime | date:'d.m.Y, H:i'}}</p>
 								<p class="label">Endtime</p>
-								<p>{{ event.endTime | date:'d.m.Y - H:i'}}</p>
+								<p>{{ event.endTime | date:'d.m.Y, H:i'}}</p>
 								<p class="label">Registration deadline</p>
-								<p>{{ event.registrationDeadline | date:'d.m.Y - H:i'}}</p>
+								<p>{{ event.registrationDeadline | date:'d.m.Y, H:i'}}</p>
 								<p class="label">Cancellation deadline</p>
-								<p>{{ event.cancellationDeadline | date:'d.m.Y - H:i'}}</p>
+								<p>{{ event.cancellationDeadline | date:'d.m.Y, H:i'}}</p>
 								<p class="label">Location</p>
 								<p>{{ event.location }}</p>
 							</div>
+						</div>
+					</div>
+					<div class="flexbox">
+						<div>
+							<p>INFO</p>
+							<p>En liten infoboks på hver event som forklarer påmelding, avmelding, venteliste, deadline, mat</p>
 						</div>
 					</div>
 					<div class="paamelding">
 						<div class="box3">
 							<div>
 								<p class="label">Registered</p>
-								<p>{{ event.number_of_registrations }}/{{ event.display_max_people }}</p>
+								<p>{{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
 							</div>
 							{% if not event.max_people_unlimited %}
 							<div>
 								<p class="label">Waiting list</p>
-								<p>{{ event.number_of_waiting_users }}</p>
+								<p>{% if is_waiting %} Currently in position {{ waiting_number }} / {% endif %}{{ event.number_of_waiting_users }}</p>
 							</div>
 							{% endif %}
 						</div>
@@ -88,6 +94,24 @@
 						{% endfor %}
 					{% endif %}
 					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+					{% if user.is_staff %}
+						<div class="flexbox">
+							<div>
+								<p>Everything here is only visible to staffs!</p>
+								<a href="{{ event.secret_url }}/">Attendance/Check-in form (This is only visible to staffs!)</a>
+								<div>
+									<table style="text-align: left;">
+										{% for users in food_needs_information %}
+											<tr>
+												<td>{{ users.email }}</td>
+												<td>{{ users.food_needs}}</td>
+											</tr>
+										{% endfor %}
+									</table>
+								</div>
+							</div>
+						</div>
+					{% endif %}
 				</div>
 			</main>
 			{% block footer %}

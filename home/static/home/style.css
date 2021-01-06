@@ -147,6 +147,8 @@ div.your_events > a{
 	font-size: 12px;
 	text-align: left;
 	margin: 0 10px 5px 10px;
+	padding: 5px;
+	background-color: rgba(200,200,200,.3);
 }
 div.your_events > a > p {
 	margin: 0;

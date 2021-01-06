@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser, Permissio
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import format_html
 import datetime
 
 from .managers import VsaitUserManager
@@ -55,8 +56,15 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     # Membership display
-    def has_membership(self):
+    def has_membership_boolean(self):
         return str(timezone.now().year) in [x.year for x in self.memberships.all()]
+    def has_membership(self):
+        if str(timezone.now().year) in [x.year for x in self.memberships.all()]:
+            return format_html('<img src="/static/admin/img/icon-yes.svg" alt="False">')
+        else:
+            if self.pending_membership:
+                return format_html('<img src="https://cdn3.iconfinder.com/data/icons/modifiers-essential/48/v-35-512.png" alt="Pending" style="width: 18px; transform: translateX(-2.5px);"')
+            return format_html('<img src="/static/admin/img/icon-no.svg" alt="True">')
     # Dates
     def date_of_birth_display(self):
         return self.date_of_birth.strftime("%d.%b %Y")
@@ -64,4 +72,4 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
         return self.date_joined.strftime("%d.%b %Y")
     date_of_birth_display.admin_order_field = 'date_of_birth'
     date_joined_display.admin_order_field = 'date_joined'
-    has_membership.boolean = True
+    #has_membership.boolean = True

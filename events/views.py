@@ -18,7 +18,7 @@ class IndexView(generic.ListView):
         #upcoming_events = Event.objects.filter(startTime__gte=now).order_by('-startTime')[::-1]
         
         ongoing_events = Event.objects.filter(endTime__gte=now).order_by('-startTime')[::-1]
-        events = list(Event.objects.filter(startTime__lt=now).order_by('-startTime'))
+        events = list(Event.objects.filter(endTime__lt=now).order_by('-startTime'))
         #return upcoming_events + events
         return ongoing_events + events
    
@@ -30,8 +30,12 @@ class DetailView(generic.DetailView):
         event = get_object_or_404(Event, id=self.kwargs['pk'])
         data["is_registered"] = event.registrations.filter(id=self.request.user.id).exists()
         data["is_waiting"] = event.waiting_list.filter(id=self.request.user.id).exists()
+        if data['is_waiting']:
+            data['waiting_number'] = [x.email for x in event.waiting_list.all()].index(self.request.user.email)+1
         data["can_register"] = event.ontime_for_registration_deadline()
         data["can_cancel"] = event.ontime_for_cancellation_deadline()
+        food_needs_information = [{'email':x.email, 'food_needs':x.food_needs} for x in event.registrations.all()]
+        data["food_needs_information"] = food_needs_information
         return data
 
 def EventRegistration(request, pk):

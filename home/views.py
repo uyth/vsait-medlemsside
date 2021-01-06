@@ -23,7 +23,10 @@ def index(request):
             user = form.get_user()
             if (user):
                 login(request,user)
+        # redirects back to event page if found ?next=
         referer_link = request.POST.get('next', '/')
+        if (referer_link == ""): # If nothing, redirect login to homepage
+            referer_link = "/"
         return redirect(referer_link)
     context['form'] = form
     context["events"] = Event.objects.filter(endTime__gte=timezone.now()).order_by('-startTime')[::-1]

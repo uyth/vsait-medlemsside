@@ -27,6 +27,7 @@ $(document).ready(() => {
 	setTimeout(() => {
 		for (let i = 0; i < times.length; i++) {
 			const now_btn = $("#"+ times[i].attr("id") + " + span > a");
+			console.log(now_btn,times[i].attr("id"))
 			now_btn.get(0).addEventListener("click", () => serialize(times[i]));
 			$("#clocklink"+i).hide();
 			if (i < 2) {
@@ -50,13 +51,15 @@ $(document).ready(() => {
 				extra_label.appendChild(a);
 			}
 		}
-	},1000);
+	},3000);
 });
 
 const serialize = function(obj) {
 	obj = obj.get(0);
 	let tokens = obj.value.split(":").slice(0,2);
-	tokens[0] = tokens[0].substring(0,2);
-	tokens[1] = tokens[1].substring(0,2);
-	obj.value = tokens[0]+":"+tokens[1];
+	if (tokens[0] !== "" && tokens.length > 0) {
+		tokens[0] = tokens[0].substring(0,2);
+		tokens[1] = tokens[1].substring(0,2);
+		obj.value = tokens[0]+":"+tokens[1];
+	}
 }

@@ -47,7 +47,7 @@
 						<div class="divbox membership">
 							<h2>Membership-settings</h2>
 							<p class="label">Membership</p>
-							{% if user.has_membership %}
+							{% if user.has_membership_boolean %}
 								<p>Membership confirmed for {{ get_year }}</p>
 							{% elif user.pending_membership %}
 								<p>You currently have registered your membership, and thus added to the pending_membership group.</p>

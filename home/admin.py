@@ -14,11 +14,16 @@ class MembershipFilter(SimpleListFilter):
     def lookups(self, request, model_admin):
         return (
             ('membership_true', 'Have membership'),
+            ('membership_pending', "Have pending membership"),
             ('membership_false', "Doesnt' have membership"),
         )
 
     def queryset(self, request, queryset):
-        this_years_membership = Membership.objects.filter(year=timezone.now().year).get().year
+        this_years_membership = Membership.objects.filter(year=timezone.now().year)
+        if (len(list(this_years_membership)) > 0):
+            this_years_membership = this_years_membership.get().year
+        else:
+            this_years_membership = 2021
         query_memberships = [[y.year for y in list(x.memberships.all())] for x in list(queryset)]
         user_ids = [x.id for x in list(queryset)]
         has_membership = []
@@ -31,6 +36,8 @@ class MembershipFilter(SimpleListFilter):
             return queryset.filter(id__in=has_membership)
         elif self.value() == 'membership_false':
             return queryset.exclude(id__in=has_membership)
+        elif self.value() == 'membership_pending':
+            return queryset.exclude(id__in=has_membership).filter(pending_membership=True)
         else:
             return queryset
 
@@ -63,13 +70,13 @@ class VsaitUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'new_password')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
-        ('Membership Information', {'fields': ('memberships',)}),
+        ('Membership Information', {'fields': ('memberships','pending_membership')}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'password', 'password_confirmation')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
-        ('Membership Information', {'fields': ('memberships',)}),
+        ('Membership Information', {'fields': ('memberships','pending_membership',)}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
 admin.site.register(VsaitUser, VsaitUserAdmin)

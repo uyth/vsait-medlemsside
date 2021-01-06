@@ -5,17 +5,26 @@ from .forms import EventForm, EventChangeForm
 class EventAdmin(admin.ModelAdmin):
     add_form = EventForm # Add new user form
     form = EventChangeForm # Edit user form
-    """
-    fieldsets = [
-        (None,               {'fields': ['title']}),
-        ('Date information', {'fields': ['last_edited'], 'classes': ['collapse']}),
-    ]
-    """
     list_display = ('title', 'startTime', 'endTime', 'last_edited', 'is_upcoming','is_draft')
     list_filter = ['last_edited','startTime','is_draft']
     search_fields = ('title',)
     ordering = ('startTime',)
     filter_horizontal = ()
+
+    fieldsets = (
+        (None,               {'fields': ['title','description','image','location','max_people','event_type']}),
+        ('Date information', {'fields': ['startTime','endTime','registrationDeadline','cancellationDeadline',]}),
+        ('Registration information', {'fields': ['registrations','waiting_list'], 'classes': ['collapse']}),
+        ('Checkin/attendance information', {'fields': ['secret_url','attendance'], 'classes': ['collapse']}),
+        (None,               {'fields': ['is_draft','draft_publish_time']}),
+    )
+    add_fieldsets = (
+        (None,               {'fields': ['title','description','image','location','max_people','event_type']}),
+        ('Date information', {'fields': ['startTime','endTime','registrationDeadline','cancellationDeadline',]}),
+        ('Registration information', {'fields': ['registrations','waiting_list'], 'classes': ['collapse']}),
+        ('Checkin/attendance information', {'fields': ['secret_url','attendance'], 'classes': ['collapse']}),
+        (None,               {'fields': ['is_draft','draft_publish_time']}),
+    )
 
     # Removes the default delete action
     def get_actions(self, request):

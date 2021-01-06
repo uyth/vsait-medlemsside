@@ -29,7 +29,7 @@
 											{% for event in attending_events %}
 											<a href="events/{{event.pk}}">
 												<p>{{ event.title }}</p>
-												<p>StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</p>
+												<p>{{ event.startTime | date:'l d.m.Y' }}</p>
 											</a>
 											{% endfor %}
 										{% endif %}
@@ -39,7 +39,7 @@
 											{% for event in pending_events %}
 											<a href="events/{{event.pk}}">
 												<p>{{ event.title }}</p>
-												<p>StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</p>
+												<p>{{ event.startTime | date:'l d.m.Y' }}</p>
 											</a>
 											{% endfor %}
 										{% endif %}
@@ -73,7 +73,7 @@
 								<div class="event">
 									<div class="bilde">
 										<h2>{{ event.title }}</h2>
-										<h2 class="type" style="bottom: 35px">StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</h2>
+										<h2 class="type" style="bottom: 35px">{{ event.startTime | date:'l d.m.Y' }}</h2>
 										<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
 										<img src="{{ event.image.url }}"/>
 									</div>

@@ -25,11 +25,11 @@
 					{% if events %}
 						{% for event in events %}
 						<div class="event_wrapper">
-							<a href="{% url 'events:detail' event.pk %}" class="{{ event.is_upcoming | yesno:"upcoming,old" }}">
+							<a href="{% url 'events:detail' event.pk %}" class="{{ event.is_ongoing | yesno:"upcoming,old" }}">
 								<div class="event {{ event.is_upcoming | yesno:"upcoming,old" }}">
 									<div class="bilde">
 										<h2>{{ event.title }}</h2>
-										<h2 class="type" style="bottom: 35px">StartTime: {{ event.startTime | date:'d.m.Y - H:i' }}</h2>
+										<h2 class="type" style="bottom: 35px">{{ event.startTime | date:'l d.m.Y' }}</h2>
 										<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
 										<img src="{{ event.image.url }}"/>
 									</div>
