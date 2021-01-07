@@ -49,6 +49,8 @@ def index(request):
 
 def sign_up(request):
     context = {}
+    if request.user.is_authenticated:
+            return redirect('/')
     form = VsaitUserRegistrationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -81,11 +83,13 @@ def profile(request):
             # print(request.user.food_needs)
         else:
             form_password = PasswordChangeForm(request.user, request.POST)
+            print(form_password.is_valid())
             if form_password.is_valid():
                 user = form_password.save()
+                print(user,request)
                 update_session_auth_hash(request, user)  # Important!
                 messages.success(request, 'Your password was successfully updated!')
-                return redirect('change_password')
+                return HttpResponseRedirect(reverse('home:profile'))
             else:
                 messages.error(request, 'Please correct the error below.')
     form_password = PasswordChangeForm(request.user)
@@ -95,7 +99,7 @@ def profile(request):
     return render(request,'home/profile.html',context)
 
 @login_required()
-def settings(request):
+def statistics(request):
     context = {}
     # form = VsaitUserProfileChangeForm(request.POST or None)
     context['user'] = request.user
@@ -128,12 +132,12 @@ def settings(request):
     form_food_needs = VsaitUserFoodNeedsChangeForm(user=request.user)
     context['form_password'] = form_password
     context['form_food_needs'] = form_food_needs
-    return render(request,'home/settings.html',context)
+    return render(request,'home/statistics.html',context)
 
 def pendingMembership(request):
     request.user.pending_membership = not request.user.pending_membership
     request.user.save()
-    return HttpResponseRedirect(reverse('home:settings'))
+    return HttpResponseRedirect(reverse('home:profile'))
 
 def kontakt(request):
     context = {}

@@ -43,7 +43,56 @@
 	display: block;
 	text-align: center;
 }
-
+div.brukerinformasjon > form {
+	display: flex;
+}
+div.brukerinformasjon > form > p {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin-top: 0;
+}
+div.brukerinformasjon > form > p > label {
+	color: gray;
+	padding-bottom: 0;
+	margin-bottom: 5px;
+}
+div.brukerinformasjon > form > p > input {
+	width: 100%;
+	box-sizing: border-box;
+}
+div.brukerinformasjon > form > input[type="submit"] {
+	display: inline-block;
+	width: 40%;
+	height: 37px;
+	align-self: self-end;
+	margin-bottom: 16px;
+	margin-left: 10px;
+}
+/* PASSWORD CHANGE */
+.password > form {
+	display: flex;
+	flex-direction: column;
+}
+.password > form > p {
+	display: flex;
+	flex-direction: column;
+}
+.password > form > p > label {
+	color: gray;
+	padding-bottom: 0;
+	margin-bottom: 5px;
+}
+.password > form > p > input {
+	width: 100%;
+	box-sizing: border-box;
+}
+.password > form > ul {
+	order: 4;
+}
+.password > form > p:nth-of-type(3) {
+	display: none;
+}
 /* PROFILE STATISTICS */
 div.statistikk div.event {
 	text-align: left;

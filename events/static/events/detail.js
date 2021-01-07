@@ -1,7 +1,7 @@
 $(document).ready(() => {
 	console.log('detail.js loaded');
 	// registration form
-	const submit = $(".btn").get(0);
+	const submit = $("button.btn").get(0);
 	$(submit).on('click', function(e){
 		e.preventDefault();
 		const form = $($(this).parents('form').get(0));

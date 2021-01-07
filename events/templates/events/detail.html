@@ -10,7 +10,6 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static 'events/detail.js' %}"></script>
-
 	</head>
 	<body>
 		<div class="wrapper">
@@ -79,12 +78,12 @@
 										{% csrf_token %}
 										{% if is_registered %}
 											{% if can_cancel %}
-												<button type="submit" id="cancel_registration" name="event_id" value="{{object.id}}" class="btn inverse">Påmeldt, trykk her for å avmelde.</button>
+												<button type="submit" id="cancel_registration" name="event_id" value="{{object.id}}" class="btn inverse">Påmeldt, trykk her for å melde deg av.</button>
 											{% else %}
 												<strong>Arrangementet er ikke lenger for avmelding!</strong>
 											{% endif %}
 										{% elif is_waiting %}
-											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">I venteliste, trykk her for å avmelde.</button>
+											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">I venteliste, trykk her for å melde deg av.</button>
 										{% else %}
 											{% if user.has_membership_boolean or user.pending_membership %}
 												<button type="submit" id="register" name="event_id" value="{{object.id}}" class="btn">Meld deg på!</button>

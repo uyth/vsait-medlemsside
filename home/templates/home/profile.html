@@ -8,7 +8,9 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'home/profile.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -23,40 +25,67 @@
 				</div>
 				<div class="innhold profile">
 					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+					<a class="btn" href="/logout">Logout</a>
 					<div class="divbox nav">
 						<a href="/profile/">My profile</a>
-						<a href="/profile/settings/">Settings</a>
+						<a href="/profile/statistics/">Statistics</a>
 					</div>
 					<div id="profile" class="profile_display">
 						<div class="divbox kontaktinformasjon">
-							<h2>Contact information</h2>
-							<p class="label">Telefon</p>
-							<p>Ikke tilgjengelig</p>
+							<h2>Kontoinfo</h2>
 							<p class="label">Email</p>
 							<p>{{ user.email }}</p>
 						</div>
+						<div class="divbox membership">
+							<h2>Medlemskap</h2>
+							<p class="label">Medlemskap</p>
+							{% if user.has_membership_boolean %}
+								<p>Membership confirmed for {{ get_year }}</p>
+							{% elif user.pending_membership %}
+								<p>You currently have registered your membership, and thus added to the pending_membership group.</p>
+								<p>With a pending_membership you can register for event just as like a normal membership</p>
+								<p>Was this a mistake?</p>
+								<form action="/profile/pending_membership/" method="POST">
+									{% csrf_token %}
+									<input type="submit" value="Cancel your registration for pending_membership">
+								</form>
+							{% else %}
+								<p>You currently have not confirmed your membership for this year {{ get_year }}</p>
+								<p>Have payed but not received membership yet?</p>
+								<form action="/profile/pending_membership/" method="POST">
+									{% csrf_token %}
+									<input type="submit" value="Register for pending_membership here!">
+								</form>
+							{% endif %}
+						</div>
 						<div class="divbox brukerinformasjon">
-							<h2>User information</h2>
-							<p class="label">Date of birth</p>
+							<h2>Brukerinfo</h2>
+							<p class="label">Navn</p>
+							<p>{{ user.firstname}} {{ user.lastname }}</p>
+							<p class="label">Fødselsdag</p>
 							<p>{{ user.date_of_birth | date:'d.m.Y'}}</p>
-							<p class="label">Date joined</p>
-							<p>{{ user.date_joined | date:'d.m.Y - H:i'}}</p>
 							<p class="label">Is a student</p>
 							<p>{{ user.student}}</p>
 							<p class="label">Has membership</p>
 							<p>{{ user.has_membership}}</p>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_food_needs.as_p }}
+								<input type="submit" id="food" value="Edit food needs">
+							</form>
 						</div>
-						<div class="divbox statistikk">
-							<h2>Statistics</h2>
-							<p>You have joined {{ events_count }} events so far!</p>
-							{% for event in events %}
-							<a href="events/{{event.pk}}">
-								<div class="event">
-									<h2>{{ event.title }}</h2>
-									{{ event.startTime | date:'d.m.Y [H:i]' }} - {{ event.endTime | date:'d.m.Y [H:i]' }}
-								</div>
-							</a>
-							{% endfor %}
+						<div class="divbox password">
+							<h2>Endre passord</h2>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_password.as_p }}
+								<input type="submit" id="password" value="Edit password">
+							</form>
+							{% if messages %}
+								{% for message in messages %}
+								  <p class="{{ message.tags }}" id="alert" style="color: red;">{{ message }}</p>
+								{% endfor %}
+							{% endif %}
 						</div>
 					</div>
 				</div>

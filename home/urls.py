@@ -10,7 +10,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('signup/',views.sign_up, name="signup"),
     path('profile/',views.profile, name="profile"),
-    path('profile/settings/', views.settings, name="settings"),
+    path('profile/statistics/', views.statistics, name="statistics"),
     path('profile/pending_membership/', views.pendingMembership, name="pending_membership"),
     path('contact/',views.kontakt, name="contact"),
     path('logout/', auth_views.LogoutView.as_view(next_page = '/'), name="logout"),
