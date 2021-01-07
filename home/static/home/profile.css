@@ -103,3 +103,8 @@ div.statistikk div.event {
 div.statistikk div.event > h2 {
 	text-align: left;
 }
+div.profile form input[id="membership"],
+div.profile form input[id="password"] {
+	width: 45%;
+	margin: 10px 0;
+}

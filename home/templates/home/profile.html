@@ -42,19 +42,13 @@
 							{% if user.has_membership_boolean %}
 								<p>Membership confirmed for {{ get_year }}</p>
 							{% elif user.pending_membership %}
-								<p>You currently have registered your membership, and thus added to the pending_membership group.</p>
+								<p>You are currently registered as a pending_membership, this will be confirmed by a staff member.</p>
 								<p>With a pending_membership you can register for event just as like a normal membership</p>
-								<p>Was this a mistake?</p>
-								<form action="/profile/pending_membership/" method="POST">
-									{% csrf_token %}
-									<input type="submit" value="Cancel your registration for pending_membership">
-								</form>
 							{% else %}
-								<p>You currently have not confirmed your membership for this year {{ get_year }}</p>
-								<p>Have payed but not received membership yet?</p>
+								<p>Du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
 								<form action="/profile/pending_membership/" method="POST">
 									{% csrf_token %}
-									<input type="submit" value="Register for pending_membership here!">
+									<input type="submit" id="membership" value="Bli medlem!">
 								</form>
 							{% endif %}
 						</div>
@@ -71,7 +65,7 @@
 							<form method="POST">
 								{% csrf_token %}
 								{{ form_food_needs.as_p }}
-								<input type="submit" id="food" value="Edit food needs">
+								<input type="submit" id="food" value="Oppdater">
 							</form>
 						</div>
 						<div class="divbox password">
@@ -79,7 +73,7 @@
 							<form method="POST">
 								{% csrf_token %}
 								{{ form_password.as_p }}
-								<input type="submit" id="password" value="Edit password">
+								<input type="submit" id="password" value="Oppdater">
 							</form>
 							{% if messages %}
 								{% for message in messages %}
