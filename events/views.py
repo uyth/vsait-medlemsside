@@ -41,20 +41,24 @@ class DetailView(generic.DetailView):
 def EventRegistration(request, pk):
     event = get_object_or_404(Event, id=request.POST.get('event_id'))
     # Does nothing if event startTime has passed
+    print(event.event_type, request.user.has_membership_boolean(), request.user.pending_membership)
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
-        print(event.event_type, request.user.has_membership())
-        if event.event_type == "medlem" and not request.user.has_membership() and not request.user.pending_membership:
+        if event.event_type == "medlem" and not request.user.has_membership_boolean() and not request.user.pending_membership:
             messages.error(request, 'Membership is required to register this event!')
             pass
         elif event.registrations.filter(id=request.user.id).exists() and event.ontime_for_cancellation_deadline(): 
+            print("remove")
             event.registrations.remove(request.user) # Check if user is registered, remove if true
         elif not event.is_full() and event.ontime_for_registration_deadline():
+            print("add")
             event.registrations.add(request.user) # Check for fullness, if not full adds user to registrations
         elif event.waiting_list.filter(id=request.user.id).exists():
+            print("remove2")
             event.waiting_list.remove(request.user) # If user already in waiting list, remove
         else:
             print(event.is_full(), event.ontime_for_registration_deadline())
+            print("add2")
             event.waiting_list.add(request.user) # If user is not in waiting list nor in registration, add to waiting list
         update_waiting_list(event)
     return HttpResponseRedirect(reverse('events:detail', args=[str(pk)]))

@@ -9,7 +9,7 @@ a.old {
 div.bilde {
 	position: relative;
 	width: 100%;
-	
+
 }
 div.bilde img {
 	width: 100%;
@@ -35,10 +35,26 @@ div.flexbox > div.box2 {
 }
 div.flexbox div.info {
 	text-align: left;
-	padding: 0 20px;
+	/* padding: 0 20px; */
 }
+/* INFO */
+.flexbox.info {
+
+}
+.flexbox.info > .box1 {
+	padding: 0 20px;
+	box-sizing: border-box;
+}
+.flexbox.info > .box1 > h1,
+.flexbox.info > .box1 > p {
+	text-align: left;
+}
+
 /* OPPMØTE */
 div.oppmote {
+	text-align: left;
+	width: auto;
+	padding: 0 15px;
 }
 /* LABEL */
 p.label {
@@ -50,11 +66,67 @@ p.label + p {
 	margin-top: 5px;
 }
 /* PÅMELDING */
-div.paamelding {
+div.paamelding_info {
+	display: flex;
+	justify-content: space-around;
+	width: 90%;
+	margin: 0 auto;
 }
 div.paamelding > div.box3 {
 	display: flex;
 	justify-content: space-around;
 	width: 60%;
 	margin: 0 auto;
+}
+
+/* STAFF ONLY VIEW */
+.staffs {
+
+}
+.staffs > .box2 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.staffs > .box1 table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.staffs > .box1 table td,
+.staffs > .box1 table th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+.staffs > .box1 table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #FF6050;
+	color: white;
+}
+
+/* CHECKIN */
+.checkin {
+	width: 100%;
+	border: 1px solid lightgray;
+	margin-top: 10px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+.checkin > form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.checkin > form > label {
+	text-align: left;
+	margin-bottom: 10px;
+}
+.checkin > form > input[type="submit"] {
+	width: 100%;
+}
+.checkin > form > input#email {
+	width: 100%;
+	box-sizing: border-box;
 }

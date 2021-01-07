@@ -7,6 +7,10 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'events/detail.js' %}"></script>
+
 	</head>
 	<body>
 		<div class="wrapper">
@@ -23,7 +27,7 @@
 					<div class="bilde">
 						<img src="{{ event.image.url }}" alt="event image"></img>
 					</div>
-					<div class="flexbox">
+					<div class="flexbox info">
 						<div class="box1">
 							<h1>{{ event.title }}</h1>
 							<p><span class="label">Last edited:</span> {{ event.last_edited | date:'d.m.Y, H:i'}}</p>
@@ -33,60 +37,71 @@
 						</div>
 						<div class="box2">
 							<div class="oppmote">
-								<p class="label">Starttime</p>
+								<p class="label">Starttid</p>
 								<p>{{ event.startTime | date:'d.m.Y, H:i'}}</p>
-								<p class="label">Endtime</p>
+								<p class="label">Sluttid</p>
 								<p>{{ event.endTime | date:'d.m.Y, H:i'}}</p>
-								<p class="label">Registration deadline</p>
+								<p class="label">Påmeldingsfrist</p>
 								<p>{{ event.registrationDeadline | date:'d.m.Y, H:i'}}</p>
-								<p class="label">Cancellation deadline</p>
+								<p class="label">Avmeldingsfrist</p>
 								<p>{{ event.cancellationDeadline | date:'d.m.Y, H:i'}}</p>
-								<p class="label">Location</p>
+								<p class="label">Sted</p>
 								<p>{{ event.location }}</p>
+								<p class="label">Åpent for</p>
+								<p>{{ event.event_type }}</p>
 							</div>
 						</div>
 					</div>
 					<div class="flexbox">
-						<div>
-							<p>INFO</p>
-							<p>En liten infoboks på hver event som forklarer påmelding, avmelding, venteliste, deadline, mat</p>
-						</div>
-					</div>
-					<div class="paamelding">
-						<div class="box3">
+						<div class="box1">
 							<div>
-								<p class="label">Registered</p>
-								<p>{{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
+								<p>INFO</p>
+								<p>En liten infoboks på hver event som forklarer påmelding, avmelding, venteliste, deadline, mat</p>
 							</div>
-							{% if not event.max_people_unlimited %}
-							<div>
-								<p class="label">Waiting list</p>
-								<p>{% if is_waiting %} Currently in position {{ waiting_number }} / {% endif %}{{ event.number_of_waiting_users }}</p>
-							</div>
-							{% endif %}
 						</div>
-						{% if can_register %}
-							{% if user.is_authenticated %}
-							<form action="/events/register/{{event.pk}}" method="POST">
-								{% csrf_token %}
-								{% if is_registered %}
-									{% if can_cancel %}
-										<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">Already Registered, click again to cancel.</button>
-									{% else %}
-										<strong>No longer open for cancellation!</strong>
-									{% endif %}
-								{% elif is_waiting %}
-									<button type="submit" name="event_id" value="{{object.id}}" class="btn inverse">In waiting list, click again to cancel.</button>
-								{% else %}
-									<button type="submit" name="event_id" value="{{object.id}}" class="btn">Click to register!</button>
+						<div class="box2">
+							<div class="paamelding_info">
+								<div>
+									<p class="label">Registered</p>
+									<p>{{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
+								</div>
+								{% if not event.max_people_unlimited %}
+								<div>
+									<p class="label">Waiting list</p>
+									<p>{% if is_waiting %} Currently in position {{ waiting_number }} / {% endif %}{{ event.number_of_waiting_users }}</p>
+								</div>
 								{% endif %}
-							  </form>
-							{% else %}
-								<a class="btn" href="{% url 'home:index' %}?next={{ request.path|urlencode }}">Log in to register this event!</a><br>
-							{% endif %}
-						{% else %}
-							<strong>No longer open for registration!</strong>
-						{% endif %}
+							</div>
+							<div class="paamelding">
+								{% if can_register %}
+									{% if user.is_authenticated %}
+									<form action="/events/register/{{event.pk}}" method="POST">
+										{% csrf_token %}
+										{% if is_registered %}
+											{% if can_cancel %}
+												<button type="submit" id="cancel_registration" name="event_id" value="{{object.id}}" class="btn inverse">Påmeldt, trykk her for å avmelde.</button>
+											{% else %}
+												<strong>Arrangementet er ikke lenger for avmelding!</strong>
+											{% endif %}
+										{% elif is_waiting %}
+											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">I venteliste, trykk her for å avmelde.</button>
+										{% else %}
+											{% if user.has_membership_boolean or user.pending_membership %}
+												<button type="submit" id="register" name="event_id" value="{{object.id}}" class="btn">Meld deg på!</button>
+											{% else %}
+												<strong>Dette arrangementet er kun åpen for medlemer</strong>
+												<p>Vennligst les om og betal for medlemskap her: <a href="/info">betalingsinfo</a></p>
+											{% endif %}
+										{% endif %}
+									  </form>
+									{% else %}
+										<a class="btn" href="{% url 'home:index' %}?next={{ request.path|urlencode }}">Du må være pålogget for å melde deg på arrangementet!</a><br>
+									{% endif %}
+								{% else %}
+									<strong>Arrangementet er ikke åpent for påmelding!</strong>
+								{% endif %}
+							</div>
+						</div>
 					</div>
 					{% if messages %}
 						{% for message in messages %}
@@ -95,12 +110,14 @@
 					{% endif %}
 					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 					{% if user.is_staff %}
-						<div class="flexbox">
-							<div>
-								<p>Everything here is only visible to staffs!</p>
-								<a href="{{ event.secret_url }}/">Attendance/Check-in form (This is only visible to staffs!)</a>
+						<div class="flexbox staffs">
+							<div class="box1">
 								<div>
 									<table style="text-align: left;">
+										<tr>
+											<th>Email</th>
+											<th>Matbehov</th>
+										</tr>
 										{% for users in food_needs_information %}
 											<tr>
 												<td>{{ users.email }}</td>
@@ -108,6 +125,11 @@
 											</tr>
 										{% endfor %}
 									</table>
+								</div>
+							</div>
+							<div class="box2">
+								<div>
+									<a class="btn" href="{{ event.secret_url }}/">Attendance/Check-in form (This is only visible to staffs!)</a>
 								</div>
 							</div>
 						</div>

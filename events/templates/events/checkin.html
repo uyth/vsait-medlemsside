@@ -23,30 +23,7 @@
 					<div class="bilde">
 						<img src="{{ event.image.url }}" alt="event image"></img>
 					</div>
-					<div class="flexbox">
-						<div class="box1">
-							<h1>{{ event.title }}</h1>
-							<p><span class="label">Last edited:</span> {{ event.last_edited | date:'d.m.Y - H:i'}}</p>
-							<div class="info">
-								{{ event.description | safe }}
-							</div>
-						</div>
-						<div class="box2">
-							<div class="oppmote">
-								<p class="label">Starttime</p>
-								<p>{{ event.startTime | date:'d.m.Y - H:i'}}</p>
-								<p class="label">Endtime</p>
-								<p>{{ event.endTime | date:'d.m.Y - H:i'}}</p>
-								<p class="label">Registration deadline</p>
-								<p>{{ event.registrationDeadline | date:'d.m.Y - H:i'}}</p>
-								<p class="label">Cancellation deadline</p>
-								<p>{{ event.cancellationDeadline | date:'d.m.Y - H:i'}}</p>
-								<p class="label">Location</p>
-								<p>{{ event.location }}</p>
-							</div>
-						</div>
-					</div>
-					<div>
+					<div class="checkin">
 						<form method="POST">
 							{% csrf_token %}
 							<label for="email">Email</label>
