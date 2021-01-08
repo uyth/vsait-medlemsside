@@ -44,7 +44,8 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False) # Marks the user to be a normal user
     date_joined = models.DateTimeField(default=timezone.now)
     anonymous_display = models.BooleanField(default=True)
-    
+    alert_membership_read = models.BooleanField(default=False)
+
     # New membership
     memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True) # Manually added by staffs
     pending_membership = models.BooleanField(default=False) # Used for staff to see who has payed membership

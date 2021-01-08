@@ -20,3 +20,12 @@ div.signup_div form > input {
 	width: 100%;
 	height: 40px !important;
 }
+div.signup_div form > p.terms {
+	display: block;
+}
+div.signup_div form > p input[type='checkbox'] {
+	width: 10px;
+	height: auto !important;
+	text-align: left;
+	display: inline;
+}

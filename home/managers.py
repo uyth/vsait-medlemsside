@@ -6,7 +6,7 @@ class VsaitUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
-    def create_user(self, email,firstname,lastname,date_of_birth,password,food_needs, **extra_fields):
+    def create_user(self, email,firstname,lastname,date_of_birth,password,food_needs,student,**extra_fields):
         if not email:
             raise ValueError(_('The Email must be set'))
         # Normalize the inputs, gives inputvalidation respectively
@@ -17,6 +17,7 @@ class VsaitUserManager(BaseUserManager):
             lastname=lastname,
             date_of_birth=date_of_birth,
             food_needs=food_needs,
+            student=student,
             **extra_fields
         )
         user.set_password(password)

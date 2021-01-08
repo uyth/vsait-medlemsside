@@ -19,10 +19,18 @@ def index(request):
     context = {}
     form = LoginForm(data = request.POST)
     if request.method == "POST":
-        if form.is_valid():
-            user = form.get_user()
-            if (user):
-                login(request,user)
+        # Alert membership
+        print(request.POST)
+        if "alert_membership" in request.POST.keys():
+            request.user.alert_membership_read = True
+            request.user.save()
+            redirect("/")
+        else:
+            # Login form
+            if form.is_valid():
+                user = form.get_user()
+                if (user):
+                    login(request,user)
         # redirects back to event page if found ?next=
         referer_link = request.POST.get('next', '/')
         if (referer_link == ""): # If nothing, redirect login to homepage

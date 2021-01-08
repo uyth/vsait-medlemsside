@@ -6,6 +6,9 @@
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'home/index.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -20,6 +23,14 @@
 					<div class="logginn">
 						{% if user.is_authenticated %}
 							<h3 style="margin-bottom: 0;">Welcome back "{{ user.firstname }}"!</h3>
+							{% if not user.alert_membership_read %}
+								<form method="POST" style="display: none;">
+									{% csrf_token %}
+									{{ form_food_needs.as_p}}
+									<input type="checkbox" id="alert_membership" name="alert_membership" checked>
+									<input type="submit" id="alert_not_read" value="">
+								</form>
+							{% endif %}
 							<div>
 								<a class="btn" href="/logout">Logout</a>
 								<div class="your_events">

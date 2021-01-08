@@ -24,6 +24,9 @@
 					<form method="POST">
 						{% csrf_token %}
 						{{ form.as_p }}
+						<p class="terms">
+							<input type="checkbox" required> By creating an account, you are agreeing to the <a href="/info">Terms And Conditions</a>
+						</p>
 						<input type="submit" value="Sign up"/>
 					</form>
 				</div>
