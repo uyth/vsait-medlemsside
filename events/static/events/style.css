@@ -78,7 +78,19 @@ div.paamelding > div.box3 {
 	width: 60%;
 	margin: 0 auto;
 }
-
+/* SHOW USERS */
+table.display_users_table {
+	border-collapse: collapse;
+	width: 100%;
+}
+table.display_users_table td {
+	border: 1px solid #ddd;
+	padding: 4px;
+	font-size: .9rem;
+}
+table.display_users_table tr.confirmed {
+	background-color: rgba(255, 75, 75, 0.5);
+}
 /* STAFF ONLY VIEW */
 .staffs {
 

@@ -7,6 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'events/checkin.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper">
@@ -22,6 +25,7 @@
 				<div class="innhold">
 					<div class="bilde">
 						<img src="{{ event.image.url }}" alt="event image"></img>
+						<h1><a href="/events/{{event.id}}">Velkommen til {{ event.title }}</a></h1>
 					</div>
 					<div class="checkin">
 						<form method="POST">
@@ -30,6 +34,19 @@
 							<input type="email" id="email" name="email" required/>
 							<input type="submit" value="Register yout attendance!">
 						</form>
+						<div>
+							<p class="label">Attendance count</p>
+							<p><a class="show_people">👤</a> {{ event.number_of_attendances }} / {{ event.number_of_registrations }} innsjekket.</p>
+						</div>
+						<div style="display: none;" class="display_users">
+							<table class="display_users_table">
+								{% for user in display_users %}
+									<tr class="{{ user.confirmed | yesno:"confirmed,not" }}">
+										<td>{{ user.name }}</td>
+									</tr>
+								{% endfor %}
+							</table>
+						</div>
 						{% if messages %}
 							{% for message in messages %}
 							  <p class="{{ message.tags }}" style="color: red;">{{ message }}</p>

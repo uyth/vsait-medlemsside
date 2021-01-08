@@ -72,7 +72,7 @@ def profile(request):
     context['events_count'] = len(events)
     context['events'] = events[::-1]
     context['get_year'] = timezone.now().year
-
+    context['memberships'] = list(request.user.memberships.all())[1:]
     # Formchange password
     if request.method == 'POST':
         if ("food_needs" in list(request.POST.keys())):

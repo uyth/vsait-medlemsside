@@ -56,13 +56,26 @@
 							<div>
 								<p>INFO</p>
 								<p>En liten infoboks på hver event som forklarer påmelding, avmelding, venteliste, deadline, mat</p>
+								<div style="display: none;" class="display_users">
+									<table class="display_users_table">
+										{% for user in display_users %}
+											<tr>
+												{% if user.anonymous %}
+													<td>{{ user.display }}</td>
+												{% else %}
+													<td>{{ user.name }}</td>
+												{% endif %}
+											</tr>
+										{% endfor %}
+									</table>
+								</div>
 							</div>
 						</div>
 						<div class="box2">
 							<div class="paamelding_info">
 								<div>
 									<p class="label">Registered</p>
-									<p>{{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
+									<p><a class="show_people">👤</a> {{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
 								</div>
 								{% if not event.max_people_unlimited %}
 								<div>

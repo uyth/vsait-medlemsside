@@ -43,10 +43,11 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     # The tags below will be hidden on user registration
     is_staff = models.BooleanField(default=False) # Marks the user to be a normal user
     date_joined = models.DateTimeField(default=timezone.now)
+    anonymous_display = models.BooleanField(default=True)
     
     # New membership
-    memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True)
-    pending_membership = models.BooleanField(default=False) # Used to temporary assign own memberships
+    memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True) # Manually added by staffs
+    pending_membership = models.BooleanField(default=False) # Used for staff to see who has payed membership
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['firstname','lastname','date_of_birth','password']

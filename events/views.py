@@ -28,12 +28,22 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         event = get_object_or_404(Event, id=self.kwargs['pk'])
+        # User information
         data["is_registered"] = event.registrations.filter(id=self.request.user.id).exists()
         data["is_waiting"] = event.waiting_list.filter(id=self.request.user.id).exists()
         if data['is_waiting']:
             data['waiting_number'] = [x.email for x in event.waiting_list.all()].index(self.request.user.email)+1
         data["can_register"] = event.ontime_for_registration_deadline()
         data["can_cancel"] = event.ontime_for_cancellation_deadline()
+        # Display users
+        information = [{'name':x.firstname+" "+x.lastname, 'email':x.email,'anonymous':x.anonymous_display, 'display':""} for x in event.registrations.all()]
+        for user in information:
+            if user.get("anonymous"):
+                user.update({"display":"Anonymous"})
+            else:
+                user.update({"display":user.get("name")+" ; "+user.get("email")})
+        data["display_users"] = information
+        # Staffs information
         food_needs_information = [{'email':x.email, 'food_needs':x.food_needs} for x in event.registrations.all()]
         data["food_needs_information"] = food_needs_information
         return data
@@ -82,6 +92,20 @@ def CheckIn(request, pk, secret_url):
             messages.error(request, "Email received wasn't found in registrations")
     if event.secret_url != secret_url:
         raise Http404("No url matches the given query.")
+    # Display users
+    attendances = [{'name':x.firstname+" "+x.lastname, 'email':x.email} for x in event.attendance.all()]
+    attendances_email = [x['email'] for x in attendances]
+    registrations = [{'name':x.firstname+" "+x.lastname, 'email':x.email} for x in event.registrations.all()]
+    attended = []
+    registered = []
+    for user in registrations:
+        if user.get('email') in attendances_email:
+            user.update({"confirmed": True})
+            attended.append(user)
+        else:
+            user.update({"confirmed": False})
+            registered.append(user)
+    context["display_users"] = attended + registered
     context['event'] = event
     return render(request,'events/checkin.html',context)
 

@@ -43,6 +43,8 @@ class Event(models.Model):
         return self.registrations.count()
     def number_of_waiting_users(self):
         return self.waiting_list.count()
+    def number_of_attendances(self):
+        return self.attendance.count()
     def display_max_people(self):
         return self.max_people if self.max_people > 0 else "∞"
     def max_people_unlimited(self):

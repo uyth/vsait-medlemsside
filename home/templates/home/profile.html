@@ -35,6 +35,11 @@
 							<h2>Kontoinfo</h2>
 							<p class="label">Email</p>
 							<p>{{ user.email }}</p>
+							<form method="POST">
+								{% csrf_token %}
+								{{ form_food_needs.as_p }}
+								<input type="submit" id="food" value="Oppdater">
+							</form>
 						</div>
 						<div class="divbox membership">
 							<h2>Medlemskap</h2>
@@ -50,6 +55,12 @@
 									{% csrf_token %}
 									<input type="submit" id="membership" value="Bli medlem!">
 								</form>
+							{% endif %}
+							{% if memberships %}
+							<p class="label">Tidligere medlemskap</p>
+								{% for membership in memberships %}
+									<p>{{ membership.year }}</p>
+								{% endfor %}
 							{% endif %}
 						</div>
 						<div class="divbox brukerinformasjon">
