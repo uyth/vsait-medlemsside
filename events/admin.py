@@ -14,14 +14,16 @@ class EventAdmin(admin.ModelAdmin):
     fieldsets = (
         (None,               {'fields': ['title','description','image','location','max_people','event_type']}),
         ('Date information', {'fields': ['startTime','endTime','registrationDeadline','cancellationDeadline',]}),
-        ('Registration information', {'fields': ['registrations','waiting_list'], 'classes': ['collapse']}),
+        ('Registration information', {'fields': ['registrations'], 'classes': ['collapse']}),
+        ('Waiting list information', {'fields': ['waiting_list'], 'classes': ['collapse']}),
         ('Checkin/attendance information', {'fields': ['secret_url','attendance'], 'classes': ['collapse']}),
         (None,               {'fields': ['is_draft','draft_publish_time']}),
     )
     add_fieldsets = (
         (None,               {'fields': ['title','description','image','location','max_people','event_type']}),
         ('Date information', {'fields': ['startTime','endTime','registrationDeadline','cancellationDeadline',]}),
-        ('Registration information', {'fields': ['registrations','waiting_list'], 'classes': ['collapse']}),
+        ('Registration information', {'fields': ['registrations'], 'classes': ['collapse']}),
+        ('Waiting list information', {'fields': ['waiting_list'], 'classes': ['collapse']}),
         ('Checkin/attendance information', {'fields': ['secret_url','attendance'], 'classes': ['collapse']}),
         (None,               {'fields': ['is_draft','draft_publish_time']}),
     )

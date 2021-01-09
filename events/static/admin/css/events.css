@@ -2,26 +2,30 @@ div.event_registrations_table {
 	display: flex;
 	flex-direction: column;
 }
-
 table.event_registrations_table {
 	border-collapse: collapse;
 	width: 100%;
 }
-
 table.event_registrations_table td, table.event_registrations_table th {
 	border: 1px solid #ddd;
 } 
-
 table.event_registrations_table tr:nth-child(even) {
 	background-color: #eee;
 }
-
 table.event_registrations_table tr {
 	cursor: pointer;
 }
 table.event_registrations_table tr.header_row {
-	background-color: #eee;
+	background-color: #79aec8;
 }
 table.event_registrations_table tr.toggleOn {
 	background-color: rgba(255, 0, 0, 0.4);
+}
+.addlink {
+	margin-bottom: 5px;
+}
+.tableWrapper {
+	display: block;
+	max-height: 350px;
+	overflow-y: auto;
 }

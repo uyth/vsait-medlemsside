@@ -1,5 +1,6 @@
 html {
 	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 html, body, div, header, main, footer {
 	position: relative;
@@ -250,6 +251,11 @@ footer img {
 /* HEADER */
 input.mbAnchor {
 	display: none;
+}
+/* SWAL FIX */
+body.swal2-shown {
+	overflow-x: hidden;
+	width: 100%;
 }
 /* TABLET */
 @media screen and (max-width: 970px) {
