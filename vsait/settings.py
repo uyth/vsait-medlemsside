@@ -21,7 +21,16 @@ MEDIA_URL = "/media/"
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_g#g&e9c)2r+a7w6#a*1!@(30iv!qv-*vh1lc_mx&^4atoy$)w'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+with open('/home/juki/vsait_secret.txt') as f:
+    secret = [x.strip() for x in f.readlines()]
+    SECRET_KEY = secret[0]
+    EMAIL_HOST_USER = secret[1]
+    EMAIL_HOST_PASSWORD = secret[2]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

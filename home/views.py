@@ -4,15 +4,19 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views import generic
+from django.conf import settings 
+from django.core.mail import send_mail 
 
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.sites.shortcuts import get_current_site
 
-from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm, VsaitUserIsStudent
+from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm, VsaitUserIsStudent, ResetPasswordForm
 from events.models import Event
 from home.models import VsaitUser
+import uuid
 
 # @login_required
 def index(request):
@@ -30,7 +34,10 @@ def index(request):
             if form.is_valid():
                 user = form.get_user()
                 if (user):
-                    login(request,user)
+                    if (user.email_confirmed):
+                        login(request,user)
+                    else:
+                        messages.error(request, 'Please confirm email before loggin in!')
         # redirects back to event page if found ?next=
         referer_link = request.POST.get('next', '/')
         if (referer_link == ""): # If nothing, redirect login to homepage
@@ -56,15 +63,23 @@ def index(request):
     return render(request, 'home/index.html',context)
 
 def sign_up(request):
-    context = {}
     if request.user.is_authenticated:
             return redirect('/')
+    context = {}
     form = VsaitUserRegistrationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             user = form.save()
-            login(request,user)
-            return redirect('/')
+            # login(request,user)
+            messages.success(request, 'Your account was successfully created!')
+            # Mail
+            current_site = get_current_site(request)
+            subject = 'Welcome to VSAIT'
+            message = f'Hi {user.firstname}, thank you for registering as a VSAIT user.\nPlease click on the link to confirm your email: http://{current_site}/activate/{user.secret_email_confirmation_url}'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [user.email, ] 
+            send_mail( subject, message, email_from, recipient_list )
+            # return redirect('/')
     context['form'] = form
     return render(request,'home/signup.html',context)
 
@@ -94,7 +109,6 @@ def profile(request):
             form_is_student = VsaitUserIsStudent(request.POST, user=request.user)
             is_student = form_is_student.data.get("is_student")
             is_student = True if is_student else False
-            print(1111111,is_student)
             request.user.student = is_student
             request.user.save()
             return HttpResponseRedirect(reverse('home:profile'))
@@ -161,3 +175,52 @@ def kontakt(request):
     #context['user'] = request.user
     #print(VsaitUser.objects.all().values())
     return render(request,'home/contact.html',context)
+
+def activate(request, secret_url):
+    if request.user.is_authenticated:
+            return redirect('/')
+    context = {}
+    user = get_object_or_404(VsaitUser, secret_email_confirmation_url=secret_url)
+    user.secret_email_confirmation_url = uuid.uuid4().hex
+    user.email_confirmed = True
+    user.save()
+    #login(request,user)
+    #return redirect('/')
+    return render(request, 'home/activate.html',context)
+
+def forgot_password(request):
+    if request.user.is_authenticated:
+            return redirect('/')
+    context = {}
+    if request.method == "POST":
+        if "email" in request.POST.keys():
+            user = get_object_or_404(VsaitUser, email=request.POST.get("email"))
+            user.secret_password_change_url = uuid.uuid4().hex
+            user.save()
+            # Mail
+            subject = '[VSAIT] Reset your password'
+            current_site = get_current_site(request)
+            message = f'Hi {user.firstname}, you have registered that your password was forgotten.\nPlease click on the link to change your password: http://{current_site}/reset_password/{user.secret_password_change_url}'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [user.email, ] 
+            send_mail( subject, message, email_from, recipient_list )
+    return render(request, 'home/forgot_password.html',context)
+
+def reset_password(request, secret_url):
+    if request.user.is_authenticated:
+            return redirect('/')
+    context = {}
+    user = get_object_or_404(VsaitUser, secret_password_change_url=secret_url)
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            password = form.data.get("password")
+            password_confirmation = form.data.get("password_confirmation")
+            if password == password_confirmation:
+                user.set_password(password)
+                user.secret_password_change_url = uuid.uuid4().hex
+                user.save()
+                return render(request, 'home/reset_password_success.html')
+    form = ResetPasswordForm(request.POST)
+    context["form"] = form
+    return render(request, 'home/reset_password.html', context)

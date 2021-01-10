@@ -21,6 +21,11 @@
 						<h1>Vietnamese Student Association</h1>
 					</div>
 					<div class="logginn">
+						{% if messages %}
+							{% for message in messages %}
+							  <p class="messages {{ message.tags }}" style="display: none;">{{ message }}</p>
+							{% endfor %}
+						{% endif %}
 						{% if user.is_authenticated %}
 							<h3 style="margin-bottom: 0;">Welcome back "{{ user.firstname }}"!</h3>
 							{% if not user.alert_membership_read %}
@@ -69,6 +74,7 @@
 								<input type="hidden" name="next" value="{{ request.GET.next }}">
 								<input type="submit" value="Logg inn">
 								<a class="btn inverse" href="/signup">Register</a>
+								<a href="/forgot_password"style="display: block;">Forgot password?</a>
 							</form>
 						{% endif %}
 					</div>

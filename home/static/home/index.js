@@ -1,5 +1,23 @@
 $(document).ready(() => {
 	console.log('index.js loaded');
+	membership_alert();
+	confirmEmail_alert();
+});
+const confirmEmail_alert = function() {
+	const alert = $("p.error").get(0);
+	if (alert) {
+		Swal.fire({
+			title: "Du må aktivere brukeren først!",
+			html: "Du har tidligere fått sent mail om å aktivere brukeren.<br/>Har ikke fått noe mail?<br/><a href='javascript:void(0)'>Trykk her for å sende på nytt.</a>",
+			icon: "error",
+			showCancelButton: false,
+			confirmButtonColor: '#3085d6',
+			confirmButtonText: "OK.",
+		});
+	}
+}
+
+const membership_alert = function() {
 	const alert = $("#alert_not_read").get(0);
 	if (alert) {
 		const form = $($(alert).parents('form').get(0));
@@ -39,4 +57,4 @@ $(document).ready(() => {
 			})
 		},500);
 	}
-});
+}

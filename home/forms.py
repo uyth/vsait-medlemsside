@@ -13,8 +13,8 @@ class VsaitUserRegistrationForm(forms.ModelForm):
     lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Lastname*'}))
     email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-100)+'-01-01','max':str(timezone.now().year-18)+'-01-01'}))
-    password = forms.CharField(min_length = 8, max_length=100, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
-    password_confirmation = forms.CharField(min_length = 8, max_length=100, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
     food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'If any allergies, write them down here.'}), required=False)
     student = forms.BooleanField(required=False)
     class Meta:
@@ -63,9 +63,9 @@ class VsaitUserRegistrationForm(forms.ModelForm):
 
 # Edit form
 class VsaitUserChangeForm(UserChangeForm):
-    firstname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
-    lastname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
-    email = forms.EmailField(max_length=120, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
+    firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
+    lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
+    email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
     # Might be changing this under
     new_password = ReadOnlyPasswordHashField(label=("Password"),help_text=("Raw passwords are not stored, so there is no way to see "
@@ -100,13 +100,13 @@ class VsaitUserChangeForm(UserChangeForm):
 
 # Profile
 class VsaitUserProfileChangeForm(UserChangeForm):
-    firstname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
-    lastname = forms.CharField(max_length=50, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
-    email = forms.EmailField(max_length=120, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
+    firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
+    lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
+    email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
     # Might be changing this under
-    password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
-    password_confirmation = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
     
     class Meta:
         model = VsaitUser
@@ -123,7 +123,7 @@ class VsaitUserProfileChangeForm(UserChangeForm):
 
 # Profile food_needs form change
 class VsaitUserFoodNeedsChangeForm(forms.Form):
-    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Food needs*'}))
+    food_needs = forms.CharField(max_length=512, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Food needs*'}))
     class Meta:
         model = VsaitUser
         fields = ('food_needs',)
@@ -146,12 +146,28 @@ class VsaitUserIsStudent(forms.Form):
         kwargs.update(initial={'is_student': self.user.student}) # Updates the student
         super(VsaitUserIsStudent, self).__init__(*args, **kwargs)
 
+# Reset password form
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    class Meta:
+        model = VsaitUser
+        fields = ('password',)
+
+    def clean_password_confirmation(self):
+        password1 = self.cleaned_data['password']
+        password2 = self.cleaned_data['password_confirmation']
+
+        if (password1 and password2) and (password1 != password2):
+            raise ValidationError('Passwords do not match.')
+        return password2
+
 # The login form shown on the homepage/index
 class LoginForm(AuthenticationForm):
     # Quickfix: Since the parameter username has to be sent, username here is hidden
     username = forms.CharField(max_length=5, widget=forms.widgets.TextInput(attrs={'class': 'this_does_nothing','value':'VSAIT','hidden':True}))
-    email = forms.CharField(max_length=20, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email'}))
-    password = forms.CharField(max_length=32, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password'}))
+    email = forms.CharField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email'}))
+    password = forms.CharField(max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password'}))
 
     def clean(self):
         email = self.cleaned_data.get('email')

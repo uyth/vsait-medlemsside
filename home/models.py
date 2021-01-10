@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 import datetime
+import uuid
 
 from .managers import VsaitUserManager
 
@@ -45,6 +46,10 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     anonymous_display = models.BooleanField(default=True)
     alert_membership_read = models.BooleanField(default=False)
+    # Email confirmation and password change urls
+    email_confirmed = models.BooleanField(default=False)
+    secret_email_confirmation_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
+    secret_password_change_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
 
     # New membership
     memberships = models.ManyToManyField(Membership, related_name='memberships', blank=True) # Manually added by staffs
