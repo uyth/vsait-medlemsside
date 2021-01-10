@@ -16,12 +16,8 @@
 				{% include 'home/header.html' %} 
 			{% endblock header %}
 			<main>
-				<div class="splash">
-					<div>
-						<h1>Vietnamese Student Association</h1>
-					</div>
-				</div>
-				<div class="innhold profile">
+				<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
+				<div class="innhold profile" style="transform: translateY(110px);margin-bottom: 180px;">
 					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
 					<div class="divbox nav">
 						<a href="/profile/">My profile</a>

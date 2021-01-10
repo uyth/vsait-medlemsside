@@ -45,13 +45,13 @@ def add_membership(modeladmin, request, queryset):
     membership = Membership.objects.filter(year=timezone.now().year).get()
     for users in queryset:
         users.memberships.add(membership);
-add_membership.short_description = "Confirm that selected users has payed for memberships"
+add_membership.short_description = "Confirm that selected users have payed for memberships"
 
 def cancel_membership(modeladmin, request, queryset):
     membership = Membership.objects.filter(year=timezone.now().year).get()
     for users in queryset:
         users.memberships.remove(membership);
-cancel_membership.short_description = "Cancel selected users has membership status"
+cancel_membership.short_description = "Cancel selected users membership status"
 
 # https://django.readthedocs.io/en/stable/ref/contrib/admin/actions.html
 # Implements the UserAdmin

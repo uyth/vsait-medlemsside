@@ -9,12 +9,12 @@ from .models import VsaitUser
 
 # Registration form
 class VsaitUserRegistrationForm(forms.ModelForm):
-    firstname = forms.CharField(max_length=20, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Firstname*'}))
-    lastname = forms.CharField(max_length=20, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Lastname*'}))
-    email = forms.EmailField(max_length=20, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
+    firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Firstname*'}))
+    lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Lastname*'}))
+    email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-100)+'-01-01','max':str(timezone.now().year-18)+'-01-01'}))
-    password = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
-    password_confirmation = forms.CharField(min_length = 8, max_length=50, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
+    password = forms.CharField(min_length = 8, max_length=100, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=100, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
     food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'If any allergies, write them down here.'}), required=False)
     student = forms.BooleanField(required=False)
     class Meta:
@@ -132,6 +132,19 @@ class VsaitUserFoodNeedsChangeForm(forms.Form):
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
         kwargs.update(initial={'food_needs': self.user.food_needs}) # Updates the food_needs
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
+
+# Profile is_student
+class VsaitUserIsStudent(forms.Form):
+    is_student = forms.BooleanField(required=False)
+    class Meta:
+        model = VsaitUser
+        fields = ('student',)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(VsaitUserIsStudent, self).__init__(*args, **kwargs)
+        kwargs.update(initial={'is_student': self.user.student}) # Updates the student
+        super(VsaitUserIsStudent, self).__init__(*args, **kwargs)
 
 # The login form shown on the homepage/index
 class LoginForm(AuthenticationForm):

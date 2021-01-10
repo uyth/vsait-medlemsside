@@ -73,5 +73,7 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
     def date_joined_display(self):
         return self.date_joined.strftime("%d.%b %Y")
     date_of_birth_display.admin_order_field = 'date_of_birth'
+    date_of_birth_display.short_description = 'birthday'
     date_joined_display.admin_order_field = 'date_joined'
-    #has_membership.boolean = True
+    date_joined_display.short_description = 'joined'
+    has_membership.short_description = "membership"

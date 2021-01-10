@@ -5,7 +5,7 @@ from .forms import EventForm, EventChangeForm
 class EventAdmin(admin.ModelAdmin):
     add_form = EventForm # Add new user form
     form = EventChangeForm # Edit user form
-    list_display = ('title', 'startTime', 'endTime', 'last_edited', 'is_upcoming','is_draft')
+    list_display = ('title', 'startTime_display', 'endTime_display', 'last_edited_display', 'is_upcoming','is_ongoing','is_draft')
     list_filter = ['last_edited','startTime','is_draft']
     search_fields = ('title',)
     ordering = ('startTime',)

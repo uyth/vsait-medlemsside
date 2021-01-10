@@ -11,10 +11,7 @@ TYPE_CHOICES = [
 ]
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    # description = models.CharField(max_length=200)
     description = HTMLField()
-    # image_link = models.CharField(max_length=200)
-    # image = models.ImageField()
     image = models.ImageField(upload_to='event_uploads', default='default_event_image.jpg')
 
     startTime = models.DateTimeField('startTime')
@@ -62,7 +59,23 @@ class Event(models.Model):
         return self.max_people > 0 and self.registrations.count() >= self.max_people
     def has_waiting_users(self):
         return self.waiting_list.count() > 0
-    is_upcoming.admin_order_field = 'upcoming'
+    # Admin display
+    def last_edited_display(self):
+        return self.last_edited.strftime("%d.%b %y, %H:%M")
+    def startTime_display(self):
+        return self.endTime.strftime("%d.%b %Y, %H:%M")
+    def endTime_display(self):
+        return self.endTime.strftime("%d.%b %Y, %H:%M")
+    last_edited_display.short_description = "last edited"
+    last_edited_display.admin_order_field= "last_edited"
+    startTime_display.short_description = "start time"
+    startTime_display.admin_order_field = "startTime"
+    endTime.short_description = "start time"
+    endTime.admin_order_field = "endTime"
+
+    is_upcoming.admin_order_field = 'startTime'
+    is_upcoming.short_description = 'upcoming'
     is_upcoming.boolean = True
-    is_upcoming.short_description = 'Upcoming events'
+    is_ongoing.short_description = 'ongoing'
+    is_ongoing.boolean = True
 

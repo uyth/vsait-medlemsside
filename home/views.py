@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
-from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm
+from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm, VsaitUserIsStudent
 from events.models import Event
 from home.models import VsaitUser
 
@@ -81,14 +81,23 @@ def profile(request):
     context['events'] = events[::-1]
     context['get_year'] = timezone.now().year
     context['memberships'] = list(request.user.memberships.all())[1:]
+    context['form_is_student'] = VsaitUserIsStudent(user=request.user)
     # Formchange password
     if request.method == 'POST':
-        if ("food_needs" in list(request.POST.keys())):
+        if "food_needs" in list(request.POST.keys()):
             form_food_needs = VsaitUserFoodNeedsChangeForm(request.POST, user=request.user)
             food_needs = form_food_needs.data.get("food_needs")
             request.user.food_needs = food_needs
             request.user.save()
-            # print(request.user.food_needs)
+            return HttpResponseRedirect(reverse('home:profile'))
+        elif "is_student_2" in list(request.POST.keys()):
+            form_is_student = VsaitUserIsStudent(request.POST, user=request.user)
+            is_student = form_is_student.data.get("is_student")
+            is_student = True if is_student else False
+            print(1111111,is_student)
+            request.user.student = is_student
+            request.user.save()
+            return HttpResponseRedirect(reverse('home:profile'))
         else:
             form_password = PasswordChangeForm(request.user, request.POST)
             print(form_password.is_valid())
