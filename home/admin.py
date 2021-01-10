@@ -67,10 +67,14 @@ class VsaitUserAdmin(UserAdmin):
     list_display = ['firstname','lastname','email','date_of_birth_display','date_joined_display','student','has_membership','is_staff']
     list_filter = ('student',MembershipFilter,'is_staff')
     # Fieldset for the user forms
+    #email_confirmed = models.BooleanField(default=False)
+    #secret_email_confirmation_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
+    #secret_password_change_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
     fieldsets = (
         (None, {'fields': ('email', 'new_password')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
         ('Membership Information', {'fields': ('memberships','pending_membership')}),
+        ('Email confirmation', {'fields': ['email_confirmed',], 'classes': ['collapse']}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (

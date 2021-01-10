@@ -47,6 +47,7 @@ def index(request):
     context["events"] = Event.objects.filter(endTime__gte=timezone.now()).order_by('-startTime')[::-1]
     context["pending_events"] = []
     context["attending_events"] = []
+    context['get_year'] = str((timezone.now().year)-1)+" / "+str(timezone.now().year)
     # Filters out draft event, updates draft event if it's time for publish date
     for event in context["events"]:
         if event.is_draft:

@@ -15,9 +15,9 @@
 			{% block header %}
 				{% include 'home/header.html' %} 
 			{% endblock header %}
+			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
-				<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
-				<div class="innhold profile" style="transform: translateY(110px);margin-bottom: 180px;">
+				<div class="innhold profile" style="transform: translateY(0);margin-bottom: 180px;">
 					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
 					<div class="divbox nav">
 						<a href="/profile/">My profile</a>
@@ -37,6 +37,7 @@
 							{% endfor %}
 						</div>
 					</div>
+					<a class="btn" href="/logout">Logout</a>
 				</div>
 			</main>
 			{% block footer %}

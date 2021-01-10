@@ -11,13 +11,15 @@
 		<script type="text/javascript" src="{% static 'home/index.js' %}"></script>
 	</head>
 	<body>
-		<div class="wrapper index">
+		<div class="wrapper">
 			{% block header %}
 				{% include 'home/header.html' %} 
 			{% endblock header %}
-			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
 				<div class="splash">
+					<div>
+						<h1>Vietnamese Student Association</h1>
+					</div>
 					<div class="logginn">
 						{% if messages %}
 							{% for message in messages %}
@@ -36,6 +38,31 @@
 							{% endif %}
 							<div>
 								<a class="btn" href="/logout">Logout</a>
+								<div class="your_events">
+									{% if attending_events or pending_events %}
+										{% if attending_events %}
+											<h3>Attending events</h3>
+											{% for event in attending_events %}
+											<a href="events/{{event.pk}}">
+												<p>{{ event.title }}</p>
+												<p>{{ event.startTime | date:'l d.m.Y' }}</p>
+											</a>
+											{% endfor %}
+										{% endif %}
+
+										{% if pending_events %}
+											<h3>Pending events</h3>
+											{% for event in pending_events %}
+											<a href="events/{{event.pk}}">
+												<p>{{ event.title }}</p>
+												<p>{{ event.startTime | date:'l d.m.Y' }}</p>
+											</a>
+											{% endfor %}
+										{% endif %}
+									{% else %}
+										<p>Nothing interesting to show in your feed...</p>
+									{% endif %}
+								</div>
 							</div>
 						{% else %}
 							<h3>Logg inn:</h3>
@@ -44,62 +71,15 @@
 								{{ form.username }}
 								{{ form.email }}
 								{{ form.password }}
-								<a href="/forgot_password"style="text-align: left;">Forgot password?</a>
 								<input type="hidden" name="next" value="{{ request.GET.next }}">
 								<input type="submit" value="Logg inn">
 								<a class="btn inverse" href="/signup">Register</a>
+								<a href="/forgot_password"style="display: block;">Forgot password?</a>
 							</form>
 						{% endif %}
 					</div>
-					<div class="status_box">
-						<h3>Status:</h3>
-						<div>
-							<div class="your_events">
-							{% if user.is_authenticated %}
-								{% if user.has_membership_boolean %}
-									<p>Membership confirmed for {{ get_year }}</p>
-								{% elif user.pending_membership %}
-									<p>You are currently registered as a pending_membership, this will be confirmed by a staff member.</p>
-									<p>With a pending_membership you can register for event just as like a normal membership</p>
-								{% else %}
-									<p>Du er ikke medlem av VSAIT for skoleåret {{ get_year }}</p>
-									<a href="/profile">Fiks deg medlemskap i profilen din!</a>
-								{% endif %}
-							{% endif %}
-							</div>
-						</div>
-					</div>
-					<div class="events_box">
-						<h3>Påmeldinger:</h3>
-						<div>
-							<div class="your_events">
-								{% if attending_events or pending_events %}
-									{% if attending_events %}
-										<h3>Attending events</h3>
-										{% for event in attending_events %}
-										<a href="events/{{event.pk}}">
-											<p>{{ event.title }}</p>
-											<p>{{ event.startTime | date:'l d.m.Y' }}</p>
-										</a>
-										{% endfor %}
-									{% endif %}
-
-									{% if pending_events %}
-										<h3>Pending events</h3>
-										{% for event in pending_events %}
-										<a href="events/{{event.pk}}">
-											<p>{{ event.title }}</p>
-											<p>{{ event.startTime | date:'l d.m.Y' }}</p>
-										</a>
-										{% endfor %}
-									{% endif %}
-								{% else %}
-									<p>Nothing interesting to show in your feed...</p>
-								{% endif %}
-							</div>
-						</div>
-					</div>
 				</div>
+				<div class="sectionSplit"></div>
 				<div class="innhold">
 					<h1>Kommende arrangementer</h1>
 					<div class="events">
