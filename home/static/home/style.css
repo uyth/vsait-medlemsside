@@ -12,6 +12,11 @@ a, button, nav img {
 	cursor: pointer;
 	text-decoration: none;
 }
+a > #logo {
+	width: 70px;
+	border-radius: 50%;
+	transform: translateY(10px);
+}
 div.wrapper {
 	position: relative;
 }
