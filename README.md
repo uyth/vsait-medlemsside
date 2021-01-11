@@ -1,6 +1,3 @@
-<a href="https://github.com/uyth/vsait-medlemsside/" style="display: block; text-align: center;">
-	<img src="https://www.dropbox.com/s/vky46m2jstk1hzd/VSAiT-Profile-Flower.svg?raw=1" alt="Logo" style="width: 250px; border-radius: 50%;">
-</a>
 <h1 align="center">VSAIT medlemsside</h1>
 
 ## Table of contents
