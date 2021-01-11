@@ -172,6 +172,10 @@ def pendingMembership(request):
     request.user.save()
     return HttpResponseRedirect(reverse('home:profile'))
 
+def info(request):
+    context = {}
+    return render(request,'home/info.html',context)
+
 def kontakt(request):
     context = {}
     #context['user'] = request.user

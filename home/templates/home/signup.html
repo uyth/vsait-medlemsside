@@ -19,12 +19,13 @@
 			{% endblock header %}
 			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
-				<div class="innhold" style="transform: translateY(0);margin-bottom: 180px;">
+				<div class="innhold signup_div" style="transform: translateY(0);margin-bottom: 180px;">
 					<form method="POST">
 						{% csrf_token %}
 						{{ form.as_p }}
 						<p class="terms">
-							<input type="checkbox" id="terms" name="terms" required> By creating an account, you are agreeing to the <a href="/info">Terms And Conditions</a>
+							<input type="checkbox" id="terms" name="terms" required>
+							<label for="terms">By creating an account, you are agreeing to the <a href="/info">Terms And Conditions</a></label>
 						</p>
 						<input type="submit" value="Sign up"/>
 					</form>

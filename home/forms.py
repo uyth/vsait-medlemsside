@@ -15,11 +15,18 @@ class VsaitUserRegistrationForm(forms.ModelForm):
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-100)+'-01-01','max':str(timezone.now().year-18)+'-01-01'}))
     password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
     password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
-    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'If any allergies, write them down here.'}), required=False)
+    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'if you have any food allergies or diets, let us know.'}), required=False)
     student = forms.BooleanField(required=False)
     class Meta:
         model = VsaitUser
         fields = ('firstname','lastname','email','date_of_birth','password','password_confirmation','food_needs','student')
+        
+    def __init__(self, *args, **kwargs):
+        super(VsaitUserRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['firstname'].label = 'First name'
+        self.fields['lastname'].label = 'Last name'
+        self.fields['password_confirmation'].label = 'Confirm password'
+        self.fields['food_needs'].label = 'Food allergies / diets'
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()

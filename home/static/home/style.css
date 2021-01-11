@@ -135,9 +135,14 @@ div.wrapper.index .logginn > form > input[type='submit']{
 div.wrapper.index .logginn > form > a.btn {
 	margin-bottom: 20px;
 }
+div.wrapper.index .splash form > h3 {
+	padding-left: 0;
+}
 div.wrapper.index .splash h3 {
 	text-align: left;
-	padding-left: 25px;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .splash {
@@ -396,7 +401,7 @@ body.swal2-shown {
 	nav > div > a {
 		color: red;
 	}
-	/* Display view */
+	/* Index view */
 	div.wrapper.index main {
 		flex-direction: column-reverse;
 	}
@@ -408,5 +413,10 @@ body.swal2-shown {
 	}
 	div.wrapper.index main .innhold {
 		margin-top: 30px;
+	}
+	/* no auth */
+	div.wrapper.index main div.innhold.no_auth {
+		transform: translateY(-210px);
+		margin-bottom: -210px;
 	}
 }

@@ -32,7 +32,8 @@ class EventAdmin(admin.ModelAdmin):
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
-            del actions['delete_selected']
+            #del actions['delete_selected']
+            pass
         return actions
 
     def get_form(self, request, obj=None, **kwargs):
