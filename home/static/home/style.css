@@ -88,6 +88,7 @@ div.wrapper.index .innhold {
 	transform: translateY(0);
 	width: 67%;
 	padding: 5px;
+	box-sizing: border-box;
 }
 div.wrapper.index .status_box,
 div.wrapper.index .events_box {
@@ -324,6 +325,13 @@ body.swal2-shown {
 	overflow-x: hidden;
 	width: 100%;
 }
+
+/* MOBILE */
+@media screen and (max-width: 650px) {
+	.events div.event {
+		height: 200px;
+	}
+}
 /* TABLET */
 @media screen and (max-width: 970px) {
 	label.burger {
@@ -382,5 +390,18 @@ body.swal2-shown {
 	}
 	nav > div > a {
 		color: red;
+	}
+	/* Display view */
+	div.wrapper.index main {
+		flex-direction: column-reverse;
+	}
+	div.wrapper.index main .splash,
+	div.wrapper.index main .splash > div,
+	div.wrapper.index main .innhold {
+		width: 100%;
+		max-width: 100%;
+	}
+	div.wrapper.index main .innhold {
+		margin-top: 30px;
 	}
 }

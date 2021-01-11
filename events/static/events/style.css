@@ -142,3 +142,20 @@ table.display_users_table tr.confirmed {
 	width: 100%;
 	box-sizing: border-box;
 }
+
+/* MOBILE */
+@media screen and (max-width: 650px) {
+	div.flexbox {
+		flex-direction: column;
+	}
+	div.flexbox > div.box1,
+	div.flexbox > div.box2 {
+		width: 100%;
+		margin: 5px 0;
+		box-sizing: border-box;
+	}
+}
+/* TABLET */
+@media screen and (max-width: 970px) {
+
+}
