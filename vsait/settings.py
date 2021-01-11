@@ -22,9 +22,9 @@ MEDIA_URL = "/media/"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+EMAIL_HOST = 'send.one.com'
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
 
 with open('/home/juki/vsait_secret.txt') as f:
     secret = [x.strip() for x in f.readlines()]

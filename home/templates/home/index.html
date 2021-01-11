@@ -51,6 +51,7 @@
 							</form>
 						{% endif %}
 					</div>
+					{% if user.is_authenticated %}
 					<div class="status_box">
 						<h3>Status:</h3>
 						<div>
@@ -99,6 +100,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 				</div>
 				<div class="innhold">
 					<h1>Kommende arrangementer</h1>

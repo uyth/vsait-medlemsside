@@ -71,8 +71,6 @@ def sign_up(request):
     if request.method == "POST":
         if form.is_valid():
             user = form.save()
-            # login(request,user)
-            messages.success(request, 'Your account was successfully created!')
             # Mail
             current_site = get_current_site(request)
             subject = 'Welcome to VSAIT'
@@ -80,6 +78,9 @@ def sign_up(request):
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ] 
             send_mail( subject, message, email_from, recipient_list )
+
+            messages.success(request, 'Your account was successfully created!')
+            # login(request,user)
             # return redirect('/')
     context['form'] = form
     return render(request,'home/signup.html',context)
