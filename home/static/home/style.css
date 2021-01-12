@@ -122,11 +122,37 @@ div.wrapper.index .logginn > div {
 	width: 90%;
 	margin: 0 auto;
 }
+/* Show password */
+div.wrapper.index .logginn > form > div {
+	position: relative;
+	margin-bottom: 5px;
+}
+div.wrapper.index .logginn > form > div > input {
+	margin-bottom: 0;
+}
+div.wrapper.index .logginn > form > div > div {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+div.wrapper.index .logginn > form > div > div > a {
+	font-size: .9rem;
+}
 div.wrapper.index .logginn > form {
 	width: 85%;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
+}
+div.wrapper.index .logginn a.forgot_password {
+	text-align: left;
+	font-size: .9rem;
+	margin-bottom: 3px;
 }
 div.wrapper.index .logginn > form > a.btn,
 div.wrapper.index .logginn > form > input[type='submit']{
@@ -137,6 +163,7 @@ div.wrapper.index .logginn > form > a.btn {
 }
 div.wrapper.index .splash form > h3 {
 	padding-left: 0;
+	margin-left: 0;
 }
 div.wrapper.index .splash h3 {
 	text-align: left;

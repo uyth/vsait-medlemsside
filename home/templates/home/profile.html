@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VSAIT - registration</title>
+		<title>VSAiT - Profil</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
@@ -20,32 +20,17 @@
 			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
 				<div class="innhold profile" style="transform: translateY(0);margin-bottom: 180px;">
-					<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+					<h1>Min profil</h1>
 					<input type="hidden" autofocus="true" />
-					<div class="divbox nav">
-						<a href="/profile/">My profile</a>
-						<a href="/profile/statistics/">Statistics</a>
-					</div>
 					<div id="profile" class="profile_display">
-						<div class="divbox kontaktinformasjon">
-							<h2>Kontoinfo</h2>
-							<p class="label">Email</p>
-							<p>{{ user.email }}</p>
-							<form method="POST">
-								{% csrf_token %}
-								<input type="text" id="is_student_2" name="is_student_2" value="hidden" hidden/>
-								{{ form_is_student.as_p }}
-								<input type="submit" id="student" value="Oppdater"/>
-							</form>
-						</div>
 						<div class="divbox membership">
 							<h2>Medlemskap</h2>
-							<p class="label">Medlemskap</p>
+							<p class="label">Status:</p>
 							{% if user.has_membership_boolean %}
-								<p>Membership confirmed for {{ get_year }}</p>
+								<p>Medlemskap confirmed for {{ get_year }}</p>
 							{% elif user.pending_membership %}
-								<p>You are currently registered as a pending_membership, this will be confirmed by a staff member.</p>
-								<p>With a pending_membership you can register for event just as like a normal membership</p>
+								<p>Venter på bekreftelse av medlemskontigent.<br/><br/></p>
+								<p>Du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
 							{% else %}
 								<p>Du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
 								<form action="/profile/pending_membership/" method="POST">
@@ -59,17 +44,23 @@
 									<p>{{ membership.year }}</p>
 								{% endfor %}
 							{% endif %}
+							<form class="student" method="POST">
+								{% csrf_token %}
+								<input type="text" id="is_student_2" name="is_student_2" value="hidden" hidden/>
+								{{ form_is_student.as_p }}
+								<input type="submit" id="student" value="Oppdater"/>
+							</form>
 						</div>
 						<div class="divbox brukerinformasjon">
 							<h2>Brukerinfo</h2>
+							<p class="label">Email</p>
+							<p>{{ user.email }}</p>
 							<p class="label">Navn</p>
 							<p>{{ user.firstname}} {{ user.lastname }}</p>
 							<p class="label">Fødselsdag</p>
 							<p>{{ user.date_of_birth | date:'d.m.Y'}}</p>
 							<p class="label">Is a student</p>
 							<p>{{ user.student}}</p>
-							<p class="label">Has membership</p>
-							<p>{{ user.has_membership}}</p>
 							<form method="POST">
 								{% csrf_token %}
 								{{ form_food_needs.as_p }}
@@ -89,7 +80,19 @@
 								{% endfor %}
 							{% endif %}
 						</div>
-						<a class="btn" href="/logout">Logout</a>
+						<div class="divbox statistikk">
+							<h2>Statistics</h2>
+							<p>You have joined {{ events_count }} events so far!</p>
+							{% for event in events %}
+							<a href="events/{{event.pk}}">
+								<div class="event">
+									<h2>{{ event.title }}</h2>
+									{{ event.startTime | date:'d.m.Y [H:i]' }} - {{ event.endTime | date:'d.m.Y [H:i]' }}
+								</div>
+							</a>
+							{% endfor %}
+						</div>
+						<a class="btn" href="/logout">Logg ut</a>
 					</div>
 				</div>
 			</main>

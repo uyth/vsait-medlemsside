@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>{{ event.event_name }}</title>
+		<title>VSAiT - {{ event.event_name }}</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
@@ -71,7 +71,7 @@
 							<div class="paamelding_info">
 								<div>
 									<p class="label">Registered</p>
-									<p><a class="show_people">👤</a> {{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
+									<p><a class="show_people"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 7.001c0 3.865-3.134 7-7 7s-7-3.135-7-7c0-3.867 3.134-7.001 7-7.001s7 3.134 7 7.001zm-1.598 7.18c-1.506 1.137-3.374 1.82-5.402 1.82-2.03 0-3.899-.685-5.407-1.822-4.072 1.793-6.593 7.376-6.593 9.821h24c0-2.423-2.6-8.006-6.598-9.819z"/></svg></a> {{ event.number_of_registrations }} / {{ event.display_max_people }}</p>
 								</div>
 								{% if not event.max_people_unlimited %}
 								<div>
@@ -87,15 +87,17 @@
 										{% csrf_token %}
 										{% if is_registered %}
 											{% if can_cancel %}
-												<button type="submit" id="cancel_registration" name="event_id" value="{{object.id}}" class="btn inverse">Påmeldt, trykk her for å melde deg av.</button>
+												<p class="paameldt">Du er påmeldt <img src="/static/admin/img/icon-yes.svg" alt="True"></p>
+												<button type="submit" id="cancel_registration" name="event_id" value="{{object.id}}" class="btn inverse">Meld deg av</button>
 											{% else %}
-												<strong>Arrangementet er ikke lenger for avmelding!</strong>
+												<strong>Arrangementet er ikke lenger åpent for avmelding!</strong>
 											{% endif %}
 										{% elif is_waiting %}
-											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">I venteliste, trykk her for å melde deg av.</button>
+											<p class="paameldt">Du er i venteliste</p>
+											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">Melde deg av</button>
 										{% else %}
 											{% if user.has_membership_boolean or user.pending_membership %}
-												<button type="submit" id="register" name="event_id" value="{{object.id}}" class="btn">Meld deg på!</button>
+												<button type="submit" id="register" name="event_id" value="{{object.id}}" class="btn">Meld deg på</button>
 											{% else %}
 												<strong>Dette arrangementet er kun åpen for medlemer</strong>
 												<p>Vennligst les om og betal for medlemskap her: <a href="/info">betalingsinfo</a></p>
@@ -137,7 +139,8 @@
 							</div>
 							<div class="box2">
 								<div>
-									<a class="btn" href="{{ event.secret_url }}/">Attendance/Check-in form (This is only visible to staffs!)</a>
+									<h3>Innslipp</h3>
+									<a class="btn" href="{{ event.secret_url }}/">Gå til innslipp</a>
 								</div>
 							</div>
 						</div>

@@ -37,7 +37,9 @@ def index(request):
                     if (user.email_confirmed):
                         login(request,user)
                     else:
-                        messages.error(request, 'Please confirm email before loggin in!')
+                        messages.warning(request, 'Please confirm your email before loggin in!')
+                else:
+                    messages.error(request, 'Email not found!')
         # redirects back to event page if found ?next=
         referer_link = request.POST.get('next', '/')
         if (referer_link == ""): # If nothing, redirect login to homepage
@@ -131,50 +133,10 @@ def profile(request):
     context['form_food_needs'] = form_food_needs
     return render(request,'home/profile.html',context)
 
-@login_required()
-def statistics(request):
-    context = {}
-    # form = VsaitUserProfileChangeForm(request.POST or None)
-    context['user'] = request.user
-    events = []
-    for event in list(Event.objects.all()):
-        if (event.registrations.filter(id=request.user.id).order_by('-startTime').exists()):
-            events.append(event)
-    context['events_count'] = len(events)
-    context['events'] = events[::-1]
-    context['get_year'] = timezone.now().year
-
-    # Formchange password
-    if request.method == 'POST':
-        if ("food_needs" in list(request.POST.keys())):
-            form_food_needs = VsaitUserFoodNeedsChangeForm(request.POST, user=request.user)
-            food_needs = form_food_needs.data.get("food_needs")
-            request.user.food_needs = food_needs
-            request.user.save()
-            # print(request.user.food_needs)
-        else:
-            form_password = PasswordChangeForm(request.user, request.POST)
-            if form_password.is_valid():
-                user = form_password.save()
-                update_session_auth_hash(request, user)  # Important!
-                messages.success(request, 'Your password was successfully updated!')
-                return redirect('change_password')
-            else:
-                messages.error(request, 'Please correct the error below.')
-    form_password = PasswordChangeForm(request.user)
-    form_food_needs = VsaitUserFoodNeedsChangeForm(user=request.user)
-    context['form_password'] = form_password
-    context['form_food_needs'] = form_food_needs
-    return render(request,'home/statistics.html',context)
-
 def pendingMembership(request):
     request.user.pending_membership = not request.user.pending_membership
     request.user.save()
     return HttpResponseRedirect(reverse('home:profile'))
-
-def info(request):
-    context = {}
-    return render(request,'home/info.html',context)
 
 def kontakt(request):
     context = {}

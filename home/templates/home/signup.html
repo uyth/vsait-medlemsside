@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VSAIT - registration</title>
+		<title>VSAiT - Registrering</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'home/signup.css' %}">
@@ -25,9 +25,9 @@
 						{{ form.as_p }}
 						<p class="terms">
 							<input type="checkbox" id="terms" name="terms" required>
-							<label for="terms">By creating an account, you are agreeing to the <a href="/info">Terms And Conditions</a></label>
+							<label for="terms">Ved oppretting av bruker så godtar du våre <a href="http://vsait.org/retningslinjer/">retningslinjer</a>.</label>
 						</p>
-						<input type="submit" value="Sign up"/>
+						<input type="submit" value="Register"/>
 					</form>
 					{% if messages %}
 						{% for message in messages %}

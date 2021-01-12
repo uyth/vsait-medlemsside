@@ -78,6 +78,12 @@ div.paamelding > div.box3 {
 	width: 60%;
 	margin: 0 auto;
 }
+div.paamelding form > button {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15px;
+}
 /* SHOW USERS */
 table.display_users_table {
 	border-collapse: collapse;
@@ -90,6 +96,11 @@ table.display_users_table td {
 }
 table.display_users_table tr.confirmed {
 	background-color: rgba(255, 75, 75, 0.5);
+}
+div a svg {
+	width: 20px;
+	height: 20px;
+	transform: translateY(3px);
 }
 /* STAFF ONLY VIEW */
 .staffs {
@@ -117,6 +128,13 @@ table.display_users_table tr.confirmed {
 	background-color: #FF6050;
 	color: white;
 }
+.staffs > .box2 > div {
+	width: 100%;
+}
+.staffs > .box2 a {
+	width: 80%;
+	margin-bottom: 15px;
+}
 
 /* CHECKIN */
 .checkin {
@@ -134,13 +152,30 @@ table.display_users_table tr.confirmed {
 .checkin > form > label {
 	text-align: left;
 	margin-bottom: 10px;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	transform: translateX(10px);
 }
-.checkin > form > input[type="submit"] {
-	width: 100%;
+.checkin > form > div {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	width: 60%;
+	margin: 0 auto;
 }
-.checkin > form > input#email {
-	width: 100%;
+.checkin > form > div > input[type="submit"] {
+	width: 20%;
+	margin: 0;
+	transform: translateX(-10px);
+	border-radius: 0 5px 5px 0
+}
+.checkin > form > div > input#email {
+	width: 80%;
 	box-sizing: border-box;
+	height: 100%;
+	margin: 0;
+	margin-left: 10px;
 }
 
 /* MOBILE */

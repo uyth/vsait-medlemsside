@@ -9,13 +9,13 @@ from .models import VsaitUser
 
 # Registration form
 class VsaitUserRegistrationForm(forms.ModelForm):
-    firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Firstname*'}))
-    lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Lastname*'}))
+    firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Fornavn*'}))
+    lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Etternavn*'}))
     email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-100)+'-01-01','max':str(timezone.now().year-18)+'-01-01'}))
-    password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password*'}))
-    password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Confirm Password*'}))
-    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'if you have any food allergies or diets, let us know.'}), required=False)
+    password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Passord*'}))
+    password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Skriv passord på nytt*'}))
+    food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Har du noe allergier eller andre matbehov? Skriv dem ned her!'}), required=False)
     student = forms.BooleanField(required=False)
     class Meta:
         model = VsaitUser
@@ -23,10 +23,12 @@ class VsaitUserRegistrationForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super(VsaitUserRegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['firstname'].label = 'First name'
-        self.fields['lastname'].label = 'Last name'
-        self.fields['password_confirmation'].label = 'Confirm password'
-        self.fields['food_needs'].label = 'Food allergies / diets'
+        self.fields['firstname'].label = 'Fornavn'
+        self.fields['lastname'].label = 'Etternavn'
+        self.fields['date_of_birth'].label = 'Fødselsdato'
+        self.fields['password'].label = 'Passord'
+        self.fields['password_confirmation'].label = 'Skriv passord på nytt'
+        self.fields['food_needs'].label = 'Matbehov'
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
@@ -174,7 +176,7 @@ class LoginForm(AuthenticationForm):
     # Quickfix: Since the parameter username has to be sent, username here is hidden
     username = forms.CharField(max_length=5, widget=forms.widgets.TextInput(attrs={'class': 'this_does_nothing','value':'VSAIT','hidden':True}))
     email = forms.CharField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email'}))
-    password = forms.CharField(max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Password'}))
+    password = forms.CharField(max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Passord'}))
 
     def clean(self):
         email = self.cleaned_data.get('email')

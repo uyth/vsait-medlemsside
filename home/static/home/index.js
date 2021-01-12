@@ -2,9 +2,31 @@ $(document).ready(() => {
 	console.log('index.js loaded');
 	membership_alert();
 	confirmEmail_alert();
+	no_account_alert();
+	// Show password
+	const show_password = $(".show_password a");
+	show_password.on('click',function() {
+		const input_password = $(this).parent().siblings().get(0);
+		input_password.type = (input_password.type === "password") ? "text" : "password";
+	});
 });
-const confirmEmail_alert = function() {
+
+const no_account_alert = function() {
 	const alert = $("p.error").get(0);
+	if (alert) {
+		Swal.fire({
+			title: "Bruker ikke funnet!",
+			html: "Emailen du har oppgitt, tilhører ikke noen konto. Kontrollerer emailen og prøv på nytt.",
+			icon: "error",
+			showCancelButton: false,
+			confirmButtonColor: '#3085d6',
+			confirmButtonText: "OK.",
+		});
+	}
+}
+
+const confirmEmail_alert = function() {
+	const alert = $("p.warning").get(0);
 	if (alert) {
 		Swal.fire({
 			title: "Du må aktivere brukeren først!",

@@ -7,7 +7,7 @@ const registration_alert = function() {
 	if (alert) {
 		Swal.fire({
 			title: "Velkommen til VSAIT!",
-			html: "Du har blitt sent en mail om å aktivere brukeren.<br/>Har ikke fått noe mail?<br/><a href='javascript:void(0)'>Trykk her for å sende på nytt.</a>",
+			html: "Du har blitt sent en mail om å aktivere brukeren.<br/>Har ikke fått noe mail? Sjekk søppelposten din!<br/><a href='javascript:void(0)'>Trykk her ellers for å sende på nytt.</a>",
 			icon: "success",
 			showCancelButton: false,
 			confirmButtonColor: '#3085d6',

@@ -84,14 +84,14 @@ const click3 = function(e) {
 	const alertInfo = getInfo(this.id);
 	Swal.fire({
 		title: "BLI MEDLEM",
-		html: "Som medlem kan du bli med på arrangementer.<br/><br/>Merk at du også må betale x nok til<br/><br/>1234 12 1234",
+		html: 'Medlemskontingenten betales via Vipps. Dersom navnet ditt på Vipps er forskjellig fra hva du registrerer deg med her, skriv en kommentar med navnet du vanligvis bruker.<br/><br/>På Vipps, gå inn på "Send" og søk "VSAiT". Velg “Medlemsavgift/Membership fee”. Du kan også betale 100 kroner til kontonummer 4212.13.37740.',
 		icon: alertInfo.icon,
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		confirmButtonText: "OK.",
 		input: 'checkbox',
-		inputPlaceholder: 'Jeg har lest.'
+		inputPlaceholder: 'Bekreft betaling'
 	}).then(function(result) {
 		if (result.value) {
 			Swal.fire({
