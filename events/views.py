@@ -44,7 +44,7 @@ class DetailView(generic.DetailView):
                 user.update({"display":user.get("name")+" ; "+user.get("email")})
         data["display_users"] = information
         # Staffs information
-        food_needs_information = [{'email':x.email, 'food_needs':x.food_needs} for x in event.registrations.all()]
+        food_needs_information = [{'email':x.email, 'name':x.firstname+" "+x.lastname, 'food_needs':x.food_needs} for x in event.registrations.all()]
         data["food_needs_information"] = food_needs_information
         return data
 

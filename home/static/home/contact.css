@@ -26,3 +26,17 @@
 .mail:visited {
 	color: pink;
 }
+.reset_password_form > p > label {
+	display: block;
+	text-align: left;
+}
+.forgot_password_wrapper {
+	width: 45%;
+	margin: 0 auto;
+}
+
+@media screen and (max-width: 650px) {
+	.forgot_password_wrapper {
+		width: 90%;
+	}
+}

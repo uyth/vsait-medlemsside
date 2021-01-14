@@ -56,7 +56,7 @@ div.brukerinformasjon > form > input[type="submit"] {
 	width: 40%;
 	height: 37px;
 	align-self: self-end;
-	margin-bottom: 16px;
+	margin-bottom: 22.5px;
 	margin-left: 10px;
 }
 /* PASSWORD CHANGE */
@@ -79,6 +79,13 @@ div.brukerinformasjon > form > input[type="submit"] {
 }
 .password > form > ul {
 	order: 4;
+	padding: 0;
+}
+.password > form > ul > li {
+	list-style: none;
+	padding: 5px 10px;
+	margin: 5px 0;
+	background-color: antiquewhite;
 }
 .password > form > p:nth-of-type(3) {
 	display: none;

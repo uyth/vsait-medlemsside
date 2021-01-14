@@ -2,6 +2,7 @@ html {
 	scroll-behavior: smooth;
 	overflow-x: hidden;
 }
+/* a:visited { color: #551A8B; } */
 html, body, div, header, main, footer {
 	position: relative;
 	margin: 0;
@@ -130,15 +131,16 @@ div.wrapper.index .logginn > form > div {
 div.wrapper.index .logginn > form > div > input {
 	margin-bottom: 0;
 }
-div.wrapper.index .logginn > form > div > div {
+form div.show_password {
 	position: absolute;
 	top: 0;
 	right: 0;
 	height: 100%;
-	width: 40px;
+	width: 50px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
+	padding-right: 10px;
 }
 div.wrapper.index .logginn > form > div > div > a {
 	font-size: .9rem;
@@ -246,11 +248,15 @@ div.your_events {
 	padding: 10px 0;
 }
 div.your_events > h3 {
-	font-size: 0.7rem;
+	font-size: 0.9rem;
+	margin: 5px auto;
+}
+div.your_events > h3:nth-of-type(2) {
+	margin-top: 10px;
 }
 div.your_events > a{
 	display: block;
-	font-size: 12px;
+	font-size: 0.9rem;
 	text-align: left;
 	margin: 0 10px 5px 10px;
 	padding: 5px;
@@ -362,6 +368,25 @@ body.swal2-shown {
 	overflow-x: hidden;
 	width: 100%;
 }
+/* FORM ERRORS */
+ul.errorlist {
+	padding: 0;
+	margin-bottom: 0;
+}
+ul.errorlist > li {
+	list-style: none;
+	text-align: left;
+	background-color: antiquewhite;
+	padding: 5px;
+	font-size: 0.8rem;
+}
+ul.errorlist + p {
+	background-color: antiquewhite;
+	margin-top: 0 !important;
+	padding-left: 5px;
+	padding-right: 5px;
+	box-sizing: border-box;
+}
 
 /* MOBILE */
 @media screen and (max-width: 650px) {
@@ -375,9 +400,12 @@ body.swal2-shown {
 		position: absolute;
 		z-index: 420;
 	}
+	header > nav {
+		width: 90%;
+	}
 	div.burger {
 		top: 20px;
-		right: 20px;
+		right: 5%;
 		width: 50px;
 		height: 50px;
 		cursor: pointer;
@@ -418,7 +446,7 @@ body.swal2-shown {
 		background-color: rgba(255,255,255,1);
 		border-radius: 8px 30px 8px 8px;
 		top: 20px;
-		right: 20px;
+		right: 3%;
 		transform: translateX(110%);
 		opacity: 0;
 		transition: all .6s ease;

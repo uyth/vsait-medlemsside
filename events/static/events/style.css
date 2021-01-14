@@ -78,6 +78,11 @@ div.paamelding > div.box3 {
 	width: 60%;
 	margin: 0 auto;
 }
+div.paamelding strong {
+	margin: 10px 10px 15px 10px;
+	display: block;
+	font-size: .8rem;
+}
 div.paamelding form > button {
 	width: 80%;
 	margin-left: auto;

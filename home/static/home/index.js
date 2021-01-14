@@ -8,6 +8,7 @@ $(document).ready(() => {
 	show_password.on('click',function() {
 		const input_password = $(this).parent().siblings().get(0);
 		input_password.type = (input_password.type === "password") ? "text" : "password";
+		show_password.get(0).innerText = (input_password.type === "password") ? "Vis" : "Skjul";
 	});
 });
 

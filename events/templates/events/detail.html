@@ -122,14 +122,17 @@
 					{% if user.is_staff %}
 						<div class="flexbox staffs">
 							<div class="box1">
-								<div>
-									<table style="text-align: left;">
+								<h3 style="margin: 10px auto;">Liste over påmeldte</h3>
+								<div style="padding: 10px;">
+									<table style="text-align: left; font-size: 0.85rem;">
 										<tr>
+											<th>Name</th>
 											<th>Email</th>
 											<th>Matbehov</th>
 										</tr>
 										{% for users in food_needs_information %}
 											<tr>
+												<td>{{ users.name }}</td>
 												<td>{{ users.email }}</td>
 												<td>{{ users.food_needs}}</td>
 											</tr>

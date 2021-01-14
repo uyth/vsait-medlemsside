@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Authenti
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from datetime import datetime
 
 from .models import VsaitUser
 
@@ -12,7 +13,7 @@ class VsaitUserRegistrationForm(forms.ModelForm):
     firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Fornavn*'}))
     lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Etternavn*'}))
     email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
-    date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-100)+'-01-01','max':str(timezone.now().year-18)+'-01-01'}))
+    date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-120)+'-01-01','max':str(timezone.now().year-17)+'-01-01'}))
     password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Passord*'}))
     password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Skriv passord på nytt*'}))
     food_needs = forms.CharField(max_length=240, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Har du noe allergier eller andre matbehov? Skriv dem ned her!'}), required=False)
@@ -45,6 +46,11 @@ class VsaitUserRegistrationForm(forms.ModelForm):
             raise ValidationError('Passwords do not match.')
         return password2
 
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data['date_of_birth']
+        date = datetime(date_of_birth.year,date_of_birth.month,date_of_birth.day,20,20,20)
+        return date
+
     def save_m2m(self):
         # Quickfix for admin add forms
         return None
@@ -75,7 +81,7 @@ class VsaitUserChangeForm(UserChangeForm):
     firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'First name*'}))
     lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Last name*'}))
     email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
-    date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
+    date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%m/%d/%Y'), attrs={'placeholder':'Date of birth*','type':'date'}))
     # Might be changing this under
     new_password = ReadOnlyPasswordHashField(label=("Password"),help_text=("Raw passwords are not stored, so there is no way to see "
                     "this user's password, but you can change the password "
@@ -86,6 +92,7 @@ class VsaitUserChangeForm(UserChangeForm):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         email = str(self).split("value")[1].split("\"")[1] # Get email string
         user = VsaitUser.objects.filter(email=email).get() # Get user from email string
+        print(user.date_of_birth)
         date = str(user.date_of_birth).split()[0] # Parse date
         kwargs.update(initial={'date_of_birth': date}) # Updates the datetime
         # kwargs.update(initial={'food_needs': user.food_needs}) # Updates the food_needs
@@ -97,7 +104,6 @@ class VsaitUserChangeForm(UserChangeForm):
     class Meta:
         model = VsaitUser
         fields = ('firstname','lastname','email','date_of_birth','new_password')
-        exclude = ['date_of_birth']
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -106,6 +112,11 @@ class VsaitUserChangeForm(UserChangeForm):
         if email_list.count() and not sameUser:
             raise ValidationError('There is already an account associated with that email.')
         return email
+
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data['date_of_birth']
+        date = datetime(date_of_birth.year,date_of_birth.month,date_of_birth.day,20,20,20)
+        return date
 
 # Profile
 class VsaitUserProfileChangeForm(UserChangeForm):

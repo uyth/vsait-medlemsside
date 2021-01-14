@@ -12,7 +12,7 @@ $(document).ready(() => {
 				data: $(form).serialize(),
 				success: function() {
 					Swal.fire({
-						title: "Reset password email sent!",
+						title: "Email har blitt sendt!",
 						html: "En melding har blitt sent til ditt email om det finnes en bruker registrert med emailet.<br/>I mailet vil du få en lenke som sender deg videre til en skjema hvor du får endret passordet ditt.",
 						icon: "warning",
 						showCancelButton: false,
