@@ -56,16 +56,24 @@ nav div a.nav:after {
   transform: translateX(-50%);
   transition: width 0.5s ease 0s, left 0.5s ease 0s;
 }
-nav div a.nav:hover:after { 
+nav div a.nav:hover::after { 
   width: 90%; 
   left: 50%;
 }
-nav div a:last-child {
+nav div a:last-child,
+nav div a.nav.staff {
 	background: rgba( 255, 255, 255, 0.65 );
 	box-shadow: 0 8px 32px 0 rgba( 100, 38, 0, 0.05 );
 	backdrop-filter: blur( 13.5px );
 	-webkit-backdrop-filter: blur( 13.5px );
 	border-radius: 5px;
+}
+nav div a.nav.staff {
+	color: #333;
+}
+nav div a.nav.staff::after {
+	content: "";
+	display: none;
 }
 header nav div img {
 	width: 40px;
