@@ -423,6 +423,14 @@ ul.errorlist + p {
   .events div.event {
     height: 200px;
   }
+  .events div.event .bilde h2 {
+    font-size: 1.2rem;
+    margin: 10px;
+  }
+  .events div.event .bilde h2.type {
+    font-size: 0.8rem;
+    margin: 5px;
+  }
 }
 /* TABLET */
 @media screen and (max-width: 970px) {
