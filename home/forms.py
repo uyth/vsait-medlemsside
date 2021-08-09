@@ -153,6 +153,7 @@ class VsaitUserFoodNeedsChangeForm(forms.Form):
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
         kwargs.update(initial={'food_needs': self.user.food_needs}) # Updates the food_needs
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
+        self.fields['food_needs'].label = 'Matbehov'
 
 class VsaitUserSendConfirmationForm(forms.Form):
     user = forms.CharField(max_length=512, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':''}))
