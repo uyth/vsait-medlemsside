@@ -13,9 +13,9 @@ class MembershipFilter(SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('membership_true', 'Have membership'),
-            ('membership_pending', "Have pending membership"),
-            ('membership_false', "Doesnt' have membership"),
+            ('membership_true', 'Har medlemskap'),
+            ('membership_pending', "Har ventende medlemskap "),
+            ('membership_false', "Har ikke medlemskap"),
         )
 
     def queryset(self, request, queryset):
@@ -45,13 +45,13 @@ def add_membership(modeladmin, request, queryset):
     membership = Membership.objects.filter(year=timezone.now().year).get()
     for users in queryset:
         users.memberships.add(membership);
-add_membership.short_description = "Confirm that selected users have payed for memberships"
+add_membership.short_description = "Bekreft at utvalgte brukere har betalt for medlemskap "
 
 def cancel_membership(modeladmin, request, queryset):
     membership = Membership.objects.filter(year=timezone.now().year).get()
     for users in queryset:
         users.memberships.remove(membership);
-cancel_membership.short_description = "Cancel selected users membership status"
+cancel_membership.short_description = "Ta vekk utvalgte brukeres medlemskap"
 
 # https://django.readthedocs.io/en/stable/ref/contrib/admin/actions.html
 # Implements the UserAdmin
@@ -74,7 +74,7 @@ class VsaitUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'new_password')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
         ('Membership Information', {'fields': ('memberships','pending_membership')}),
-        ('Email confirmation', {'fields': ['email_confirmed',], 'classes': ['collapse']}),
+        ('Email confirmation', {'fields': ['email_confirmed','secret_email_confirmation_url'], 'classes': ['collapse']}),
         ('Account information', {'fields': ['is_staff','is_superuser'], 'classes': ['collapse']}),
     )
     add_fieldsets = (

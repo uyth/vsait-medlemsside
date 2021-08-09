@@ -38,11 +38,16 @@
 								<a class="btn" href="/logout">Logout</a>
 							</div>
 						{% else %}
+							<form style="display: none;" id="cform" method="POST">
+								{% csrf_token %}
+								{{ cform.as_p }}
+								<input type="submit" id="cbtn" value="send confirmation again"/>
+							</form>
 							<form method="POST">
 								<h3>Logg inn:</h3>
 								{% csrf_token %}
 								{{ form.username }}
-								{{ form.email }}
+								<input type="email" name="email" class="inp" placeholder="Email" maxlength="256" required="" id="id_email" value="{{request.session.email}}">
 								<div>
 									{{ form.password }}
 									<div class="show_password"><a href="javascript:void(0)">Vis</a></div>
@@ -122,7 +127,7 @@
 										<h2>{{ event.title }}</h2>
 										<h2 class="type" style="bottom: 70px">{{ event.location }}</h2>
 										<h2 class="type" style="bottom: 35px">{{ event.startTime | date:'l d.m.Y' }}</h2>
-										<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
+										<h2 class="type">{% if event.event_type == 'medlem' %}Krever medlemsskap{% else %}Åpent{% endif %}</h2>
 										<img src="{{ event.image.url }}"/>
 									</div>
 									<div class="info">

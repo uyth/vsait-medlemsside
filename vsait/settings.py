@@ -35,7 +35,7 @@ with open('/home/juki/vsait_secret.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','bbfa92cf93ff.ngrok.io','ccd9c5abcb74.ngrok.io']
+ALLOWED_HOSTS = ['localhost','bbfa92cf93ff.ngrok.io','ccd9c5abcb74.ngrok.io','a73a175bc2ea.ngrok.io']
 
 
 # Application definition

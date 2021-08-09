@@ -13,7 +13,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 
-from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm, VsaitUserIsStudent, ResetPasswordForm
+from .forms import LoginForm, VsaitUserRegistrationForm, VsaitUserProfileChangeForm, VsaitUserFoodNeedsChangeForm, VsaitUserIsStudent, ResetPasswordForm, VsaitUserSendConfirmationForm
 from events.models import Event
 from home.models import VsaitUser
 import uuid
@@ -22,8 +22,24 @@ import uuid
 def index(request):
     context = {}
     form = LoginForm(data = request.POST)
+    # Send confirmation again
+    confirmationForm = VsaitUserSendConfirmationForm(request.POST or None)
+    if request.method == "POST":
+        if confirmationForm.is_valid():
+            user = VsaitUser.objects.filter(email=confirmationForm.data['user'])
+            if len(list(user)) > 0:
+                print("send confirmation")
+                user = user.get();
+                current_site = get_current_site(request)
+                subject = '[VSAiT] Velkommen!'
+                message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [user.email, ] 
+                send_mail( subject, message, email_from, recipient_list )
+    context['cform'] = confirmationForm
     if request.method == "POST":
         # Alert membership
+        context['email'] = ""
         print(request.POST)
         if "alert_membership" in request.POST.keys():
             request.user.alert_membership_read = True
@@ -37,9 +53,10 @@ def index(request):
                     if (user.email_confirmed):
                         login(request,user)
                     else:
-                        messages.warning(request, 'Please confirm your email before loggin in!')
+                        request.session['email'] = form.data.get("email")
+                        messages.warning(request, 'Bekreft e-posten din før du logger deg på! ')
                 else:
-                    messages.error(request, 'Email not found!')
+                    messages.error(request, 'E-post ikke funnet! ')
         # redirects back to event page if found ?next=
         referer_link = request.POST.get('next', '/')
         if (referer_link == ""): # If nothing, redirect login to homepage
@@ -50,6 +67,7 @@ def index(request):
     context["pending_events"] = []
     context["attending_events"] = []
     context['get_year'] = str((timezone.now().year)-1)+" / "+str(timezone.now().year)
+
     # Filters out draft event, updates draft event if it's time for publish date
     for event in context["events"]:
         if event.is_draft:
@@ -67,24 +85,41 @@ def index(request):
 
 def sign_up(request):
     if request.user.is_authenticated:
-            return redirect('/')
+        return redirect('/')
     context = {}
     form = VsaitUserRegistrationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             user = form.save()
+            user.secret_email_confirmation_url = uuid.uuid4().hex
+            user.save()
             # Mail
             current_site = get_current_site(request)
-            subject = 'Welcome to VSAIT'
-            message = f'Hi {user.firstname}, thank you for registering as a VSAIT user.\nPlease click on the link to confirm your email: http://{current_site}/activate/{user.secret_email_confirmation_url}'
+            subject = '[VSAiT] Velkommen!'
+            message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ] 
             send_mail( subject, message, email_from, recipient_list )
 
-            messages.success(request, 'Your account was successfully created!')
+            messages.success(request, 'Brukeren din ble opprettet! ')
             # login(request,user)
             # return redirect('/')
     context['form'] = form
+    # Send confirmation again
+    confirmationForm = VsaitUserSendConfirmationForm(request.POST or None)
+    if request.method == "POST":
+        if confirmationForm.is_valid():
+            user = VsaitUser.objects.filter(email=confirmationForm.data['user'])
+            if len(list(user)) > 0:
+                print("send confirmation")
+                user = user.get();
+                current_site = get_current_site(request)
+                subject = '[VSAiT] Velkommen!'
+                message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [user.email, ] 
+                send_mail( subject, message, email_from, recipient_list )
+    context['cform'] = confirmationForm
     return render(request,'home/signup.html',context)
 
 @login_required()
@@ -123,10 +158,10 @@ def profile(request):
                 user = form_password.save()
                 print(user,request)
                 update_session_auth_hash(request, user)  # Important!
-                messages.success(request, 'Your password was successfully updated!')
+                messages.success(request, 'Passordet ditt ble oppdatert!')
                 return HttpResponseRedirect(reverse('home:profile'))
             else:
-                messages.error(request, 'Please correct the error below.')
+                messages.error(request, 'Rett på feilen nedenfor.')
     form_password = PasswordChangeForm(request.user)
     form_food_needs = VsaitUserFoodNeedsChangeForm(user=request.user)
     context['form_password'] = form_password
@@ -146,19 +181,19 @@ def kontakt(request):
 
 def activate(request, secret_url):
     if request.user.is_authenticated:
-            return redirect('/')
+        return redirect('/')
     context = {}
     user = get_object_or_404(VsaitUser, secret_email_confirmation_url=secret_url)
-    user.secret_email_confirmation_url = uuid.uuid4().hex
+    if not user:
+        return redirect('/')
+    #user.secret_email_confirmation_url = uuid.uuid4().hex
     user.email_confirmed = True
     user.save()
-    #login(request,user)
-    #return redirect('/')
     return render(request, 'home/activate.html',context)
 
 def forgot_password(request):
     if request.user.is_authenticated:
-            return redirect('/')
+        return redirect('/')
     context = {}
     if request.method == "POST":
         if "email" in request.POST.keys():
@@ -166,9 +201,9 @@ def forgot_password(request):
             user.secret_password_change_url = uuid.uuid4().hex
             user.save()
             # Mail
-            subject = '[VSAIT] Reset your password'
+            subject = '[VSAiT] Tilbakestill passord'
             current_site = get_current_site(request)
-            message = f'Hi {user.firstname}, you have registered that your password was forgotten.\nPlease click on the link to change your password: http://{current_site}/reset_password/{user.secret_password_change_url}'
+            message = f'Hei {user.firstname}\n\nVi har mottatt en forespørsel om å tilbakestille passord.\nBenytt denne lenken for å opprette et nytt passord: http://{current_site}/reset_password/{user.secret_password_change_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ] 
             send_mail( subject, message, email_from, recipient_list )
@@ -176,7 +211,7 @@ def forgot_password(request):
 
 def reset_password(request, secret_url):
     if request.user.is_authenticated:
-            return redirect('/')
+        return redirect('/')
     context = {}
     user = get_object_or_404(VsaitUser, secret_password_change_url=secret_url)
     if request.method == 'POST':

@@ -63,15 +63,15 @@ class Event(models.Model):
     def last_edited_display(self):
         return self.last_edited.strftime("%d.%b %y, %H:%M")
     def startTime_display(self):
-        return self.endTime.strftime("%d.%b %Y, %H:%M")
+        return self.startTime.strftime("%d.%b %Y, %H:%M")
     def endTime_display(self):
         return self.endTime.strftime("%d.%b %Y, %H:%M")
     last_edited_display.short_description = "last edited"
     last_edited_display.admin_order_field= "last_edited"
     startTime_display.short_description = "start time"
     startTime_display.admin_order_field = "startTime"
-    endTime.short_description = "start time"
-    endTime.admin_order_field = "endTime"
+    endTime_display.short_description = "end time"
+    endTime_display.admin_order_field = "endTime"
 
     is_upcoming.admin_order_field = 'startTime'
     is_upcoming.short_description = 'upcoming'

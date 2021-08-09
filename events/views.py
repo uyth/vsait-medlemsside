@@ -55,7 +55,7 @@ def EventRegistration(request, pk):
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
         if event.event_type == "medlem" and not request.user.has_membership_boolean() and not request.user.pending_membership:
-            messages.error(request, 'Membership is required to register this event!')
+            messages.error(request, 'Medlemskap kreves for å registrere seg på dette arrangementet!')
             pass
         elif event.registrations.filter(id=request.user.id).exists() and event.ontime_for_cancellation_deadline(): 
             print("remove")
@@ -79,17 +79,20 @@ def CheckIn(request, pk, secret_url):
     print(request.path,pk,secret_url)
     if len(list(request.POST)) > 0:
         email = request.POST.get("email")
-        user = VsaitUser.objects.filter(email=email).get()
-        # If user is registered, register attendance
-        if event.registrations.filter(id=user.id).exists():
-            print(user)
-            if event.attendance.filter(id=user.id).exists():
-                messages.error(request, "Email received has already registered attendance!")
+        user = VsaitUser.objects.filter(email=email)
+        if len(list(user)) > 0:
+            user = user.get();
+            # If user is registered, register attendance
+            if event.registrations.filter(id=user.id).exists():
+                if event.attendance.filter(id=user.id).exists():
+                    messages.error(request, "Eposten oppgitt er allerede brukt for registrering!")
+                else:
+                    event.attendance.add(user)
+                    messages.success(request, 'Brukeren har registrert sitt oppmøte! ')
             else:
-                event.attendance.add(user)
-                messages.success(request, 'The user has successfully registered their attendance!')
+                messages.error(request, "Eposten oppgitt ble ikke funnet i listen over påmeldte. Kontakt styret!")
         else:
-            messages.error(request, "Email received wasn't found in registrations")
+            messages.error(request, "Eposten oppgitt ble ikke funnet i listen over påmeldte. Kontakt styret!")
     if event.secret_url != secret_url:
         raise Http404("No url matches the given query.")
     # Display users

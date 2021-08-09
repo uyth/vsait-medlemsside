@@ -6,12 +6,12 @@ $(document).ready(() => {
 	$(showBtn).on('click', function(e){
 		e.preventDefault();
 		Swal.fire({
-			title: "Registered users",
+			title: "Liste over påmeldte",
 			html: $(".display_users").get(0).innerHTML,
 			showCancelButton: true,
 			showConfirmButton: false,
 			cancelButtonColor: '#d33',
-			cancelButtonText: "Lukk.",
+			cancelButtonText: "Lukk",
 		})
 	});
 
@@ -19,26 +19,23 @@ $(document).ready(() => {
 	const success = $("p.success").get(0);
 	if (success) {
 		Swal.fire({
-			title: "Success!",
-			text: "We've registered your attendance!",
+			title: "Vellykket!",
+			text: "Vi har registret ditt oppmøte!",
 			icon: "success",
-			showConfirmButton: true,
-			timer: 1500,
-			confirmButtonColor: '#3085d6',
-			confirmButtonText: "Ok."
+			showConfirmButton: false,
+			timer: 2000,
 		})
 	}
 	// Error
 	const error = $("p.error").get(0);
 	if (error) {
 		Swal.fire({
-			title: "Error!",
-			html: "Your attendance didn't register! <br/><br/>"+error.innerText,
+			title: "Feilmelding!",
+			html: "Oppmøtet ble ikke regisrert! <br/><br/>"+error.innerText,
 			icon: "error",
 			showConfirmButton: true,
-			timer: 1500,
 			confirmButtonColor: '#3085d6',
-			confirmButtonText: "Ok."
+			confirmButtonText: "Ok"
 		})
 	}
 });

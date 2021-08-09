@@ -1,201 +1,198 @@
 div.event.old {
-	background-color: gray;
+  background-color: gray;
 }
 a.old {
-	filter: grayscale(100%);
-	-webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 /* BILDE */
 div.bilde {
-	position: relative;
-	width: 100%;
-
+  position: relative;
+  width: 100%;
 }
 div.bilde img {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 /* FLEXBOX */
 div.flexbox {
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
 }
 div.flexbox > div {
-	border: 1px solid lightgray;
+  border: 1px solid lightgray;
 }
 div.flexbox > div.box1 {
-	width: 70%;
-	margin: 10px 10px 10px 0;
+  width: 70%;
+  margin: 10px 10px 10px 0;
 }
 div.flexbox > div.box2 {
-	width: 30%;
-	margin: 10px 0 10px 10px;
+  width: 30%;
+  margin: 10px 0 10px 10px;
 }
 div.flexbox div.info {
-	text-align: left;
-	/* padding: 0 20px; */
+  text-align: left;
+  /* padding: 0 20px; */
 }
 /* INFO */
 .flexbox.info {
-
 }
 .flexbox.info > .box1 {
-	padding: 0 20px;
-	box-sizing: border-box;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 .flexbox.info > .box1 > h1,
 .flexbox.info > .box1 > p {
-	text-align: left;
+  text-align: left;
 }
 
 /* OPPMØTE */
 div.oppmote {
-	text-align: left;
-	width: auto;
-	padding: 0 15px;
+  text-align: left;
+  width: auto;
+  padding: 0 15px;
 }
 /* LABEL */
 p.label {
-	color: gray;
-	padding-bottom: 0;
-	margin-bottom: 0;
+  color: gray;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 p.label + p {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 /* PÅMELDING */
 div.paamelding_info {
-	display: flex;
-	justify-content: space-around;
-	width: 90%;
-	margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  margin: 0 auto;
 }
 div.paamelding > div.box3 {
-	display: flex;
-	justify-content: space-around;
-	width: 60%;
-	margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  margin: 0 auto;
 }
 div.paamelding strong {
-	margin: 10px 10px 15px 10px;
-	display: block;
-	font-size: .8rem;
+  margin: 10px 10px 15px 10px;
+  display: block;
+  font-size: 0.8rem;
 }
 div.paamelding form > button {
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 15px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
 }
 /* SHOW USERS */
 table.display_users_table {
-	border-collapse: collapse;
-	width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 table.display_users_table td {
-	border: 1px solid #ddd;
-	padding: 4px;
-	font-size: .9rem;
+  border: 1px solid #ddd;
+  padding: 4px;
+  font-size: 0.9rem;
 }
 table.display_users_table tr.confirmed {
-	background-color: rgba(255, 75, 75, 0.5);
+  background-color: rgba(255, 75, 75, 0.5);
 }
 div a svg {
-	width: 20px;
-	height: 20px;
-	transform: translateY(3px);
+  width: 20px;
+  height: 20px;
+  transform: translateY(3px);
 }
 /* STAFF ONLY VIEW */
 .staffs {
-
 }
 .staffs > .box2 {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .staffs > .box1 table {
-	border-collapse: collapse;
-	width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 .staffs > .box1 table td,
 .staffs > .box1 table th {
-	border: 1px solid #ddd;
-	padding: 8px;
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 .staffs > .box1 table th {
-	padding-top: 12px;
-	padding-bottom: 12px;
-	text-align: left;
-	background-color: #FF6050;
-	color: white;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #ff6050;
+  color: white;
 }
 .staffs > .box2 > div {
-	width: 100%;
+  width: 100%;
 }
 .staffs > .box2 a {
-	width: 80%;
-	margin-bottom: 15px;
+  width: 80%;
+  margin-bottom: 15px;
 }
 
 /* CHECKIN */
 .checkin {
-	width: 100%;
-	border: 1px solid lightgray;
-	margin-top: 10px;
-	padding: 20px;
-	box-sizing: border-box;
+  width: 100%;
+  border: 1px solid lightgray;
+  margin-top: 10px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 .checkin > form {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .checkin > form > label {
-	text-align: left;
-	margin-bottom: 10px;
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
-	transform: translateX(10px);
+  text-align: left;
+  margin-bottom: 10px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateX(10px);
 }
 .checkin > form > div {
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	width: 60%;
-	margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 60%;
+  margin: 0 auto;
+  height: 41px;
 }
 .checkin > form > div > input[type="submit"] {
-	width: 20%;
-	margin: 0;
-	transform: translateX(-10px);
-	border-radius: 0 5px 5px 0
+  width: 20%;
+  margin: 0;
+  transform: translateX(-10px);
+  border-radius: 0 5px 5px 0;
 }
 .checkin > form > div > input#email {
-	width: 80%;
-	box-sizing: border-box;
-	height: 100%;
-	margin: 0;
-	margin-left: 10px;
+  width: 80%;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  margin-left: 10px;
 }
 
 /* MOBILE */
 @media screen and (max-width: 650px) {
-	div.flexbox {
-		flex-direction: column;
-	}
-	div.flexbox > div.box1,
-	div.flexbox > div.box2 {
-		width: 100%;
-		margin: 5px 0;
-		box-sizing: border-box;
-	}
+  div.flexbox {
+    flex-direction: column;
+  }
+  div.flexbox > div.box1,
+  div.flexbox > div.box2 {
+    width: 100%;
+    margin: 5px 0;
+    box-sizing: border-box;
+  }
 }
 /* TABLET */
 @media screen and (max-width: 970px) {
-
 }

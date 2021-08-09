@@ -12,13 +12,13 @@ $(document).ready(() => {
 				data: $(form).serialize(),
 				success: function() {
 					Swal.fire({
-						title: "Email har blitt sendt!",
-						html: "En melding har blitt sent til ditt email om det finnes en bruker registrert med emailet.<br/>I mailet vil du få en lenke som sender deg videre til en skjema hvor du får endret passordet ditt.",
+						title: "E-post har blitt sendt!",
+						html: "En melding har blitt sent til din e-post om det finnes en bruker som er registrert med eposten oppgitt.<br/>I meldingen vil du få en lenke som sender deg videre til et skjema hvor du får mulighet til å endre passordet ditt.",
 						icon: "warning",
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
-						confirmButtonText: "OK.",
+						confirmButtonText: "Ok",
 					}).then(function() {
 						submit.value = "";
 					})
@@ -31,7 +31,7 @@ $(document).ready(() => {
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
-						confirmButtonText: "OK.",
+						confirmButtonText: "Ok",
 					});
 				}
 			});

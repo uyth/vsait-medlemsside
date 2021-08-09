@@ -27,7 +27,7 @@
 										<h2>{{ event.title }}</h2>
 										<h2 class="type" style="bottom: 70px">{{ event.location }}</h2>
 										<h2 class="type" style="bottom: 35px">{{ event.startTime | date:'l d.m.Y' }}</h2>
-										<h2 class="type">{% if event.event_type == 'medlem' %}Membership required{% else %}Open for all{% endif %}</h2>
+										<h2 class="type">{% if event.event_type == 'medlem' %}Krever medlemsskap{% else %}Åpent{% endif %}</h2>
 										<img src="{{ event.image.url }}"/>
 									</div>
 									<div class="info">

@@ -15,7 +15,7 @@ $(document).ready(() => {
 			alertInfo.icon = "success";
 		} else {
 			alertInfo.title = "Error!";
-			alertInfo.text = "Se og fiks erroren nedenfor!";
+			alertInfo.text = "Se og fiks feilmeldingene nedenfor!";
 			alertInfo.icon = "error";
 		}
 		Swal.fire({
@@ -84,30 +84,31 @@ const click3 = function(e) {
 	const alertInfo = getInfo(this.id);
 	Swal.fire({
 		title: "BLI MEDLEM",
-		html: 'Medlemskontingenten betales via Vipps. Dersom navnet ditt på Vipps er forskjellig fra hva du registrerer deg med her, skriv en kommentar med navnet du vanligvis bruker.<br/><br/>På Vipps, gå inn på "Send" og søk "VSAiT". Velg “Medlemsavgift/Membership fee”. Du kan også betale 100 kroner til kontonummer 4212.13.37740.',
+		html: 'Medlemskontingenten kan betales via nettbank eller Vipps.<br/><br/>Via nettbank betaler du ved å overføre 100 kroner til kontonummer 4212.13.37740 eller IBAN XXXX. Skriv navnet ditt i blanketten.<br/><br/>På Vipps, gå inn på "Send" og søk "VSAiT". Velg “Medlemsavgift/Membership fee”. Dersom navnet ditt på Vipps er forskjellig fra hva du registrerer deg med her, skriv en kommentar med navnet du vanligvis bruker',
 		icon: alertInfo.icon,
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
-		confirmButtonText: "OK.",
+		confirmButtonText: "Ok",
+		cancelButtonText: "Avbryt",
 		input: 'checkbox',
-		inputPlaceholder: 'Bekreft betaling'
+		inputPlaceholder: 'Jeg bekrefter at jeg har betalt'
 	}).then(function(result) {
 		if (result.value) {
 			Swal.fire({
 				icon: 'success',
-				text: 'SUCCESS MESSAGE MEMBERSHIP ADD!',
-				timer: 1500,
+				text: 'Vellykket registrering! Vi oppdaterer medlemsskapet ditt når vi har mottat betaling.',
 				showCancelButton: false,
-				showConfirmButton: false,
+				showConfirmButton: true,
+				confirmButtonText: "Ok",
 			}).then(function() {
 				form.submit();
 			})
 		} else if (result.value === 0) {
 			Swal.fire({
 				icon: 'error',
-				text: "Please make sure to read the text and check the box :(",
-				timer: 1500,
+				text: "Vennligst les teksten og huk av avmerkingsboksen!",
+				timer: 2500,
 				showCancelButton: false,
 				showConfirmButton: false,
 			});

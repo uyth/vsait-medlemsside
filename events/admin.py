@@ -8,7 +8,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'startTime_display', 'endTime_display', 'last_edited_display', 'is_upcoming','is_ongoing','is_draft')
     list_filter = ['last_edited','startTime','is_draft']
     search_fields = ('title',)
-    ordering = ('startTime',)
+    ordering = ('-startTime',)
     filter_horizontal = ()
 
     fieldsets = (

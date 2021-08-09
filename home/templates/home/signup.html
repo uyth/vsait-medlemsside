@@ -35,6 +35,11 @@
 						{% endfor %}
 					{% endif %}
 				</div>
+				<form style="display: none;" id="cform" method="POST">
+					{% csrf_token %}
+					{{ cform.as_p }}
+					<input type="submit" id="cbtn" value="send confirmation again"/>
+				</form>
 			</main>
 			{% block footer %}
 				{% include 'home/footer.html' %} 

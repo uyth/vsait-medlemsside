@@ -12,7 +12,7 @@ from .models import VsaitUser
 class VsaitUserRegistrationForm(forms.ModelForm):
     firstname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Fornavn*'}))
     lastname = forms.CharField(max_length=100, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':'Etternavn*'}))
-    email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'Email*'}))
+    email = forms.EmailField(max_length=256, widget=forms.widgets.EmailInput(attrs={'class': 'inp','placeholder':'E-post*'}))
     date_of_birth = forms.DateField(input_formats=['%Y-%m-%d','%d/%m/%Y','%m/%d/%Y'],widget=forms.widgets.DateInput(format=('%d/%m/%Y'), attrs={'placeholder':'Date of birth*','type':'date','min':str(timezone.now().year-120)+'-01-01','max':str(timezone.now().year-17)+'-01-01'}))
     password = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Passord*'}))
     password_confirmation = forms.CharField(min_length = 8, max_length=256, widget=forms.widgets.PasswordInput(attrs={'class': 'inp','placeholder':'Skriv passord på nytt*'}))
@@ -26,6 +26,7 @@ class VsaitUserRegistrationForm(forms.ModelForm):
         super(VsaitUserRegistrationForm, self).__init__(*args, **kwargs)
         self.fields['firstname'].label = 'Fornavn'
         self.fields['lastname'].label = 'Etternavn'
+        self.fields['email'].label = 'E-post'
         self.fields['date_of_birth'].label = 'Fødselsdato'
         self.fields['password'].label = 'Passord'
         self.fields['password_confirmation'].label = 'Skriv passord på nytt'
@@ -35,7 +36,7 @@ class VsaitUserRegistrationForm(forms.ModelForm):
         email = self.cleaned_data['email'].lower()
         user_list = VsaitUser.objects.filter(email=email)
         if user_list.count():
-            raise ValidationError('There is already an account associated with that email.')
+            raise ValidationError('Det er allerede en bruker knyttet til den e-posten.')
         return email
 
     def clean_password_confirmation(self):
@@ -43,7 +44,7 @@ class VsaitUserRegistrationForm(forms.ModelForm):
         password2 = self.cleaned_data['password_confirmation']
 
         if (password1 and password2) and (password1 != password2):
-            raise ValidationError('Passwords do not match.')
+            raise ValidationError('Passordene er ikke like.')
         return password2
 
     def clean_date_of_birth(self):
@@ -110,7 +111,7 @@ class VsaitUserChangeForm(UserChangeForm):
         email_list = VsaitUser.objects.filter(email=email)
         sameUser = VsaitUser.objects.get(email=email).id == email_list.get().id
         if email_list.count() and not sameUser:
-            raise ValidationError('There is already an account associated with that email.')
+            raise ValidationError('Det er allerede en bruker knyttet til den e-posten.')
         return email
 
     def clean_date_of_birth(self):
@@ -138,7 +139,7 @@ class VsaitUserProfileChangeForm(UserChangeForm):
         email_list = VsaitUser.objects.filter(email=email)
         sameUser = VsaitUser.objects.get(email=email).id == email_list.get().id
         if email_list.count() and not sameUser:
-            raise ValidationError('There is already an account associated with that email.')
+            raise ValidationError('Det er allerede en bruker knyttet til den e-posten.')
         return email
 
 # Profile food_needs form change
@@ -153,6 +154,12 @@ class VsaitUserFoodNeedsChangeForm(forms.Form):
         kwargs.update(initial={'food_needs': self.user.food_needs}) # Updates the food_needs
         super(VsaitUserFoodNeedsChangeForm, self).__init__(*args, **kwargs)
 
+class VsaitUserSendConfirmationForm(forms.Form):
+    user = forms.CharField(max_length=512, widget=forms.widgets.TextInput(attrs={'class': 'inp','placeholder':''}))
+    class Meta:
+        model = VsaitUser
+        fields = ('user',)
+
 # Profile is_student
 class VsaitUserIsStudent(forms.Form):
     is_student = forms.BooleanField(required=False)
@@ -165,6 +172,7 @@ class VsaitUserIsStudent(forms.Form):
         super(VsaitUserIsStudent, self).__init__(*args, **kwargs)
         kwargs.update(initial={'is_student': self.user.student}) # Updates the student
         super(VsaitUserIsStudent, self).__init__(*args, **kwargs)
+        self.fields['is_student'].label = 'Student'
 
 # Reset password form
 class ResetPasswordForm(forms.Form):
@@ -179,7 +187,7 @@ class ResetPasswordForm(forms.Form):
         password2 = self.cleaned_data['password_confirmation']
 
         if (password1 and password2) and (password1 != password2):
-            raise ValidationError('Passwords do not match.')
+            raise ValidationError('Passordene er ikke like.')
         return password2
 
 # The login form shown on the homepage/index
