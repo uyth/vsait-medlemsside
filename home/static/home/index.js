@@ -70,11 +70,9 @@ const membership_alert = function () {
         title: "Husk å bli medlem!",
         html: "Som medlem kan du bli med på arrangementer<br/>Bli medlem ved å gå inn på din profil!",
         icon: "warning",
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Ok",
-        cancelButtonText: "Avbryt",
         input: "checkbox",
         inputPlaceholder: "Jeg har lest.",
       }).then(function (result) {
@@ -88,16 +86,6 @@ const membership_alert = function () {
           }).then(function () {
             form.submit();
           });
-        } else if (result.value === 0) {
-          Swal.fire({
-            icon: "error",
-            text: "Vennligst les teksten og huk av avmerkingsboksen!",
-            timer: 2500,
-            showCancelButton: false,
-            showConfirmButton: false,
-          });
-        } else {
-          console.log(`modal was dismissed by ${result.dismiss}`);
         }
       });
     }, 500);

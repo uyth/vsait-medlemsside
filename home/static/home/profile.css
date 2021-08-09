@@ -1,107 +1,110 @@
 .divbox {
-	text-align: left;
-	border: 1px solid rgba(0,0,0,.1);
-	padding: 20px;
-	max-width: 800px;
-	margin: 30px auto;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 800px;
+  margin: 30px auto;
 }
 .divbox p.label {
-	color: gray;
-	padding-bottom: 0;
-	margin-bottom: 0;
+  color: gray;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 .divbox p.label + p {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .divbox h2 {
-	text-align: center;
-	color: gray;
-	font-size: 0.9rem;
+  text-align: center;
+  color: gray;
+  font-size: 0.9rem;
 }
 
 /* PROFILE NAV */
 .profile .nav {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
 }
 .profile .nav > a {
-	background-color: rgba(90,90,90,.2);
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	display: block;
-	text-align: center;
+  background-color: rgba(90, 90, 90, 0.2);
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: block;
+  text-align: center;
 }
 div.brukerinformasjon > form {
-	display: flex;
+  display: flex;
 }
 div.brukerinformasjon > form > p {
-	display: flex;
-	flex-direction: column;
-	width: 80%;
-	margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-top: 0;
 }
 div.brukerinformasjon > form > p > label {
-	color: gray;
-	padding-bottom: 0;
-	margin-bottom: 5px;
+  color: gray;
+  padding-bottom: 0;
+  margin-bottom: 5px;
 }
 div.brukerinformasjon > form > p > input {
-	width: 100%;
-	box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
+}
+div.brukerinformasjon > form > p > input[type="checkbox"] {
+  width: 16px;
 }
 div.brukerinformasjon > form > input[type="submit"] {
-	display: inline-block;
-	width: 40%;
-	height: 37px;
-	align-self: self-end;
-	margin-bottom: 22.5px;
-	margin-left: 10px;
+  display: inline-block;
+  width: 40%;
+  height: 37px;
+  align-self: self-end;
+  margin-bottom: 22.5px;
+  margin-left: 10px;
 }
 /* PASSWORD CHANGE */
 .password > form {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .password > form > p {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .password > form > p > label {
-	color: gray;
-	padding-bottom: 0;
-	margin-bottom: 5px;
+  color: gray;
+  padding-bottom: 0;
+  margin-bottom: 5px;
 }
 .password > form > p > input {
-	width: 100%;
-	box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
 }
 .password > form > ul {
-	order: 4;
-	padding: 0;
+  order: 4;
+  padding: 0;
 }
 .password > form > ul > li {
-	list-style: none;
-	padding: 5px 10px;
-	margin: 5px 0;
-	background-color: antiquewhite;
+  list-style: none;
+  padding: 5px 10px;
+  margin: 5px 0;
+  background-color: antiquewhite;
 }
 .password > form > p:nth-of-type(3) {
-	display: none;
+  display: none;
 }
 /* PROFILE STATISTICS */
 div.statistikk div.event {
-	text-align: left;
-	padding: 10px;
-	background-color: rgba(100,100,100,.1);
-	margin-bottom: 10px;
+  text-align: left;
+  padding: 10px;
+  background-color: rgba(100, 100, 100, 0.1);
+  margin-bottom: 10px;
 }
 div.statistikk div.event > h2 {
-	text-align: left;
+  text-align: left;
 }
 div.profile form input[id="membership"],
 div.profile form input[id="password"] {
-	width: 45%;
-	margin: 10px 0;
+  width: 45%;
+  margin: 10px 0;
 }

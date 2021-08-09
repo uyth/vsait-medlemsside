@@ -39,7 +39,7 @@ def index(request):
     context['cform'] = confirmationForm
     if request.method == "POST":
         # Alert membership
-        context['email'] = ""
+        request.session['email'] = ""
         print(request.POST)
         if "alert_membership" in request.POST.keys():
             request.user.alert_membership_read = True
