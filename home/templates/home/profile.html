@@ -1,13 +1,12 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VSAiT - Profil</title>
+		<title>vsait - profil</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'home/profile.css' %}">
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=montserrat:wght@500&display=swap" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static 'home/profile.js' %}"></script>
@@ -19,60 +18,60 @@
 			{% endblock header %}
 			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
-				<div class="innhold profile" style="transform: translateY(0);margin-bottom: 180px;">
-					<h1>Min profil</h1>
+				<div class="innhold profile" style="transform: translatey(0);margin-bottom: 180px;">
+					<h1>min profil</h1>
 					<input type="hidden" autofocus="true" />
 					<div id="profile" class="profile_display">
 						<div class="divbox membership">
-							<h2>Medlemskap</h2>
-							<p class="label">Status:</p>
+							<h2>medlemskap</h2>
+							<p class="label">status:</p>
 							{% if user.has_membership_boolean %}
-								<p>Medlemskap confirmed for {{ get_year }}</p>
+								<p>medlemskap confirmed for {{ get_year }}</p>
 							{% elif user.pending_membership %}
-								<p>Venter på bekreftelse av medlemskontigent.<br/><br/></p>
-								<p>Du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
+								<p>venter på bekreftelse av medlemskontigent.<br/><br/></p>
+								<p>du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
 							{% else %}
-								<p>Du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
-								<form action="/profile/pending_membership/" method="POST">
+								<p>du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
+								<form action="/profile/pending_membership/" method="post">
 									{% csrf_token %}
-									<input type="submit" id="membership" value="Bli medlem!">
+									<input type="submit" id="membership" value="bli medlem!">
 								</form>
 							{% endif %}
 							{% if memberships %}
-							<p class="label">Tidligere medlemskap</p>
+							<p class="label">tidligere medlemskap</p>
 								{% for membership in memberships %}
 									<p>{{ membership.year }}</p>
 								{% endfor %}
 							{% endif %}
 						</div>
 						<div class="divbox brukerinformasjon">
-							<h2>Brukerinfo</h2>
-							<p class="label">Email</p>
+							<h2>brukerinfo</h2>
+							<p class="label">email</p>
 							<p>{{ user.email }}</p>
-							<p class="label">Navn</p>
+							<p class="label">navn</p>
 							<p>{{ user.firstname}} {{ user.lastname }}</p>
-							<p class="label">Fødselsdag</p>
-							<p>{{ user.date_of_birth | date:'d.m.Y'}}</p>
-							<p class="label">Is a student</p>
+							<p class="label">fødselsdag</p>
+							<p>{{ user.date_of_birth | date:'d.m.y'}}</p>
+							<p class="label">is a student</p>
 							<p>{{ user.student}}</p>
-							<form method="POST">
+							<form method="post">
 								{% csrf_token %}
 								{{ form_food_needs.as_p }}
-								<input type="submit" id="food" value="Oppdater">
+								<input type="submit" id="food" value="oppdater">
 							</form>
-							<form class="student" method="POST">
+							<form class="student" method="post">
 								{% csrf_token %}
 								<input type="text" id="is_student_2" name="is_student_2" value="hidden" hidden/>
 								{{ form_is_student.as_p }}
-								<input type="submit" id="student" value="Oppdater"/>
+								<input type="submit" id="student" value="oppdater"/>
 							</form>
 						</div>
 						<div class="divbox password">
-							<h2>Endre passord</h2>
-							<form method="POST">
+							<h2>endre passord</h2>
+							<form method="post">
 								{% csrf_token %}
 								{{ form_password.as_p }}
-								<input type="submit" id="password" value="Oppdater">
+								<input type="submit" id="password" value="oppdater">
 							</form>
 							{% if messages %}
 								{% for message in messages %}
@@ -81,18 +80,18 @@
 							{% endif %}
 						</div>
 						<div class="divbox statistikk">
-							<h2>Statistics</h2>
-							<p>You have joined {{ events_count }} events so far!</p>
+							<h2>statistikk</h2>
+							<p>du har vært med på {{ events_count }} arrangementer så langt!</p>
 							{% for event in events %}
 							<a href="events/{{event.pk}}">
 								<div class="event">
 									<h2>{{ event.title }}</h2>
-									{{ event.startTime | date:'d.m.Y [H:i]' }} - {{ event.endTime | date:'d.m.Y [H:i]' }}
+									{{ event.starttime | date:'d.m.y [h:i]' }} - {{ event.endtime | date:'d.m.y [h:i]' }}
 								</div>
 							</a>
 							{% endfor %}
 						</div>
-						<a class="btn" href="/logout">Logg ut</a>
+						<a class="btn" href="/logout">logg ut</a>
 					</div>
 				</div>
 			</main>
