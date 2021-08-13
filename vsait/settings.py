@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,7 @@ with open('/home/juki/vsait_secret.txt') as f:
     SECRET_KEY = secret[0]
     EMAIL_HOST_USER = secret[1]
     EMAIL_HOST_PASSWORD = secret[2]
+    DROPBOX_OAUTH2_TOKEN = secret[3]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +88,6 @@ WSGI_APPLICATION = 'vsait.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -119,20 +121,19 @@ AUTH_USER_MODEL = 'home.VsaitUser' # New custom user model to be used with Djang
 
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'nb-no'
-
 # Setting timezone to UTC+1 (Norsk tid)
 TIME_ZONE = 'CET'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+# DROPBOX_OAUTH2_TOKEN = ""
+DROPBOX_ROOT_PATH = "/"
+DROPBOX_TIMEOUT = 200
 STATIC_URL = '/static/'
 LOGIN_URL = '/'
 
@@ -149,3 +150,6 @@ TINYMCE_DEFAULT_CONFIG = {
     "custom_undo_redo_levels": 10,
 }
 #TINYMCE_COMPRESSOR = True
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

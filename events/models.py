@@ -12,7 +12,7 @@ TYPE_CHOICES = [
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = HTMLField()
-    image = models.ImageField(upload_to='event_uploads', default='default_event_image.jpg')
+    image = models.ImageField(upload_to='event_uploads', default='/event_uploads/default_event_image.jpg')
 
     startTime = models.DateTimeField('startTime')
     endTime = models.DateTimeField('endTime')
