@@ -1,4 +1,3 @@
-var $ = django.jQuery;
 $(document).ready(() => {
   console.log("image_upload.js loaded");
 

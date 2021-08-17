@@ -1,4 +1,3 @@
-var $ = django.jQuery;
 $(document).ready(() => {
   console.log("draft.js loaded");
 

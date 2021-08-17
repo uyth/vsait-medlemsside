@@ -1,4 +1,3 @@
-var $ = django.jQuery;
 $(document).ready(() => {
   console.log("datetime_field.js loaded");
 

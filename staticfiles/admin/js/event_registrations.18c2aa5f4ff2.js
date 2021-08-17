@@ -1,4 +1,3 @@
-var $ = django.jQuery;
 $(document).ready(() => {
   console.log("event_registrations.js loaded");
 
