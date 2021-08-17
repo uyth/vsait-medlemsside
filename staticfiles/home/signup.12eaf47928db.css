@@ -1,0 +1,52 @@
+div.signup_div form {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+	margin: 0 auto;
+}
+div.signup_div form > p{
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	margin: 5px 0;
+}
+div.signup_div form > p .show_password > a {
+	transform: translateY(10px);
+}
+div.signup_div form > p label {
+	margin-bottom: 5px;
+}
+div.signup_div form > p input,
+div.signup_div form > input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 40px !important;
+}
+div.signup_div form > p.terms {
+	display: block;
+}
+div.signup_div form > p input[type='checkbox'] {
+	width: 10px;
+	height: auto !important;
+	text-align: left;
+	display: inline;
+}
+div.signup_div form > p:nth-of-type(8) {
+	flex-direction: row;
+}
+div.signup_div form > p > label[for="id_student"] {
+	order: 2;
+	margin-bottom: 0;
+	margin-left: 5px;
+	transform: translateY(2px);
+}
+div.signup_div form > p > label[for="id_student"]::after {
+	content: "ja/nei";
+	position: relative;
+	left: 5px;
+}
+input#id_date_of_birth {
+	cursor: pointer;
+}

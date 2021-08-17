@@ -227,3 +227,9 @@ def reset_password(request, secret_url):
     form = ResetPasswordForm(request.POST)
     context["form"] = form
     return render(request, 'home/reset_password.html', context)
+
+def handler404(request, exception):
+    return render(request, 'home/404.html', status = 404)
+
+def handler500(request, exception=None):
+    return render(request, 'home/500.html', status = 500)

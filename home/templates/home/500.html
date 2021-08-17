@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VSAiT - 404</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'home/contact.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="wrapper">
+			{% block header %}
+				{% include 'home/header.html' %} 
+			{% endblock header %}
+			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 100vh;width: 100%;"></div>
+			<main style="min-height: calc(100vh - 320px);">
+				<div class="innhold" style="transform: translateY(0); margin-top: 50px;">
+					<div>
+						<h1>500</h1>
+						<p>Noe gikk galt. Intern serverfeil...</p>
+					</div>
+				</div>
+			</main>
+			{% block footer %}
+				{% include 'home/footer.html' %} 
+			{% endblock footer %}
+		</div>
+	</body>
+</html>

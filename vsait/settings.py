@@ -35,9 +35,9 @@ with open('/home/juki/vsait_secret.txt') as f:
     DROPBOX_OAUTH2_TOKEN = secret[3]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','bbfa92cf93ff.ngrok.io','ccd9c5abcb74.ngrok.io','a73a175bc2ea.ngrok.io']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','bbfa92cf93ff.ngrok.io','ccd9c5abcb74.ngrok.io','a73a175bc2ea.ngrok.io']
 
 
 # Application definition
