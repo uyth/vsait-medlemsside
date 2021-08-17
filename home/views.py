@@ -32,7 +32,7 @@ def index(request):
                 user = user.get();
                 current_site = get_current_site(request)
                 subject = '[VSAiT] Velkommen!'
-                message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+                message = f'Hei {user.firstname}\n\nTakk for at du registrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list = [user.email, ] 
                 send_mail( subject, message, email_from, recipient_list )
@@ -96,7 +96,7 @@ def sign_up(request):
             # Mail
             current_site = get_current_site(request)
             subject = '[VSAiT] Velkommen!'
-            message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+            message = f'Hei {user.firstname}\n\nTakk for at du registrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ] 
             send_mail( subject, message, email_from, recipient_list )
@@ -115,7 +115,7 @@ def sign_up(request):
                 user = user.get();
                 current_site = get_current_site(request)
                 subject = '[VSAiT] Velkommen!'
-                message = f'Hei {user.firstname}\n\nTakk for at du regisrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+                message = f'Hei {user.firstname}\n\nTakk for at du registrerte en bruker hos VSAiT.\nVennligst bekreft eposten din ved å trykke på lenken: http://{current_site}/activate/{user.secret_email_confirmation_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list = [user.email, ] 
                 send_mail( subject, message, email_from, recipient_list )
@@ -203,7 +203,7 @@ def forgot_password(request):
             # Mail
             subject = '[VSAiT] Tilbakestill passord'
             current_site = get_current_site(request)
-            message = f'Hei {user.firstname}\n\nVi har mottatt en forespørsel om å tilbakestille passord.\nBenytt denne lenken for å opprette et nytt passord: http://{current_site}/reset_password/{user.secret_password_change_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
+            message = f'Hei {user.firstname}\n\nVi har mottatt en forespørsel om å tilbakestille passordet ditt.\nBenytt denne lenken for å opprette et nytt passord: http://{current_site}/reset_password/{user.secret_password_change_url}\n\nHvis du ikke har sendt denne forespørselen, kan du se bort fra denne eposten.\n\nVennlig hilsen,\nVietnamese Student Association in Trondheim ♡'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ] 
             send_mail( subject, message, email_from, recipient_list )

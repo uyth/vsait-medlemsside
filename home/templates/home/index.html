@@ -66,7 +66,7 @@
 							<div class="your_events">
 							{% if user.is_authenticated %}
 								{% if user.has_membership_boolean %}
-									<p>Membership confirmed for {{ get_year }}</p>
+									<p>Medlemskap bekreftet for {{ get_year }}</p>
 								{% elif user.pending_membership %}
 									<p>Venter på bekreftelse av medlemskontigent.<br/><br/></p>
 									<p>Du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
@@ -84,7 +84,7 @@
 							<div class="your_events">
 								{% if attending_events or pending_events %}
 									{% if attending_events %}
-										<h3>Attending events</h3>
+										<h3>Arrangementer registrert</h3>
 										{% for event in attending_events %}
 										<a href="events/{{event.pk}}">
 											<p>{{ event.title }}</p>
@@ -94,7 +94,7 @@
 									{% endif %}
 
 									{% if pending_events %}
-										<h3>Pending events</h3>
+										<h3>Arrangementer i venteliste</h3>
 										{% for event in pending_events %}
 										<a href="events/{{event.pk}}">
 											<p>{{ event.title }}</p>
@@ -103,7 +103,7 @@
 										{% endfor %}
 									{% endif %}
 								{% else %}
-									<p>Nothing interesting to show in your feed...</p>
+									<p>Ikke noe å vise...</p>
 								{% endif %}
 							</div>
 						</div>
@@ -138,7 +138,7 @@
 						</div>
 						{% endfor %}
 					{% else %}
-						<p>No events are available right now.</p>
+						<p>Det ser ikke ut som vi har noen planlagte arrangementer annonsert enda. Kom gjerne tilbake igjen senere!</p>
 					{% endif %}
 					</div>
 					<a class="btn" style="width: 95%;" href="/events">Se alle arrangementer...</a>

@@ -19,40 +19,40 @@
 			<div class="bg" style="position: absolute;background-color: rgba(255, 69, 50, 0.85);height: 500px;width: 100%;"></div>
 			<main>
 				<div class="innhold profile" style="transform: translatey(0);margin-bottom: 180px;">
-					<h1>min profil</h1>
+					<h1>Min profil</h1>
 					<input type="hidden" autofocus="true" />
 					<div id="profile" class="profile_display">
 						<div class="divbox membership">
-							<h2>medlemskap</h2>
+							<h2>Medlemskap</h2>
 							<p class="label">status:</p>
 							{% if user.has_membership_boolean %}
-								<p>medlemskap confirmed for {{ get_year }}</p>
+								<p>Medlemskap bekreftet for {{ get_year }}</p>
 							{% elif user.pending_membership %}
-								<p>venter på bekreftelse av medlemskontigent.<br/><br/></p>
-								<p>du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
+								<p>Venter på bekreftelse av medlemskontigent.<br/><br/></p>
+								<p>Du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
 							{% else %}
-								<p>du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
+								<p>Du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
 								<form action="/profile/pending_membership/" method="post">
 									{% csrf_token %}
 									<input type="submit" id="membership" value="bli medlem!">
 								</form>
 							{% endif %}
 							{% if memberships %}
-							<p class="label">tidligere medlemskap</p>
+							<p class="label">Tidligere medlemskap</p>
 								{% for membership in memberships %}
 									<p>{{ membership.year }}</p>
 								{% endfor %}
 							{% endif %}
 						</div>
 						<div class="divbox brukerinformasjon">
-							<h2>brukerinfo</h2>
+							<h2>Brukerinfo</h2>
 							<p class="label">email</p>
 							<p>{{ user.email }}</p>
 							<p class="label">navn</p>
 							<p>{{ user.firstname}} {{ user.lastname }}</p>
 							<p class="label">fødselsdag</p>
 							<p>{{ user.date_of_birth | date:'d.m.y'}}</p>
-							<p class="label">is a student</p>
+							<p class="label">er student</p>
 							<p>{{ user.student}}</p>
 							<form method="post">
 								{% csrf_token %}
@@ -67,7 +67,7 @@
 							</form>
 						</div>
 						<div class="divbox password">
-							<h2>endre passord</h2>
+							<h2>Endre passord</h2>
 							<form method="post">
 								{% csrf_token %}
 								{{ form_password.as_p }}
@@ -80,8 +80,8 @@
 							{% endif %}
 						</div>
 						<div class="divbox statistikk">
-							<h2>statistikk</h2>
-							<p>du har vært med på {{ events_count }} arrangementer så langt!</p>
+							<h2>Statistikk</h2>
+							<p>Du har vært med på {{ events_count }} arrangementer så langt!</p>
 							{% for event in events %}
 							<a href="events/{{event.pk}}">
 								<div class="event">
