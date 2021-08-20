@@ -66,7 +66,8 @@ def index(request):
     context["events"] = Event.objects.filter(endTime__gte=timezone.now()).order_by('-startTime')[::-1]
     context["pending_events"] = []
     context["attending_events"] = []
-    context['get_year'] = str((timezone.now().year)-1)+" / "+str(timezone.now().year)
+    school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+    context['get_year'] = str((school_year)-1)+" / "+str(school_year)
 
     # Filters out draft event, updates draft event if it's time for publish date
     for event in context["events"]:
@@ -133,7 +134,8 @@ def profile(request):
             events.append(event)
     context['events_count'] = len(events)
     context['events'] = events[::-1]
-    context['get_year'] = timezone.now().year
+    school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+    context['get_year'] = str((school_year)-1)+" / "+str(school_year)
     context['memberships'] = list(request.user.memberships.all())[1:]
     context['form_is_student'] = VsaitUserIsStudent(user=request.user)
     # Formchange password

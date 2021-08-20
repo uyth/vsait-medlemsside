@@ -31,7 +31,7 @@
 								<p>Venter på bekreftelse av medlemskontigent.<br/><br/></p>
 								<p>Du kan fortsatt melde deg på arrangement som et vanlig medlem.</p>
 							{% else %}
-								<p>Du er ikke medlem for skoleåret {{ get_year }} / {{ get_year }}</p>
+								<p>Du er ikke medlem for skoleåret {{ get_year }}</p>
 								<form action="/profile/pending_membership/" method="post">
 									{% csrf_token %}
 									<input type="submit" id="membership" value="bli medlem!">

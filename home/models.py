@@ -64,9 +64,11 @@ class VsaitUser(AbstractBaseUser, PermissionsMixin):
         return self.email
     # Membership display
     def has_membership_boolean(self):
-        return str(timezone.now().year) in [x.year for x in self.memberships.all()]
+        school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+        return str(school_year) in [x.year for x in self.memberships.all()]
     def has_membership(self):
-        if str(timezone.now().year) in [x.year for x in self.memberships.all()]:
+        school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+        if str(school_year) in [x.year for x in self.memberships.all()]:
             return format_html('<img src="/static/admin/img/icon-yes.svg" alt="False">')
         else:
             if self.pending_membership:

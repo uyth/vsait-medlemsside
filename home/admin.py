@@ -19,11 +19,16 @@ class MembershipFilter(SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        this_years_membership = Membership.objects.filter(year=timezone.now().year)
+        # Calculates school year, ends at 30.06.20XX
+        school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+        this_years_membership = Membership.objects.filter(year=school_year)
         if (len(list(this_years_membership)) > 0):
             this_years_membership = this_years_membership.get().year
         else:
-            this_years_membership = 2021
+            this_years_membership = school_year
+            # Create membership for a new year if not exists
+            m = Membership(year=school_year)
+            m.save()
         query_memberships = [[y.year for y in list(x.memberships.all())] for x in list(queryset)]
         user_ids = [x.id for x in list(queryset)]
         has_membership = []
@@ -42,13 +47,15 @@ class MembershipFilter(SimpleListFilter):
             return queryset
 
 def add_membership(modeladmin, request, queryset):
-    membership = Membership.objects.filter(year=timezone.now().year).get()
+    school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+    membership = Membership.objects.filter(year=school_year).get()
     for users in queryset:
         users.memberships.add(membership);
 add_membership.short_description = "Bekreft at utvalgte brukere har betalt for medlemskap "
 
 def cancel_membership(modeladmin, request, queryset):
-    membership = Membership.objects.filter(year=timezone.now().year).get()
+    school_year = timezone.now().year if timezone.now().month < 7 else timezone.now().year+1
+    membership = Membership.objects.filter(year=school_year).get()
     for users in queryset:
         users.memberships.remove(membership);
 cancel_membership.short_description = "Ta vekk utvalgte brukeres medlemskap"
@@ -66,10 +73,6 @@ class VsaitUserAdmin(UserAdmin):
     filter_horizontal = ()
     list_display = ['firstname','lastname','email','date_of_birth_display','date_joined_display','student','has_membership','is_staff']
     list_filter = ('student',MembershipFilter,'is_staff')
-    # Fieldset for the user forms
-    #email_confirmed = models.BooleanField(default=False)
-    #secret_email_confirmation_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
-    #secret_password_change_url = models.CharField(max_length=100, default=uuid.uuid4().hex)
     fieldsets = (
         (None, {'fields': ('email', 'new_password')}),
         ('Personal Information', {'fields': ('firstname', 'lastname', 'date_of_birth','student','food_needs')}),
