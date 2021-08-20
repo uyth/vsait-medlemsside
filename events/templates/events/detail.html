@@ -75,8 +75,8 @@
 								</div>
 								{% if not event.max_people_unlimited %}
 								<div>
-									<p class="label">Waiting list</p>
-									<p>{% if is_waiting %} Currently in position {{ waiting_number }} / {% endif %}{{ event.number_of_waiting_users }}</p>
+									<p class="label">Venteliste</p>
+									<p>{% if is_waiting %}Plass {{ waiting_number }} / {% endif %}{{ event.number_of_waiting_users }}</p>
 								</div>
 								{% endif %}
 							</div>
@@ -96,7 +96,7 @@
 											<p class="paameldt">Du er i venteliste</p>
 											<button type="submit" id="cancel_waiting" name="event_id" value="{{object.id}}" class="btn inverse">Melde deg av</button>
 										{% else %}
-											{% if user.has_membership_boolean or user.pending_membership %}
+											{% if user.has_membership_boolean or user.pending_membership or event.event_type != 'medlem' %}
 												<button type="submit" id="register" name="event_id" value="{{object.id}}" class="btn">Meld deg på</button>
 											{% else %}
 												<strong>Dette arrangementet er kun åpen for medlemer</strong>
