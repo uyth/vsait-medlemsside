@@ -5,10 +5,12 @@
 		<title>VSAiT - Hjemmeside</title>
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'home/infoPopup.css' %}">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static 'home/index.js' %}"></script>
+		<script type="text/javascript" src="{% static 'home/infoPopup.js' %}"></script>
 	</head>
 	<body>
 		<div class="wrapper index">
@@ -142,6 +144,18 @@
 					{% endif %}
 					</div>
 					<a class="btn" style="width: 95%;" href="/events">Se alle arrangementer...</a>
+				</div>
+				<div id="infoPopup">
+					<p>Heisann!</p>
+					<p>Velkommen til VSAiTs nye medlemsside!</p>
+					<p>Påmelding til VSAiTs fremtidige arrangementer skjer her!</p>
+					<p>Vi har også en Discord server for digitale sosiale sammenhenger. Bli med her: <a href="https://discord.gg/Bhd9v7bZ79" target="_blank">https://discord.gg/Bhd9v7bZ79</a></p>
+					<p>Oppdager du noen feil, mangler, eller ønsker, send mail til <a href="mailto:it@vsait.org">it@vsait.org</a></p>
+					<label>
+						<input type="checkbox" id="infoPopupChkbox"/>
+						Ikke vis denne meldingen igjen
+					</label>
+					<button id="infoPopupBtn">Lukk meldingen</button>
 				</div>
 			</main>
 			{% block footer %}
