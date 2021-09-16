@@ -35,6 +35,8 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         event = get_object_or_404(Event, id=self.kwargs['pk'])
+        if event.is_draft:
+            raise Http404("Event is in draft mode!")
         # User information
         data["is_registered"] = event.registrations.filter(id=self.request.user.id).exists()
         data["is_waiting"] = event.waiting_list.filter(id=self.request.user.id).exists()
