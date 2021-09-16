@@ -11,23 +11,26 @@ $(document).ready(() => {
 
   // påmeldingsfrist <= avmeldingsfrist <= starttid < sluttid
   const submit_row = $(".submit-row").get(0);
-  const submit_row_children = $(".submit-row").children();
-  const save_another = submit_row_children[2];
-  const save_continue = submit_row_children[3];
-  const save_end = submit_row_children[0];
+  submit_row.style.minHeight = "34px";
+  const save_another = $("input[name='_addanother']").get(0);
+  const save_continue = $("input[name='_continue']").get(0);
+  const save_end = $("input[name='_save']").get(0);
   const saves = [save_another, save_continue, save_end];
-  for (save of saves) {
+  for (let i = 0; i < saves.length; i++) {
+    const save = saves[i];
     // Hide save button
     save.style.display = "none";
     // Make a clone
     const input = document.createElement("a");
     input.innerText = save.value;
     input.className = "button";
+    input.setAttribute("data-num", "" + i);
     input.style.padding = "10px 15px";
     input.style.position = "relative";
     input.style.setProperty("top", "9px", "important");
     input.style.margin = "5px";
     $(input).click(function () {
+      const save = saves[+this.getAttribute("data-num")];
       const startTime_date = $("#id_startTime_0").get(0);
       const startTime_time = $("#id_startTime_1").get(0);
       const endTime_date = $("#id_endTime_0").get(0);
