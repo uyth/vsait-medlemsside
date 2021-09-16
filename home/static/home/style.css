@@ -465,7 +465,7 @@ ul.errorlist + p {
   }
 }
 /* TABLET */
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1000px) {
   label.burger {
     position: absolute;
     z-index: 420;

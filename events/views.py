@@ -19,6 +19,13 @@ class IndexView(generic.ListView):
         
         ongoing_events = Event.objects.filter(endTime__gte=now).order_by('-startTime')[::-1]
         events = list(Event.objects.filter(endTime__lt=now).order_by('-startTime'))
+        for event in events:
+            if event.is_draft:
+                if event.draft_publish_time <= now:
+                    event.is_draft = False;
+                    event.save()
+                else:
+                    events.remove(event)
         #return upcoming_events + events
         return ongoing_events + events
    
