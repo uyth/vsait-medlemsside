@@ -37,9 +37,15 @@ div.flexbox div.info {
   text-align: left;
   /* padding: 0 20px; */
 }
-/* INFO */
-.flexbox.info {
+/* INFO BOX */
+.flexbox .infobox {
+  width: 90%;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  text-align: left;
+  transform: translateY(-5px);
 }
+/* INFO */
 .flexbox.info > .box1 {
   padding: 0 20px;
   box-sizing: border-box;
