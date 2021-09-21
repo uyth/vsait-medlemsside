@@ -1,6 +1,13 @@
 var $ = django.jQuery;
 $(document).ready(() => {
   console.log("events.js loaded");
+  // Link for id
+  const historyLink = $(".historylink")?.get(0);
+  if (historyLink) {
+    const event_id = historyLink.href.split("event/")[1].split("/")[0];
+    const title_div = $(".field-title").children().get(0);
+    title_div.innerHTML += `<div class='help'><a href="/events/${event_id}" target="_blank">View the event in a new tab</a></div>`;
+  }
   // HELPTEXT for PEOPLE
   const people_div = $(".field-max_people").children().get(0);
   people_div.innerHTML +=

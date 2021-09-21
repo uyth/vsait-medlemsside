@@ -26,7 +26,13 @@ class IndexView(generic.ListView):
                     event.save()
                 else:
                     events.remove(event)
-        #return upcoming_events + events
+        for event in ongoing_events:
+            if event.is_draft:
+                if event.draft_publish_time <= now:
+                    event.is_draft = False;
+                    event.save()
+                else:
+                    ongoing_events.remove(event)
         return ongoing_events + events
    
 class DetailView(generic.DetailView):
@@ -35,7 +41,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         event = get_object_or_404(Event, id=self.kwargs['pk'])
-        if event.is_draft:
+        if event.is_draft and not self.request.user.is_staff:
             raise Http404("Event is in draft mode!")
         # User information
         data["is_registered"] = event.registrations.filter(id=self.request.user.id).exists()
@@ -61,6 +67,8 @@ def EventRegistration(request, pk):
     event = get_object_or_404(Event, id=request.POST.get('event_id'))
     # Does nothing if event startTime has passed
     print(event.event_type, request.user.has_membership_boolean(), request.user.pending_membership)
+    if event.is_draft:
+        raise Http404("Event not found!")
     if event.is_upcoming():
         # Event type is member and user is not member, then skip, else go through as normal
         if event.event_type == "medlem" and not request.user.has_membership_boolean() and not request.user.pending_membership:
