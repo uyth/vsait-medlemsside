@@ -85,7 +85,7 @@ const click3 = function (e) {
   const alertInfo = getInfo(this.id);
   Swal.fire({
     title: "BLI MEDLEM",
-    html: 'Medlemskontingenten kan betales via nettbank eller Vipps.<br/><br/>Via nettbank betaler du ved å overføre 100 kroner til kontonummer 4212.13.37740 eller IBAN XXXX. Skriv navnet ditt i blanketten.<br/><br/>På Vipps, gå inn på "Send" og søk "VSAiT". Velg “Medlemsavgift/Membership fee”. Dersom navnet ditt på Vipps er forskjellig fra hva du registrerer deg med her, skriv en kommentar med navnet du vanligvis bruker',
+    html: 'Medlemskontingenten kan betales via nettbank eller Vipps.<br/><br/>Via nettbank betaler du ved å overføre 100 kroner til kontonummer 4212.13.37740 eller IBAN NO1742121337740. Skriv navnet ditt i blanketten.<br/><br/>På Vipps, gå inn på "Send" og søk "VSAiT". Velg “Medlemsavgift/Membership fee”. Dersom navnet ditt på Vipps er forskjellig fra hva du registrerer deg med her, skriv en kommentar med navnet du vanligvis bruker',
     icon: alertInfo.icon,
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
