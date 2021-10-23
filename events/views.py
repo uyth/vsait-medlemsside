@@ -17,7 +17,7 @@ class IndexView(generic.ListView):
         now = timezone.now()
         #upcoming_events = Event.objects.filter(startTime__gte=now).order_by('-startTime')[::-1]
         
-        ongoing_events = Event.objects.filter(endTime__gte=now).order_by('-startTime')[::-1]
+        ongoing_events = list(Event.objects.filter(endTime__gte=now).order_by('-startTime'))[::-1]
         events = list(Event.objects.filter(endTime__lt=now).order_by('-startTime'))
         for event in events:
             if event.is_draft:
@@ -26,13 +26,14 @@ class IndexView(generic.ListView):
                     event.save()
                 else:
                     events.remove(event)
-        for event in ongoing_events:
-            if event.is_draft:
-                if event.draft_publish_time <= now:
-                    event.is_draft = False;
-                    event.save()
-                else:
-                    ongoing_events.remove(event)
+        for _ in range(10):
+            for event in ongoing_events:
+                if event.is_draft:
+                    if event.draft_publish_time <= now:
+                        event.is_draft = False;
+                        event.save()
+                    else:
+                        ongoing_events.remove(event)
         return ongoing_events + events
    
 class DetailView(generic.DetailView):

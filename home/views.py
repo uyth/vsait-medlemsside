@@ -70,18 +70,19 @@ def index(request):
     context['get_year'] = str((school_year)-1)+" / "+str(school_year)
 
     # Filters out draft event, updates draft event if it's time for publish date
-    for event in context["events"]:
-        if event.is_draft:
-            if event.draft_publish_time <= timezone.now():
-                event.is_draft = False;
-                event.save()
+    for _ in range(10):
+        for event in context["events"]:
+            if event.is_draft:
+                if event.draft_publish_time <= timezone.now():
+                    event.is_draft = False;
+                    event.save()
+                else:
+                    context["events"].remove(event)
             else:
-                context["events"].remove(event)
-        else:
-            if event.waiting_list.filter(id=request.user.id).exists():
-                context["pending_events"].append(event);
-            elif event.registrations.filter(id=request.user.id).exists():
-                context["attending_events"].append(event);
+                if event.waiting_list.filter(id=request.user.id).exists():
+                    context["pending_events"].append(event);
+                elif event.registrations.filter(id=request.user.id).exists():
+                    context["attending_events"].append(event);
     return render(request, 'home/index.html',context)
 
 def sign_up(request):
