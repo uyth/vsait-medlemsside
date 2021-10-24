@@ -84,7 +84,7 @@
 							<h2>Statistikk</h2>
 							<p>Du har vært med på {{ events_count }} arrangementer så langt!</p>
 							{% for event in events %}
-							<a href="events/{{event.pk}}">
+							<a href="/events/{{event.pk}}">
 								<div class="event">
 									<h2>{{ event.title }}</h2>
 									{{ event.starttime | date:'d.m.y [h:i]' }} - {{ event.endtime | date:'d.m.y [h:i]' }}
