@@ -78,11 +78,12 @@ def index(request):
                     event.save()
                 else:
                     context["events"].remove(event)
-            else:
-                if event.waiting_list.filter(id=request.user.id).exists():
-                    context["pending_events"].append(event);
-                elif event.registrations.filter(id=request.user.id).exists():
-                    context["attending_events"].append(event);
+    for event in context["events"]:
+        if not event.is_draft:
+            if event.waiting_list.filter(id=request.user.id).exists():
+                context["pending_events"].append(event);
+            elif event.registrations.filter(id=request.user.id).exists():
+                context["attending_events"].append(event);
     return render(request, 'home/index.html',context)
 
 def sign_up(request):
