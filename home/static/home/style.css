@@ -538,6 +538,7 @@ ul.errorlist + p {
   /* Index view */
   div.wrapper.index main {
     flex-direction: column-reverse;
+    justify-content: flex-end;
   }
   div.wrapper.index main .splash,
   div.wrapper.index main .splash > div,
